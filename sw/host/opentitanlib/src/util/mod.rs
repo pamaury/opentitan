@@ -15,6 +15,7 @@ pub mod unknown;
 pub mod usb;
 pub mod usr_access;
 pub mod voltage;
+pub mod printer;
 
 /// The `collection` macro provides syntax for hash and set literals.
 #[macro_export]

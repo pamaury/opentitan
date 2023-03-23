@@ -51,6 +51,24 @@ fn test_openocd(opts: &Opts, transport: &TransportWrapper) -> Result<()> {
     let result = console.interact(&*uart, None, Some(&mut std::io::stdout()))?;
     log::info!("result: {:?}", result);
 
+    //
+    // Test the RISC-V TAP
+    //
+    reset(
+        transport,
+        &["PINMUX_TAP_RISCV"],
+        opts.init.bootstrap.options.reset_delay,
+    )?;
+
+    let jtag = transport.jtag(&opts.jtag)?;
+    jtag.connect(JtagTap::RiscvTap)?;
+    let mut lc_ctrl_state = [0u8; 4];
+    jtag.read_memory(0x40140000, &mut lc_ctrl_state)?;
+    jtag.disconnect()?;
+
+    //
+    // Test the LC TAP
+    //
     reset(
         transport,
         &["PINMUX_TAP_LC"],
@@ -70,6 +88,7 @@ fn test_openocd(opts: &Opts, transport: &TransportWrapper) -> Result<()> {
         u8::from(MultiBitBool8::True) as u32,
     )?;
     assert_eq!(jtag.read_lc_ctrl_reg(&LcCtrlReg::TransitionRegwen)?, 0x01);
+    jtag.disconnect()?;
 
     Ok(())
 }

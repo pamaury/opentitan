@@ -77,7 +77,7 @@ pub trait Jtag {
     /// Read bytes from memory into the provided buffer.
     ///
     /// On success, returns the number of bytes read.
-    fn read_memory(&self, addr: u32, buf: &mut [u8]) -> Result<u32>;
+    fn read_memory(&self, addr: u32, buf: &mut [u8]) -> Result<()>;
 
     /// Write bytes to memory.
     fn write_memory(&self, addr: u32, buf: &[u8]) -> Result<()>;
