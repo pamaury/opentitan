@@ -214,7 +214,7 @@ impl SerialPortExclusiveLock {
                 )),
                 Err(_) => {
                     log::info!("Lockfile is stale. Overriding it...");
-                    std::fs::remove_file(&lockfilename)?;
+                    std::fs::remove_file(&lockfilename).context(format!("Cannot remove stale file {}", &lockfilename))?;
                 }
             }
         }

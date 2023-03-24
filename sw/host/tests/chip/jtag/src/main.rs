@@ -10,7 +10,7 @@ use structopt::StructOpt;
 
 use opentitanlib::app::TransportWrapper;
 use opentitanlib::chip::boolean::MultiBitBool8;
-use opentitanlib::dif::lc_ctrl::LcCtrlReg;
+use opentitanlib::dif::lc_ctrl::{LcCtrlReg, DifLcCtrlState};
 use opentitanlib::execute_test;
 use opentitanlib::io::jtag::{JtagParams, JtagTap};
 use opentitanlib::test_utils::init::InitializeTest;
@@ -62,8 +62,51 @@ fn test_openocd(opts: &Opts, transport: &TransportWrapper) -> Result<()> {
 
     let jtag = transport.jtag(&opts.jtag)?;
     jtag.connect(JtagTap::RiscvTap)?;
-    let mut lc_ctrl_state = [0u8; 4];
-    jtag.read_memory(0x40140000, &mut lc_ctrl_state)?;
+    jtag.halt()?;
+    // Test reads by checking the LC_STATE register
+    //
+    // TODO use bindgen to get the TOP_EARLGREY_LC_CTRL_BASE_ADDR and
+    // then use the offsets from LcCtrlReg::*
+    //
+    let mut lc_ctrl_state = [0u32; 1];
+    assert_eq!(jtag.read_memory32(0x40140034, &mut lc_ctrl_state)?, 1);
+    assert_eq!(lc_ctrl_state[0], DifLcCtrlState::TestUnlocked0.redundant_encoding());
+    // Test writes by trying to claim the transitions mutex
+    let mut lc_ctrl_transition_regwen = [0u32; 1];
+    assert_eq!(jtag.read_memory32(0x4014000c, &mut lc_ctrl_transition_regwen)?, 1);
+    assert_eq!(lc_ctrl_transition_regwen[0], 0);
+    let mut lc_ctrl_transition_if = [u8::from(MultiBitBool8::True) as u32; 1];
+
+    jtag.write_memory32(0x40140008, &mut lc_ctrl_transition_if)?;
+    assert_eq!(jtag.read_memory32(0x4014000c, &mut lc_ctrl_transition_regwen)?, 1);
+    assert_eq!(lc_ctrl_transition_regwen[0], 1);
+    // Release mutex
+    lc_ctrl_transition_if[0] = u8::from(MultiBitBool8::False) as u32;
+    jtag.write_memory32(0x40140008, &mut lc_ctrl_transition_if)?;
+    assert_eq!(jtag.read_memory32(0x4014000c, &mut lc_ctrl_transition_regwen)?, 1);
+    assert_eq!(lc_ctrl_transition_regwen[0], 0);
+
+    // Test bulk read/writes by reading the content of the RAM, then overwrite it with
+    // known values and try to read-back, we restore the content afterwards
+    const SIZE: usize = 20;
+    let mut ram = [0u8; SIZE];
+    assert_eq!(jtag.read_memory(0x40600000, &mut ram)?, SIZE);
+    log::info!("ram: {:?}", ram);
+    let mut test_data = [0u8; SIZE];
+    for i in 0..SIZE {
+        test_data[i] = i as u8;
+    }
+    jtag.write_memory(0x40600000, &test_data)?;
+    let mut test_data2 = [0u8; SIZE];
+    assert_eq!(jtag.read_memory(0x40600000, &mut test_data2)?, SIZE);
+    log::info!("ram: {:?}", test_data2);
+    for i in 0..SIZE {
+        assert_eq!(test_data2[i], i as u8);
+    }
+    // restore RAM
+    jtag.write_memory(0x40600000, &mut ram)?;
+    jtag.resume()?;
+
     jtag.disconnect()?;
 
     //
@@ -79,7 +122,7 @@ fn test_openocd(opts: &Opts, transport: &TransportWrapper) -> Result<()> {
     jtag.connect(JtagTap::LcTap)?;
 
     // Test reads by checking the LC_STATE register
-    assert_eq!(jtag.read_lc_ctrl_reg(&LcCtrlReg::LcState)?, 0x2739ce73);
+    assert_eq!(jtag.read_lc_ctrl_reg(&LcCtrlReg::LcState)?, DifLcCtrlState::TestUnlocked0.redundant_encoding());
 
     // Test writes by trying to claim the transitions mutex
     assert_eq!(jtag.read_lc_ctrl_reg(&LcCtrlReg::TransitionRegwen)?, 0x00);
@@ -88,6 +131,10 @@ fn test_openocd(opts: &Opts, transport: &TransportWrapper) -> Result<()> {
         u8::from(MultiBitBool8::True) as u32,
     )?;
     assert_eq!(jtag.read_lc_ctrl_reg(&LcCtrlReg::TransitionRegwen)?, 0x01);
+    jtag.write_lc_ctrl_reg(
+        &LcCtrlReg::ClaimTransitionIf,
+        u8::from(MultiBitBool8::False) as u32,
+    )?;
     jtag.disconnect()?;
 
     Ok(())

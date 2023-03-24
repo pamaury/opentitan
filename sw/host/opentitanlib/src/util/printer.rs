@@ -29,7 +29,7 @@ fn worker(mut stdout: impl Read, target: &str, accumulator: Arc<Mutex<String>>) 
             None
         };
         for line in lines {
-            log::info!(target: target, "{}", line);
+            log::info!(target: target, "{}", line.trim_end_matches("\r"));
         }
         accumulator.lock().unwrap().push_str(&s);
         s = next.unwrap_or("").to_string();
