@@ -147,6 +147,22 @@ pub enum LcCtrlStatusBit {
 }
 impl LcBit for LcCtrlStatusBit {}
 
+impl LcCtrlStatusBit {
+    /// Returns a mask of all error bits of the STATUS register.
+    pub fn errors() -> u32 {
+        LcBit::union([
+            LcCtrlStatusBit::TransitionCountError,
+            LcCtrlStatusBit::TransitionError,
+            LcCtrlStatusBit::TokenError,
+            LcCtrlStatusBit::FlashRmaError,
+            LcCtrlStatusBit::OtpError,
+            LcCtrlStatusBit::StateError,
+            LcCtrlStatusBit::BusIntegError,
+            LcCtrlStatusBit::OtpPartitionError,
+        ])
+    }
+}
+
 /// Bits of the lc_ctrl.TRANSITION_REGWEN register, aka [LcCtrlReg::TransitionRegwen].
 #[derive(IntoPrimitive, Clone, Debug)]
 #[repr(u32)]
