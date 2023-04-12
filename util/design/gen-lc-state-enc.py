@@ -19,7 +19,8 @@ from mako.template import Template
 # State encoding definition
 LC_STATE_DEFINITION_FILE = "hw/ip/lc_ctrl/data/lc_ctrl_state.hjson"
 # Code templates to render
-TEMPLATES = ["hw/ip/lc_ctrl/rtl/lc_ctrl_state_pkg.sv.tpl"]
+TEMPLATES = ["hw/ip/lc_ctrl/rtl/lc_ctrl_state_pkg.sv.tpl",
+             "sw/host/tests/manuf/unlock_raw_token.rs.tpl"]
 
 
 def main():
