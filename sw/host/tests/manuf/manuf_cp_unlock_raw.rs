@@ -51,7 +51,9 @@ fn main() -> anyhow::Result<()> {
 
     // Set the TAP straps for the lifecycle controller and reset.
     transport
-        .apply_pin_strapping("PINMUX_TAP_LC")
+        .pin_strapping("PINMUX_TAP_LC")
+        .context(format!("failed to find strapping PINMUX_TAP_LC"))?
+        .apply()
         .context("failed to apply LC TAP strapping")?;
     transport
         .reset_target(opts.init.bootstrap.options.reset_delay, true)
