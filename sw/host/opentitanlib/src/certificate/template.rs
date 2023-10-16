@@ -92,34 +92,9 @@ pub struct Template {
     certificate: Certificate,
 }
 
-/// HJSON structure
-///
-/// Even though they are extremely close, we avoid using
-/// the public enum and struct for the HJSON deserialize.
-
-#[derive(Clone, Debug, Deserialize)]
-#[serde(rename_all = "kebab-case")]
-#[serde(tag = "type")]
-enum HjsonVariable {
-    String { length: usize },
-    ByteArray { length: usize },
-    Integer { max_length: usize },
-}
-
-#[derive(Clone, Debug, Deserialize)]
-struct HjsonCertificate {
-
-}
-
-#[derive(Clone, Debug, Deserialize)]
-struct Hjson {
-    variables: HashMap<String, HjsonVariable>,
-    certificate: HjsonCertificate,
-}
-
 impl Template {
-    pub fn from_hjson_str(s: &str) -> Result<Self> {
-        let template: Hjson = deser_hjson::from_str(&s)?;
+    pub fn give_mem_template(s: &str) -> Result<Self> {
+        // let template: Hjson = deser_hjson::from_str(&s)?;
         let variables: HashMap<String, Variable> = HashMap::new();
         let certificate = Certificate {
             serial_number: ConstantOrVar::String("".into()),
@@ -129,7 +104,6 @@ impl Template {
             pub_key: PubKey::Ecdsa { value: ConstantOrVar::String("".into())},
         };
 
-        log::info!("template: {:?}", template);
         Ok(Template {
             variables,
             certificate,

@@ -6,6 +6,7 @@ use anyhow::{bail, Result};
 use openssl::bn::BigNum;
 use openssl::asn1::{Asn1Integer, Asn1Time};
 use openssl::x509::{X509, X509NameBuilder};
+use openssl::x509::extension;
 use openssl::pkey::{PKey, PKeyRef};
 use openssl::hash::MessageDigest;
 use openssl::ec::{EcKey, EcGroup};
@@ -13,44 +14,30 @@ use openssl::pkey::{Public, Private};
 use openssl::nid::Nid;
 use openssl::rsa::Rsa;
 
-trait Algorithm {
-    fn key_pair(&self) -> &PKeyRef<Private>;
-    fn hash(&self) -> MessageDigest;
-}
-
-struct EcdsaWithHash {
+struct Algorithm {
     key_pair: PKey<Private>,
     hash: MessageDigest,
 }
 
-impl EcdsaWithHash {
+impl Algorithm {
     // Generate new ecdsa private/pub key pair
-    fn new(hash: MessageDigest) -> Result<EcdsaWithHash> {
+    fn new_ecdsa_with_hash(hash: MessageDigest) -> Result<Algorithm> {
         let nid = Nid::X9_62_PRIME256V1; // NIST P-256 curve
         let group = EcGroup::from_curve_name(nid)?;
         let key = EcKey::<Private>::generate(&group)?;
         let key_pair = PKey::try_from(key)?;
-        Ok(EcdsaWithHash {
+        Ok(Algorithm {
             key_pair,
             hash
         })
     }
 }
 
-impl Algorithm for EcdsaWithHash {
-    fn key_pair(&self) -> &PKeyRef<Private> {
-        self.key_pair.as_ref()
-    }
-    fn hash(&self) -> MessageDigest {
-        self.hash
-    }
-}
-
-fn get_algorithm(name: &str) -> Result<Box<dyn Algorithm>> {
+fn get_algorithm(name: &str) -> Result<Algorithm> {
     match name {
-        "ecdsa-with-shake256" => Ok(Box::new(EcdsaWithHash::new(MessageDigest::shake_256())?)),
-        "ecdsa-with-sha256" => Ok(Box::new(EcdsaWithHash::new(MessageDigest::sha256())?)),
-        _ => bail!("unknown signature algorithm {}", name),
+        "ecdsa" => Ok(Algorithm::new_ecdsa_with_hash(MessageDigest::null())?),
+        "ecdsa-with-sha256" => Ok(Algorithm::new_ecdsa_with_hash(MessageDigest::sha256())?),
+        _ => bail!("unknown algorithm {}", name),
     }
 }
 
@@ -78,13 +65,34 @@ pub fn generate() -> Result<X509> {
     let subject = subject_builder.build();
     builder.set_subject_name(&subject)?;
 
+    // Standard extensions.
+    builder.append_extension(extension::BasicConstraints::new().critical().ca().build()?)?;
+
+    builder.append_extension(
+        extension::KeyUsage::new()
+            .critical()
+            .key_cert_sign()
+            .build()?
+    )?;
+
+    // let auth_key_id = extension::AuthorityKeyIdentifier::new()
+    //     .build(&builder.x509v3_context(None, None))?;
+    // builder.append_extension(auth_key_id)?;
+
+    // FIXME: the rust openssl binding does not allow to choose the subject key ID
+    // and always defaults to the "hash" method of the standard. We will need to use
+    // raw ASN1 here?
+    let subj_key_id = extension::SubjectKeyIdentifier::new()
+        .build(&builder.x509v3_context(None, None))?;
+    builder.append_extension(subj_key_id)?;
+
     // Random public key.
     let algo = get_algorithm("ecdsa-with-sha256")?;
-    builder.set_pubkey(&algo.key_pair())?;
+    builder.set_pubkey(&algo.key_pair)?;
 
     // Sign the Certificate
     let algo = get_algorithm("ecdsa-with-sha256")?;
-    builder.sign(&algo.key_pair(), algo.hash())?;
+    builder.sign(&algo.key_pair, algo.hash)?;
 
     Ok(builder.build())
 }

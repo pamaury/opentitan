@@ -11,7 +11,7 @@ use std::path::PathBuf;
 
 use opentitanlib::app::command::CommandDispatch;
 use opentitanlib::app::TransportWrapper;
-use opentitanlib::certificate::{template, x509};
+use opentitanlib::certificate::x509;
 
 /// Commands for interacting with certificates.
 #[derive(Debug, Subcommand, CommandDispatch)]
@@ -44,10 +44,10 @@ impl CommandDispatch for GenTplCommand {
         _context: &dyn Any,
         _transport: &TransportWrapper,
     ) -> Result<Option<Box<dyn Annotate>>> {
-        let template_content = fs::read_to_string(&self.template).with_context(
+        let _template_content = fs::read_to_string(&self.template).with_context(
             || format!("Could not load the template file {}", self.template.display()))?;
-        let template = template::Template::from_hjson_str(&template_content)?;
-        log::info!("template: {:?}", template);
+        // let template = template::Template::from_hjson_str(&template_content)?;
+        // log::info!("template: {:?}", template);
         let x509 = x509::generate()?;
         log::info!("Certificate: {:?}", x509);
         let der = x509.to_der()?;
