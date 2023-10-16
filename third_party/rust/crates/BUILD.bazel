@@ -236,6 +236,12 @@ alias(
 )
 
 alias(
+    name = "openssl",
+    actual = "@crate_index__openssl-0.10.57//:openssl",
+    tags = ["manual"],
+)
+
+alias(
     name = "p256",
     actual = "@crate_index__p256-0.13.2//:p256",
     tags = ["manual"],

@@ -73,6 +73,10 @@ indexmap = { version = "2.0", features = ["serde"] }
 secrecy = "0.8"
 strum = { version = "0.25", features = ["derive"] }
 
+# Certificate generation
+# Do not vendor in openssl, to avoid increasing the compilation time.
+openssl = "0.10.57"
+
 # We'd like to referece safe-ftdi and serde_annotate by their Git repos, but
 # we also need to support airgapped builds and bazel does not support git
 # repo references for airgapped builds.  As such, these two libraries are
