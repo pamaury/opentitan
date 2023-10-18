@@ -14,6 +14,7 @@ path = "empty_file_to_appease_cargo.rs"
 # Please avoid version numbers that only have one component.
 [dependencies]
 aes = "0.8.2"
+asn1 = "0.15.5"
 anyhow = { version = "1.0.57", features=["backtrace"] }
 arrayvec = { version = "0.7", features=["serde"] }
 bitflags = { version = "2.1", features = ["serde"] }

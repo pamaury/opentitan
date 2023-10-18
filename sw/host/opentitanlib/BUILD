@@ -239,6 +239,7 @@ rust_library(
         "//hw/top_earlgrey/sw/autogen/chip:top_earlgrey",
         "//sw/host/opentitanlib/bindgen",
         "@crate_index//:anyhow",
+        "@crate_index//:asn1",
         "@crate_index//:arrayvec",
         "@crate_index//:bitflags",
         "@crate_index//:bitvec",
