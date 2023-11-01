@@ -15,5 +15,7 @@
 //! format. Details of the certificates will be available in the documentation
 //! in the future.
 
+pub mod asn1;
+pub mod codegen;
 pub mod template;
 pub mod x509;

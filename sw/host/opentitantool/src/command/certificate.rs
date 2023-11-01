@@ -6,12 +6,13 @@ use anyhow::{Context, Result};
 use clap::{Args, Subcommand, ValueEnum};
 use serde_annotate::Annotate;
 use std::any::Any;
-use std::fs;
+use std::fs::{self, File};
+use std::io::Write;
 use std::path::PathBuf;
 
 use opentitanlib::app::command::CommandDispatch;
 use opentitanlib::app::TransportWrapper;
-use ot_certs::{template, x509};
+use ot_certs::{codegen, template, x509};
 
 /// Commands for interacting with certificates.
 #[derive(Debug, Subcommand, CommandDispatch)]
@@ -32,12 +33,26 @@ pub enum CertFormat {
 #[derive(Debug, Args)]
 pub struct GenTplCommand {
     /// Filename of the template.
+    #[arg(long)]
     template: PathBuf,
     /// Certificate format
     #[arg(long, value_enum, default_value_t = CertFormat::X509)]
     cert_format: CertFormat,
     /// Output directory path.
-    output_dir: PathBuf,
+    #[arg(long, required_unless_present_any(["output_c", "output_h"]))]
+    output_dir: Option<PathBuf>,
+    /// Output file for C source.
+    #[arg(long, required_unless_present = "output_dir")]
+    output_c: Option<PathBuf>,
+    /// Output file for H header.
+    #[arg(long, required_unless_present = "output_dir")]
+    output_h: Option<PathBuf>,
+    /// Output file for writer C source (optional).
+    #[arg(long)]
+    output_writer: Option<PathBuf>,
+    /// Output file for test file (optional).
+    #[arg(long)]
+    output_tests: Option<PathBuf>,
 }
 
 impl CommandDispatch for GenTplCommand {
@@ -56,7 +71,40 @@ impl CommandDispatch for GenTplCommand {
             template::Template::from_hjson_str(&template_content).with_context(|| {
                 format!("Failed to parse template file {}", self.template.display())
             })?;
-        Ok(Some(Box::new(template)))
+        // Generate C and header files.
+        let (output_c, output_h) = if let Some(output_dir) = &self.output_dir {
+            (
+                output_dir.join(format!("{}.c", &template.name)),
+                output_dir.join(format!("{}.h", &template.name)),
+            )
+        } else {
+            (
+                self.output_c
+                    .clone()
+                    .expect("--output-c must be specified when --output-dir is not used"),
+                self.output_h
+                    .clone()
+                    .expect("--output-h must be specified when --output-dir is not used"),
+            )
+        };
+        let mut output_c = File::create(output_c)?;
+        let mut output_h = File::create(output_h)?;
+
+        let codegen = codegen::generate_cert(&self.template.display().to_string(), &template)?;
+        writeln!(output_c, "{}", codegen.source_c)?;
+        writeln!(output_h, "{}", codegen.source_h)?;
+        if let Some(output_writer) = &self.output_writer {
+            let mut output_writer = File::create(output_writer)?;
+            writeln!(output_writer, "{}", codegen.writer)?;
+        }
+        // Generate test vectors
+        if let Some(output_tests) = &self.output_tests {
+            let tests = template.gen_tests()?;
+            let mut output_tests = File::create(output_tests)?;
+            writeln!(output_tests, "{}", tests.to_json()?)?;
+        }
+
+        Ok(None)
     }
 }
 

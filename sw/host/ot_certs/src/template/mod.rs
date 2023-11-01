@@ -38,6 +38,8 @@ use serde_with::{serde_as, As, DeserializeAs, Same, SerializeAs};
 use std::{collections::HashMap, marker::PhantomData};
 
 mod hjson;
+pub mod subst;
+pub mod tests;
 
 /// Full template file, including variable declarations and certificate spec.
 #[serde_as]
@@ -348,6 +350,15 @@ pub struct FirmwareId {
 pub enum HashAlgorithm {
     #[serde(rename = "sha256")]
     Sha256,
+}
+
+impl HashAlgorithm {
+    // Return the size of the digest.
+    pub fn digest_size(&self) -> usize {
+        match self {
+            Self::Sha256 => 32,
+        }
+    }
 }
 
 /// Declaration of a variable that can be filled into the template.
