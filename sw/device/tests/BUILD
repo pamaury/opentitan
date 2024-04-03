@@ -3929,8 +3929,12 @@ opentitan_test(
     name = "usbdev_stream_test",
     srcs = ["usbdev_stream_test.c"],
     cw310 = cw310_params(
+        #        test_cmd = """
+        #            --bootstrap="{firmware}"
+        #        """,
         timeout = "eternal",
         tags = ["manual"],
+        #        test_harness = "//sw/host/tests/usbdev/usbdev_stream:stream_test",
     ),
     exec_env = dicts.add(
         EARLGREY_TEST_ENVS,
