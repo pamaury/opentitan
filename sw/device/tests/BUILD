@@ -3929,12 +3929,11 @@ opentitan_test(
     name = "usbdev_stream_test",
     srcs = ["usbdev_stream_test.c"],
     cw310 = cw310_params(
-        #        test_cmd = """
-        #            --bootstrap="{firmware}"
-        #        """,
-        timeout = "eternal",
-        tags = ["manual"],
-        #        test_harness = "//sw/host/tests/usbdev/usbdev_stream:stream_test",
+        test_cmd = """
+            --bootstrap="{firmware}"
+            --exec=$(locations //sw/host/tests/usbdev/usbdev_stream:stream_test)
+        """,
+        test_harness = "//sw/host/tests/chip/usb:usb_harness",
     ),
     exec_env = dicts.add(
         EARLGREY_TEST_ENVS,
@@ -3945,6 +3944,7 @@ opentitan_test(
             --bootstrap="{firmware}"
             --vbus-sense-en=VBUS_SENSE_EN
             --vbus-sense=VBUS_SENSE
+            --exec=$(locations //sw/host/tests/usbdev/usbdev_stream:stream_test)
         """,
         test_harness = "//sw/host/tests/chip/usb:usb_harness",
     ),
@@ -3958,7 +3958,11 @@ opentitan_test(
         "//sw/device/lib/testing:usb_testutils",
         "//sw/device/lib/testing:usb_testutils_streams",
         "//sw/device/lib/testing/test_framework:ottf_main",
+        "//sw/host/tests/usbdev/usbdev_stream:stream_test",
     ],
+    data = [
+        "//sw/host/tests/usbdev/usbdev_stream:stream_test",
+    ]
 )
 
 opentitan_test(

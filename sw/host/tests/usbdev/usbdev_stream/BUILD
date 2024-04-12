@@ -21,9 +21,15 @@ cc_library(
         "usbdev_serial.h",
         "usbdev_stream.h",
         "usbdev_utils.h",
+        "usbdev_int.h",
+        "usbdev_iso.h",
     ],
-    deps = [
+    # Not a local define since targets that depend on this need to use
+    # the same configuration.
+    defines = [
+        "STREAMTEST_LIBUSB"
     ],
+    linkopts = ["-lusb-1.0"],
 )
 
 cc_binary(

@@ -2,9 +2,11 @@
 // Licensed under the Apache License, Version 2.0, see LICENSE for details.
 // SPDX-License-Identifier: Apache-2.0
 
-use anyhow::{ensure, Result};
+use anyhow::{ensure, Context, Result};
 use clap::Parser;
 use std::time::Duration;
+use std::path::PathBuf;
+use std::process::Command;
 
 use opentitanlib::test_utils::init::InitializeTest;
 use opentitanlib::uart::console::UartConsole;
@@ -23,6 +25,13 @@ struct Opts {
     /// USB options.
     #[command(flatten)]
     usb: UsbOpts,
+
+    /// Executable to run after USB device connection.
+    /// This harness will spawn a process to execute and continue monitoring the UART
+    /// until the test passes (or fails). After that, it will ...
+    /// TODO finish this
+    #[arg(long)]
+    exec: Option<PathBuf>,
 }
 
 fn main() -> Result<()> {
@@ -46,7 +55,30 @@ fn main() -> Result<()> {
         );
     }
 
+    // Run executable if requested.
+    let child = match opts.exec {
+        Some(exec) => Some(Command::new(exec).spawn().context("could not start executable")?),
+        None => None,
+    };
+
+    // Wait for test to pass.
     UartConsole::wait_for(&*uart, r"PASS!", opts.timeout)?;
+
+    // Kill executable (if running).
+    if let Some(mut child) = child {
+        match child.try_wait() {
+            Ok(Some(status)) => log::info!("executable exited with: {status}"),
+            Ok(None) => {
+                log::info!("executable did not finish and will be killed");
+                let _ = child.kill();
+            }
+            Err(e) => {
+                println!("error attempting to get executable status: {e}");
+                log::info!("killing executable");
+                let _ = child.kill();
+            }
+        }
+    }
 
     Ok(())
 }
