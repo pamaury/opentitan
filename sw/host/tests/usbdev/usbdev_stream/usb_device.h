@@ -308,6 +308,10 @@ class USBDevice {
   uint16_t vendorID_;
   // Product ID of USB device.
   uint16_t productID_;
+  // Device bus.
+  uint8_t busNumber_;
+  // Device address.
+  uint8_t devAddr_;
 
 #if STREAMTEST_LIBUSB
   // Context information for libusb.

@@ -3925,14 +3925,24 @@ opentitan_test(
     ],
 )
 
+# Work around https://github.com/bazelbuild/bazel/pull/16381
+# When adding an executable as a data dependency, it expands
+# to multiple locations. This forces bazel to only "see" the default
+# output and therefore expand to a single file.
+alias(
+    name = "hack_usbdev_stream_test",
+    actual = "//sw/host/tests/usbdev/usbdev_stream:stream_test",
+)
+
 opentitan_test(
     name = "usbdev_stream_test",
     srcs = ["usbdev_stream_test.c"],
     cw310 = cw310_params(
         test_cmd = """
             --bootstrap="{firmware}"
-            --exec=$(locations //sw/host/tests/usbdev/usbdev_stream:stream_test)
+            --exec=$(rootpath :hack_usbdev_stream_test)
         """,
+        # Optional in test_cmd: --exec-arg=-v
         test_harness = "//sw/host/tests/chip/usb:usb_harness",
     ),
     exec_env = dicts.add(
@@ -3944,8 +3954,9 @@ opentitan_test(
             --bootstrap="{firmware}"
             --vbus-sense-en=VBUS_SENSE_EN
             --vbus-sense=VBUS_SENSE
-            --exec=$(locations //sw/host/tests/usbdev/usbdev_stream:stream_test)
+            --exec=$(rootpath :hack_usbdev_stream_test)
         """,
+        # Optional in test_cmd: --exec-arg=-v
         test_harness = "//sw/host/tests/chip/usb:usb_harness",
     ),
     verilator = verilator_params(timeout = "long"),
@@ -3961,7 +3972,7 @@ opentitan_test(
         "//sw/host/tests/usbdev/usbdev_stream:stream_test",
     ],
     data = [
-        "//sw/host/tests/usbdev/usbdev_stream:stream_test",
+        ":hack_usbdev_stream_test",
     ]
 )
 

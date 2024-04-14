@@ -25,6 +25,32 @@ bool USBDevice::Init(uint16_t vendorID, uint16_t productID) {
   vendorID_ = vendorID;
   productID_ = productID;
 #endif
+  // Parse environment variables if provided.
+  busNumber_ = -1;
+  devAddr_ = 0;
+  const char *bus = getenv("OT_USB_BUS");
+  if (bus) {
+    int bus_nr;
+    sscanf(bus, "%d", &bus_nr);
+    if (bus_nr < 0 || bus_nr > 0xff) {
+      std::cerr << "Ignoring invalid OT_USB_BUS\n";
+    }
+    else {
+      busNumber_ = bus_nr;
+    }
+  }
+  const char *addr = getenv("OT_USB_ADDRESS");
+  if (addr) {
+    int dev_addr;
+    sscanf(addr, "%d", &dev_addr);
+    if (dev_addr <= 0 || dev_addr > 0xff) {
+      std::cerr << "Ignoring invalid OT_USB_ADDRESS\n";
+    }
+    else {
+      devAddr_ = dev_addr;
+    }
+  }
+
   return true;
 }
 
@@ -70,6 +96,15 @@ bool USBDevice::Open() {
         }
         if (devDesc_.idVendor == vendorID_ &&
             devDesc_.idProduct == productID_) {
+          // Filter by bus and address.
+          if (busNumber_ != 0xff && libusb_get_bus_number(dev_list[idx]) != busNumber_) {
+            continue;
+          }
+          if (devAddr_ != 0 && libusb_get_device_address(dev_list[idx]) != devAddr_) {
+            continue;
+          }
+          busNumber_ = libusb_get_bus_number(dev_list[idx]);
+          devAddr_ = libusb_get_device_address(dev_list[idx]);
           break;
         }
       }
@@ -131,6 +166,8 @@ bool USBDevice::Open() {
   // Report that we have at least found the device.
   std::cout << "Device found" << std::endl;
   if (verbose_) {
+    std::cout << " - Bus: " << (int)busNumber_ << std::endl;
+    std::cout << " - Address: " << (int)devAddr_ << std::endl;
     std::cout << " - Path: " << devPath_ << std::endl;
   }
 

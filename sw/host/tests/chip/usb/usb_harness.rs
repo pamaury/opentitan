@@ -2,7 +2,7 @@
 // Licensed under the Apache License, Version 2.0, see LICENSE for details.
 // SPDX-License-Identifier: Apache-2.0
 
-use anyhow::{ensure, Context, Result};
+use anyhow::{bail, ensure, Context, Result};
 use clap::Parser;
 use std::time::Duration;
 use std::path::PathBuf;
@@ -28,10 +28,13 @@ struct Opts {
 
     /// Executable to run after USB device connection.
     /// This harness will spawn a process to execute and continue monitoring the UART
-    /// until the test passes (or fails). After that, it will ...
-    /// TODO finish this
+    /// until the test passes (or fails). After that, the process will be killed.
     #[arg(long)]
     exec: Option<PathBuf>,
+
+    /// Arguments to pass to the executable.
+    #[arg(long)]
+    exec_arg: Vec<std::ffi::OsString>,
 }
 
 fn main() -> Result<()> {
@@ -54,10 +57,38 @@ fn main() -> Result<()> {
             "OT USB does not appear to be connected to a host (VBUS not detected)"
         );
     }
+    // Wait for USB device to appear.
+    log::info!("waiting for device...");
+    let devices = opts.usb.wait_for_device(opts.timeout)?;
+    if devices.is_empty() {
+        bail!("no USB device found");
+    }
+    if devices.len() > 1 {
+        log::error!("several USB devices found:");
+        for dev in devices {
+            log::error!(
+                "- bus={} address={}",
+                dev.device().bus_number(),
+                dev.device().address()
+            );
+        }
+        bail!("several USB devices found");
+    }
+    let device = &devices[0];
+    log::info!(
+        "device found at bus={} address={}",
+        device.device().bus_number(),
+        device.device().address()
+    );
 
     // Run executable if requested.
     let child = match opts.exec {
-        Some(exec) => Some(Command::new(exec).spawn().context("could not start executable")?),
+        Some(exec) => {
+            let mut cmd = Command::new(exec);
+            let cmd = cmd.env("OT_USB_BUS", &format!("{}", device.device().bus_number()));
+            let cmd = cmd.env("OT_USB_ADDRESS", &format!("{}", device.device().address()));
+            Some(cmd.args(opts.exec_arg).spawn().context("could not start executable")?)
+        }
         None => None,
     };
 
