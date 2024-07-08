@@ -141,6 +141,7 @@ cc_library(
     deps = [
         ":base",
         "//hw/ip/aon_timer/data:aon_timer_c_regs",
+        "//sw/device/lib/devicetables",
         "//sw/device/lib/base:bitfield",
         "//sw/device/lib/base:macros",
         "//sw/device/lib/base:memory",

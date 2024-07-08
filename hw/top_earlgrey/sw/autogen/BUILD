@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 load("//rules:linker.bzl", "ld_library")
+load("//rules:opentitan.bzl", "OPENTITAN_CPU")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -14,6 +15,22 @@ cc_library(
     hdrs = [
         "top_earlgrey.h",
         "top_earlgrey_memory.h",
+    ],
+    deps = ["//sw/device/lib/devicetables:dt_api"],
+)
+
+cc_library(
+    name = "devicetables",
+    srcs = ["devicetables.c"],
+    hdrs = ["devicetables.h"],
+    # We pretend that this header lives in sw/device/lib/devicetables
+    include_prefix = "sw/device/lib/devicetables/",
+    # copts = ["-flto=full"],
+    deps = [
+        ":top_earlgrey",
+        "//hw/top_earlgrey/sw/autogen/devicetables:dt_api_ipgen",
+        "//sw/device/lib/devicetables",
+        "//sw/device/lib/devicetables:dt_api",
     ],
 )
 

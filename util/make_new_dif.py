@@ -82,6 +82,7 @@ def main():
                         default=[],
                         action="append",
                         help="only create some files; defaults to all.")
+    parser.add_argument("--regen_ip", default=[], action="append", help="only regen the following IP (can be used several times)")
     args = parser.parse_args()
 
     # Parse CMD line args.
@@ -117,9 +118,10 @@ def main():
             ip_name_snake = Path(autogen_src_filename).stem[4:-8]
             # NOTE: ip.name_long_* not needed for auto-generated files which
             # are the only files (re-)generated in regen mode.
-            ips.append(
-                Ip(ip_name_snake, "AUTOGEN", templated_modules, ipgen_modules,
-                   reggen_top_modules))
+            if args.regen_ip != [] and ip_name_snake in args.regen_ip:
+                ips.append(
+                    Ip(ip_name_snake, "AUTOGEN", templated_modules, ipgen_modules,
+                    reggen_top_modules))
     else:
         assert args.ip_name_snake and args.ip_name_long, \
             "ERROR: pass --ip-name-snake and --ip-name-long when --mode=new."

@@ -1,6 +1,9 @@
 // Copyright lowRISC contributors (OpenTitan project).
 // Licensed under the Apache License, Version 2.0, see LICENSE for details.
 // SPDX-License-Identifier: Apache-2.0
+<%
+from topgen.lib import Name
+%>\
 
 #ifndef ${helper.header_macro_prefix}_TOP_${top["name"].upper()}_H_
 #define ${helper.header_macro_prefix}_TOP_${top["name"].upper()}_H_
@@ -204,6 +207,11 @@ ${helper.clkmgr_gateable_clocks.render()}
 ${helper.clkmgr_hintable_clocks.render()}
 
 /**
+ * Clock IDs for peripherals to map against properties.
+ */
+${helper.clocks.render()}
+
+/**
  * MMIO Region
  *
  * MMIO region excludes any memory that is separate from the module
@@ -212,6 +220,23 @@ ${helper.clkmgr_hintable_clocks.render()}
  */
 #define ${helper.mmio.base_addr_name().as_c_define()} ${"0x{:X}u".format(helper.mmio.base_addr)}
 #define ${helper.mmio.size_bytes_name().as_c_define()} ${"0x{:X}u".format(helper.mmio.size_bytes)}
+
+/**
+ * Device IDs
+ */
+${helper.device_ids.render()}
+##typedef enum {
+##<%
+##    enum_base_name = Name(["dt", "device", "id"])
+##%>\
+##% for idx, device in enumerate(helper.device_ids):
+##<%
+##    enum_name = enum_base_name + device
+##%>\
+##  ${enum_name.as_c_enum()} = ${str(idx)},
+##% endfor
+##  ${Name(["dt", "device", "id", "count"]).as_c_enum()} = ${str(len(helper.device_ids))},
+##} top_${top["name"]}_device_t;
 
 // Header Extern Guard
 #ifdef __cplusplus

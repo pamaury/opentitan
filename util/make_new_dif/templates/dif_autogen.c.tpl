@@ -1,6 +1,9 @@
 // Copyright lowRISC contributors (OpenTitan project).
 // Licensed under the Apache License, Version 2.0, see LICENSE for details.
 // SPDX-License-Identifier: Apache-2.0
+<%
+from topgen.lib import Name
+%>\
 
 <%doc>
     This file is the "auto-generated DIF library implementation template", which
@@ -57,13 +60,17 @@ ${autogen_banner}
 
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_${ip.name_snake}_init(
-  mmio_region_t base_addr,
+  dt_${ip.name_snake}_t *dt,
   dif_${ip.name_snake}_t *${ip.name_snake}) {
-  if (${ip.name_snake} == NULL) {
+  if (${ip.name_snake} == NULL || dt == NULL) {
     return kDifBadArg;
   }
 
-  ${ip.name_snake}->base_addr = base_addr;
+## Assume that there is always a "core" block.
+<%
+  core_block = Name(["dt"]) + Name.from_snake_case(ip.name_snake) + Name(["reg", "block", "core"])
+%>\
+  ${ip.name_snake}->base_addr = mmio_region_from_addr(dt->base_addrs[${core_block.as_c_enum()}]);
 
   return kDifOk;
 }
@@ -104,7 +111,7 @@ dif_result_t dif_${ip.name_snake}_init(
 
     static bool ${ip.name_snake}_get_irq_reg_offset(
       dif_${ip.name_snake}_intr_reg_t intr_reg,
-      dif_${ip.name_snake}_irq_t irq,
+      dt_${ip.name_snake}_irq_type_t irq,
       uint32_t *intr_reg_offset) {
 
       switch (intr_reg) {
@@ -139,7 +146,7 @@ dif_result_t dif_${ip.name_snake}_init(
   ## the "<ip>_INTR_COMMON_<irq>_BIT" macro can be used. Otherwise, special
   ## cases will exist, as templated below.
   static bool ${ip.name_snake}_get_irq_bit_index(
-    dif_${ip.name_snake}_irq_t irq,
+    dt_${ip.name_snake}_irq_type_t irq,
     bitfield_bit32_index_t *index_out) {
 
     switch (irq) {
@@ -147,13 +154,13 @@ dif_result_t dif_${ip.name_snake}_init(
     ## This handles the GPIO IP case where there is a multi-bit interrupt.
     % if irq.width > 1:
       % for irq_idx in range(irq.width):
-        case kDif${ip.name_camel}Irq${irq.name_camel}${irq_idx}:
+        case kDt${ip.name_camel}IrqType${irq.name_camel}${irq_idx}:
           *index_out = ${irq_idx};
           break;
       % endfor
     ## This handles all other IPs.
     % else:
-      case kDif${ip.name_camel}Irq${irq.name_camel}:
+      case kDt${ip.name_camel}IrqType${irq.name_camel}:
       ## This handles the RV Timer IP.
       % if ip.name_snake == "aon_timer":
         *index_out = ${ip.name_upper}_INTR_STATE_${irq.name_upper}_BIT;
@@ -198,13 +205,13 @@ dif_result_t dif_${ip.name_snake}_init(
   OT_WARN_UNUSED_RESULT
   dif_result_t dif_${ip.name_snake}_irq_get_type(
     const dif_${ip.name_snake}_t *${ip.name_snake},
-    dif_${ip.name_snake}_irq_t irq,
+    dt_${ip.name_snake}_irq_type_t irq,
     dif_irq_type_t *type) {
 
     % if ip.irqs[-1].width == 1:
       if (${ip.name_snake} == NULL ||
           type == NULL ||
-          irq == kDif${ip.name_camel}Irq${ip.irqs[-1].name_camel} + 1) {
+          irq == kDt${ip.name_camel}IrqTypeCount) {
     % else:
       if (${ip.name_snake} == NULL ||
           type == NULL ||
@@ -278,7 +285,7 @@ dif_result_t dif_${ip.name_snake}_init(
   OT_WARN_UNUSED_RESULT
   dif_result_t dif_${ip.name_snake}_irq_is_pending(
     const dif_${ip.name_snake}_t *${ip.name_snake},
-    dif_${ip.name_snake}_irq_t irq,
+    dt_${ip.name_snake}_irq_type_t irq,
     bool *is_pending) {
 
     if (${ip.name_snake} == NULL || is_pending == NULL) {
@@ -340,7 +347,7 @@ dif_result_t dif_${ip.name_snake}_init(
   OT_WARN_UNUSED_RESULT
   dif_result_t dif_${ip.name_snake}_irq_acknowledge(
     const dif_${ip.name_snake}_t *${ip.name_snake},
-    dif_${ip.name_snake}_irq_t irq) {
+    dt_${ip.name_snake}_irq_type_t irq) {
 
     if (${ip.name_snake} == NULL) {
       return kDifBadArg;
@@ -371,7 +378,7 @@ dif_result_t dif_${ip.name_snake}_init(
   OT_WARN_UNUSED_RESULT
   dif_result_t dif_${ip.name_snake}_irq_force(
     const dif_${ip.name_snake}_t *${ip.name_snake},
-    dif_${ip.name_snake}_irq_t irq,
+    dt_${ip.name_snake}_irq_type_t irq,
     const bool val) {
 
     if (${ip.name_snake} == NULL) {
@@ -403,7 +410,7 @@ dif_result_t dif_${ip.name_snake}_init(
   OT_WARN_UNUSED_RESULT
   dif_result_t dif_${ip.name_snake}_irq_get_enabled(
     const dif_${ip.name_snake}_t *${ip.name_snake},
-    dif_${ip.name_snake}_irq_t irq,
+    dt_${ip.name_snake}_irq_type_t irq,
     dif_toggle_t *state) {
     
     if (${ip.name_snake} == NULL || state == NULL) {
@@ -437,7 +444,7 @@ dif_result_t dif_${ip.name_snake}_init(
   OT_WARN_UNUSED_RESULT
   dif_result_t dif_${ip.name_snake}_irq_set_enabled(
     const dif_${ip.name_snake}_t *${ip.name_snake},
-    dif_${ip.name_snake}_irq_t irq,
+    dt_${ip.name_snake}_irq_type_t irq,
     dif_toggle_t state) {
 
     if (${ip.name_snake} == NULL) {

@@ -22,13 +22,14 @@ static_assert(AON_TIMER_INTR_STATE_WDOG_TIMER_BARK_BIT ==
               "Expected IRQ bit offsets to match across STATE/TEST regs.");
 
 OT_WARN_UNUSED_RESULT
-dif_result_t dif_aon_timer_init(mmio_region_t base_addr,
+dif_result_t dif_aon_timer_init(dt_aon_timer_t *dt,
                                 dif_aon_timer_t *aon_timer) {
-  if (aon_timer == NULL) {
+  if (aon_timer == NULL || dt == NULL) {
     return kDifBadArg;
   }
 
-  aon_timer->base_addr = base_addr;
+  aon_timer->base_addr =
+      mmio_region_from_addr(dt->base_addrs[kDtAonTimerRegBlockCore]);
 
   return kDifOk;
 }
@@ -59,13 +60,13 @@ dif_result_t dif_aon_timer_alert_force(const dif_aon_timer_t *aon_timer,
 /**
  * Get the corresponding interrupt register bit offset of the IRQ.
  */
-static bool aon_timer_get_irq_bit_index(dif_aon_timer_irq_t irq,
+static bool aon_timer_get_irq_bit_index(dt_aon_timer_irq_type_t irq,
                                         bitfield_bit32_index_t *index_out) {
   switch (irq) {
-    case kDifAonTimerIrqWkupTimerExpired:
+    case kDtAonTimerIrqTypeWkupTimerExpired:
       *index_out = AON_TIMER_INTR_STATE_WKUP_TIMER_EXPIRED_BIT;
       break;
-    case kDifAonTimerIrqWdogTimerBark:
+    case kDtAonTimerIrqTypeWdogTimerBark:
       *index_out = AON_TIMER_INTR_STATE_WDOG_TIMER_BARK_BIT;
       break;
     default:
@@ -82,10 +83,9 @@ static dif_irq_type_t irq_types[] = {
 
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_aon_timer_irq_get_type(const dif_aon_timer_t *aon_timer,
-                                        dif_aon_timer_irq_t irq,
+                                        dt_aon_timer_irq_type_t irq,
                                         dif_irq_type_t *type) {
-  if (aon_timer == NULL || type == NULL ||
-      irq == kDifAonTimerIrqWdogTimerBark + 1) {
+  if (aon_timer == NULL || type == NULL || irq == kDtAonTimerIrqTypeCount) {
     return kDifBadArg;
   }
 
@@ -124,7 +124,7 @@ dif_result_t dif_aon_timer_irq_acknowledge_state(
 
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_aon_timer_irq_is_pending(const dif_aon_timer_t *aon_timer,
-                                          dif_aon_timer_irq_t irq,
+                                          dt_aon_timer_irq_type_t irq,
                                           bool *is_pending) {
   if (aon_timer == NULL || is_pending == NULL) {
     return kDifBadArg;
@@ -159,7 +159,7 @@ dif_result_t dif_aon_timer_irq_acknowledge_all(
 
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_aon_timer_irq_acknowledge(const dif_aon_timer_t *aon_timer,
-                                           dif_aon_timer_irq_t irq) {
+                                           dt_aon_timer_irq_type_t irq) {
   if (aon_timer == NULL) {
     return kDifBadArg;
   }
@@ -180,7 +180,8 @@ dif_result_t dif_aon_timer_irq_acknowledge(const dif_aon_timer_t *aon_timer,
 
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_aon_timer_irq_force(const dif_aon_timer_t *aon_timer,
-                                     dif_aon_timer_irq_t irq, const bool val) {
+                                     dt_aon_timer_irq_type_t irq,
+                                     const bool val) {
   if (aon_timer == NULL) {
     return kDifBadArg;
   }

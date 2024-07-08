@@ -53,10 +53,10 @@ status_t aon_timer_testutils_wakeup_config(const dif_aon_timer_t *aon_timer,
 
   // Make sure the wake-up IRQ is cleared to avoid false positive.
   TRY(dif_aon_timer_irq_acknowledge(aon_timer,
-                                    kDifAonTimerIrqWkupTimerExpired));
+                                    kDtAonTimerIrqTypeWkupTimerExpired));
 
   bool is_pending = true;
-  TRY(dif_aon_timer_irq_is_pending(aon_timer, kDifAonTimerIrqWkupTimerExpired,
+  TRY(dif_aon_timer_irq_is_pending(aon_timer, kDtAonTimerIrqTypeWkupTimerExpired,
                                    &is_pending));
   TRY_CHECK(!is_pending);
 
@@ -73,9 +73,9 @@ status_t aon_timer_testutils_watchdog_config(const dif_aon_timer_t *aon_timer,
   TRY(dif_aon_timer_watchdog_stop(aon_timer));
 
   // Make sure the watchdog IRQ is cleared to avoid false positive.
-  TRY(dif_aon_timer_irq_acknowledge(aon_timer, kDifAonTimerIrqWdogTimerBark));
+  TRY(dif_aon_timer_irq_acknowledge(aon_timer, kDtAonTimerIrqTypeWdogTimerBark));
   bool is_pending = true;
-  TRY(dif_aon_timer_irq_is_pending(aon_timer, kDifAonTimerIrqWdogTimerBark,
+  TRY(dif_aon_timer_irq_is_pending(aon_timer, kDtAonTimerIrqTypeWdogTimerBark,
                                    &is_pending));
   TRY_CHECK(!is_pending);
   TRY(dif_aon_timer_watchdog_start(aon_timer, bark_cycles, bite_cycles,

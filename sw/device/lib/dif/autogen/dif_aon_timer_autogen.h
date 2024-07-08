@@ -19,6 +19,7 @@
 
 #include "sw/device/lib/base/macros.h"
 #include "sw/device/lib/base/mmio.h"
+#include "sw/device/lib/devicetables/dt_aon_timer.h"
 #include "sw/device/lib/dif/dif_base.h"
 
 #ifdef __cplusplus
@@ -47,8 +48,7 @@ typedef struct dif_aon_timer {
  * @return The result of the operation.
  */
 OT_WARN_UNUSED_RESULT
-dif_result_t dif_aon_timer_init(mmio_region_t base_addr,
-                                dif_aon_timer_t *aon_timer);
+dif_result_t dif_aon_timer_init(dt_aon_timer_t *dt, dif_aon_timer_t *aon_timer);
 
 /**
  * A aon_timer alert type.
@@ -74,20 +74,6 @@ dif_result_t dif_aon_timer_alert_force(const dif_aon_timer_t *aon_timer,
                                        dif_aon_timer_alert_t alert);
 
 /**
- * A aon_timer interrupt request type.
- */
-typedef enum dif_aon_timer_irq {
-  /**
-   * Raised if the wakeup timer has hit the specified threshold
-   */
-  kDifAonTimerIrqWkupTimerExpired = 0,
-  /**
-   * Raised if the watchdog timer has hit the bark threshold
-   */
-  kDifAonTimerIrqWdogTimerBark = 1,
-} dif_aon_timer_irq_t;
-
-/**
  * A snapshot of the state of the interrupts for this IP.
  *
  * This is an opaque type, to be used with the `dif_aon_timer_irq_get_state()`
@@ -105,7 +91,7 @@ typedef uint32_t dif_aon_timer_irq_state_snapshot_t;
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_aon_timer_irq_get_type(const dif_aon_timer_t *aon_timer,
-                                        dif_aon_timer_irq_t irq,
+                                        dt_aon_timer_irq_type_t irq,
                                         dif_irq_type_t *type);
 
 /**
@@ -130,7 +116,7 @@ dif_result_t dif_aon_timer_irq_get_state(
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_aon_timer_irq_is_pending(const dif_aon_timer_t *aon_timer,
-                                          dif_aon_timer_irq_t irq,
+                                          dt_aon_timer_irq_type_t irq,
                                           bool *is_pending);
 
 /**
@@ -167,7 +153,7 @@ dif_result_t dif_aon_timer_irq_acknowledge_all(
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_aon_timer_irq_acknowledge(const dif_aon_timer_t *aon_timer,
-                                           dif_aon_timer_irq_t irq);
+                                           dt_aon_timer_irq_type_t irq);
 
 /**
  * Forces a particular interrupt, causing it to be serviced as if hardware had
@@ -180,7 +166,8 @@ dif_result_t dif_aon_timer_irq_acknowledge(const dif_aon_timer_t *aon_timer,
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_aon_timer_irq_force(const dif_aon_timer_t *aon_timer,
-                                     dif_aon_timer_irq_t irq, const bool val);
+                                     dt_aon_timer_irq_type_t irq,
+                                     const bool val);
 
 #ifdef __cplusplus
 }  // extern "C"
