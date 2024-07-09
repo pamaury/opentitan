@@ -30,7 +30,7 @@ cc_library(
     hdrs = ["devicetables.h"],
     # We pretend that this header lives in sw/device/lib/devicetables
     include_prefix = "sw/device/lib/devicetables/",
-    # copts = ["-flto=full"],
+    copts = ["-flto=full"],
     deps = [
         ":top_earlgrey",
         "//hw/top_earlgrey/sw/autogen/devicetables:dt_api_ipgen",

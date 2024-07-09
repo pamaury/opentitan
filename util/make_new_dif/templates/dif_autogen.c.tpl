@@ -60,7 +60,7 @@ ${autogen_banner}
 
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_${ip.name_snake}_init(
-  dt_${ip.name_snake}_t *dt,
+  const dt_${ip.name_snake}_t *dt,
   dif_${ip.name_snake}_t *${ip.name_snake}) {
   if (${ip.name_snake} == NULL || dt == NULL) {
     return kDifBadArg;

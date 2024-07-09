@@ -48,7 +48,8 @@ typedef struct dif_aon_timer {
  * @return The result of the operation.
  */
 OT_WARN_UNUSED_RESULT
-dif_result_t dif_aon_timer_init(dt_aon_timer_t *dt, dif_aon_timer_t *aon_timer);
+dif_result_t dif_aon_timer_init(const dt_aon_timer_t *dt,
+                                dif_aon_timer_t *aon_timer);
 
 /**
  * A aon_timer alert type.

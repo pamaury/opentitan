@@ -32,7 +32,7 @@ static const uint32_t kPlicTarget = 0;
 static const uint32_t kTickFreqHz = 1000 * 1000;  // 1Mhz / 1us
 static dif_rv_core_ibex_t rv_core_ibex;
 static dif_aon_timer_t aon_timer;
-static dt_aon_timer_t aon_timer_dt;
+static const dt_aon_timer_t *aon_timer_dt = &kDtAonTimerAon;
 static dif_rv_timer_t rv_timer;
 static dif_rv_plic_t plic;
 
@@ -133,7 +133,7 @@ static void execute_test(dif_aon_timer_t *aon_timer, uint64_t irq_time_us,
   // Capture the current tick to measure the time the IRQ will take.
   uint32_t start_tick = (uint32_t)tick_count_get();
 
-  ATOMIC_WAIT_FOR_INTERRUPT(peripheral == aon_timer_dt.device);
+  ATOMIC_WAIT_FOR_INTERRUPT(peripheral == aon_timer_dt->device);
 
   uint32_t time_elapsed = (uint32_t)irq_tick - start_tick;
   CHECK(time_elapsed < sleep_range_h && time_elapsed > sleep_range_l,
@@ -141,9 +141,9 @@ static void execute_test(dif_aon_timer_t *aon_timer, uint64_t irq_time_us,
         (uint32_t)time_elapsed, (uint32_t)sleep_range_l,
         (uint32_t)sleep_range_h);
 
-  CHECK(peripheral == aon_timer_dt.device,
+  CHECK(peripheral == aon_timer_dt->device,
         "Interrupt from incorrect peripheral: exp = %d, obs = %d",
-        aon_timer_dt.device, peripheral);
+        aon_timer_dt->device, peripheral);
 
   CHECK(irq == expected_irq, "Interrupt type incorrect: exp = %d, obs = %d",
         kDtAonTimerIrqTypeWkupTimerExpired, irq);
@@ -163,7 +163,7 @@ void ottf_external_isr(uint32_t *exc_info) {
 
   peripheral = dt_irq_to_device(irq_id);
 
-  if (peripheral == aon_timer_dt.device) {
+  if (peripheral == aon_timer_dt->device) {
     irq = dt_irq_to_device_irq(irq_id);
 
     if (irq_id == kDtAonTimerIrqTypeWkupTimerExpired) {
@@ -211,8 +211,7 @@ bool test_main(void) {
   tick_init();
 
   // Initialize aon timer.
-  aon_timer_dt = kDtAonTimerAon;
-  CHECK_DIF_OK(dif_aon_timer_init(&aon_timer_dt, &aon_timer));
+  CHECK_DIF_OK(dif_aon_timer_init(aon_timer_dt, &aon_timer));
 
   CHECK_DIF_OK(dif_rv_core_ibex_init(
       mmio_region_from_addr(TOP_EARLGREY_RV_CORE_IBEX_CFG_BASE_ADDR),
@@ -225,8 +224,8 @@ bool test_main(void) {
 
   // Enable all the AON interrupts used in this test.
   rv_plic_testutils_irq_range_enable(
-      &plic, kPlicTarget, aon_timer_dt.irqs[kDtAonTimerIrqTypeWkupTimerExpired],
-      aon_timer_dt.irqs[kDtAonTimerIrqTypeWdogTimerBark]);
+      &plic, kPlicTarget, aon_timer_dt->irqs[kDtAonTimerIrqTypeWkupTimerExpired],
+      aon_timer_dt->irqs[kDtAonTimerIrqTypeWdogTimerBark]);
 
   // Executing the test using random time bounds calculated from the clock
   // frequency to make sure the aon timer is generating the interrupt after the
