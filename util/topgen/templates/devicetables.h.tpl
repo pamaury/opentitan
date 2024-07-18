@@ -48,7 +48,7 @@ enum {
 
 % for module_name in module_types:
 // Device tables for ${module_name}
-extern const dt_${module_name}_t kDt${snake_to_constant_name(module_name)}List[kDt${snake_to_constant_name(module_name)}Count];
+extern const dt_${module_name}_t kDt${snake_to_constant_name(module_name)}[kDt${snake_to_constant_name(module_name)}Count];
 
 % endfor
 

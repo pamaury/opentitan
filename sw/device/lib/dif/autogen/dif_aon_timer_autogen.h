@@ -48,8 +48,21 @@ typedef struct dif_aon_timer {
  * @return The result of the operation.
  */
 OT_WARN_UNUSED_RESULT
-dif_result_t dif_aon_timer_init(const dt_aon_timer_t *dt,
+dif_result_t dif_aon_timer_init(mmio_region_t base_addr,
                                 dif_aon_timer_t *aon_timer);
+
+/**
+ * Creates a new handle for a(n) aon_timer peripheral.
+ *
+ * This function does not actuate the hardware.
+ *
+ * @param dt The devicetable description of the device.
+ * @param[out] aon_timer Out param for the initialized handle.
+ * @return The result of the operation.
+ */
+OT_WARN_UNUSED_RESULT
+dif_result_t dif_aon_timer_init_dt(const dt_aon_timer_t *dt,
+                                   dif_aon_timer_t *aon_timer);
 
 /**
  * A aon_timer alert type.
@@ -73,6 +86,42 @@ typedef enum dif_aon_timer_alert {
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_aon_timer_alert_force(const dif_aon_timer_t *aon_timer,
                                        dif_aon_timer_alert_t alert);
+
+/**
+ * A aon_timer interrupt request type.
+ *
+ * DEPRECATED This enumeration exists solely for the transition to
+ * dt-based interrupt numbers and will be removed in the future.
+ */
+enum {
+  /**
+   * Raised if the wakeup timer has hit the specified threshold
+   */
+  kDifAonTimerIrqWkupTimerExpired = kDtAonTimerIrqTypeWkupTimerExpired,
+  /**
+   * Raised if the watchdog timer has hit the bark threshold
+   */
+  kDifAonTimerIrqWdogTimerBark = kDtAonTimerIrqTypeWdogTimerBark,
+};
+
+// These checks ensure that the dif-based interrupt numbering is compatible
+// with the dt-based numbering, to avoid any breakage.
+/**
+ * Raised if the wakeup timer has hit the specified threshold
+ */
+static_assert(
+    kDifAonTimerIrqWkupTimerExpired == 0,
+    "DIF-based interrupt numbering does not match DT-based numbering");
+/**
+ * Raised if the watchdog timer has hit the bark threshold
+ */
+static_assert(
+    kDifAonTimerIrqWdogTimerBark == 1,
+    "DIF-based interrupt numbering does not match DT-based numbering");
+
+// DEPRECATED This typedef exists solely for the transition to
+// dt-based interrupt numbers and will be removed in the future.
+typedef dt_aon_timer_irq_type_t dif_aon_timer_irq_t;
 
 /**
  * A snapshot of the state of the interrupts for this IP.

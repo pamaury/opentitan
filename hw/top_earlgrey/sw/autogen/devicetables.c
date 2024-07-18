@@ -23,7 +23,7 @@ _Static_assert(kDtAdcCtrlClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtAdcCtrlIrqTypeCount == 1, "IRQ count mismatch");
 _Static_assert(kDtAdcCtrlCount == 1, "Number of adc_ctrl modules mismatch");
 
-const dt_adc_ctrl_t kDtAdcCtrlList[kDtAdcCtrlCount] = {
+const dt_adc_ctrl_t kDtAdcCtrl[kDtAdcCtrlCount] = {
   // Properties for adc_ctrl_aon
   {
     .device = kDtDeviceIdAdcCtrlAon,
@@ -44,7 +44,7 @@ _Static_assert(kDtAesRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtAesClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtAesCount == 1, "Number of aes modules mismatch");
 
-const dt_aes_t kDtAesList[kDtAesCount] = {
+const dt_aes_t kDtAes[kDtAesCount] = {
   // Properties for aes
   {
     .device = kDtDeviceIdAes,
@@ -63,7 +63,7 @@ _Static_assert(kDtAlertHandlerClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtAlertHandlerIrqTypeCount == 4, "IRQ count mismatch");
 _Static_assert(kDtAlertHandlerCount == 1, "Number of alert_handler modules mismatch");
 
-const dt_alert_handler_t kDtAlertHandlerList[kDtAlertHandlerCount] = {
+const dt_alert_handler_t kDtAlertHandler[kDtAlertHandlerCount] = {
   // Properties for alert_handler
   {
     .device = kDtDeviceIdAlertHandler,
@@ -88,7 +88,7 @@ _Static_assert(kDtAonTimerClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtAonTimerIrqTypeCount == 2, "IRQ count mismatch");
 _Static_assert(kDtAonTimerCount == 1, "Number of aon_timer modules mismatch");
 
-const dt_aon_timer_t kDtAonTimerList[kDtAonTimerCount] = {
+const dt_aon_timer_t kDtAonTimer[kDtAonTimerCount] = {
   // Properties for aon_timer_aon
   {
     .device = kDtDeviceIdAonTimerAon,
@@ -110,7 +110,7 @@ _Static_assert(kDtAstRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtAstClockCount == 6, "Clock count mismatch");
 _Static_assert(kDtAstCount == 1, "Number of ast modules mismatch");
 
-const dt_ast_t kDtAstList[kDtAstCount] = {
+const dt_ast_t kDtAst[kDtAstCount] = {
   // Properties for ast
   {
     .device = kDtDeviceIdAst,
@@ -132,7 +132,7 @@ _Static_assert(kDtClkmgrRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtClkmgrClockCount == 5, "Clock count mismatch");
 _Static_assert(kDtClkmgrCount == 1, "Number of clkmgr modules mismatch");
 
-const dt_clkmgr_t kDtClkmgrList[kDtClkmgrCount] = {
+const dt_clkmgr_t kDtClkmgr[kDtClkmgrCount] = {
   // Properties for clkmgr_aon
   {
     .device = kDtDeviceIdClkmgrAon,
@@ -154,7 +154,7 @@ _Static_assert(kDtCsrngClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtCsrngIrqTypeCount == 4, "IRQ count mismatch");
 _Static_assert(kDtCsrngCount == 1, "Number of csrng modules mismatch");
 
-const dt_csrng_t kDtCsrngList[kDtCsrngCount] = {
+const dt_csrng_t kDtCsrng[kDtCsrngCount] = {
   // Properties for csrng
   {
     .device = kDtDeviceIdCsrng,
@@ -178,7 +178,7 @@ _Static_assert(kDtEdnClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtEdnIrqTypeCount == 2, "IRQ count mismatch");
 _Static_assert(kDtEdnCount == 2, "Number of edn modules mismatch");
 
-const dt_edn_t kDtEdnList[kDtEdnCount] = {
+const dt_edn_t kDtEdn[kDtEdnCount] = {
   // Properties for edn0
   {
     .device = kDtDeviceIdEdn0,
@@ -214,7 +214,7 @@ _Static_assert(kDtEntropySrcClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtEntropySrcIrqTypeCount == 4, "IRQ count mismatch");
 _Static_assert(kDtEntropySrcCount == 1, "Number of entropy_src modules mismatch");
 
-const dt_entropy_src_t kDtEntropySrcList[kDtEntropySrcCount] = {
+const dt_entropy_src_t kDtEntropySrc[kDtEntropySrcCount] = {
   // Properties for entropy_src
   {
     .device = kDtDeviceIdEntropySrc,
@@ -238,7 +238,7 @@ _Static_assert(kDtFlashCtrlClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtFlashCtrlIrqTypeCount == 6, "IRQ count mismatch");
 _Static_assert(kDtFlashCtrlCount == 1, "Number of flash_ctrl modules mismatch");
 
-const dt_flash_ctrl_t kDtFlashCtrlList[kDtFlashCtrlCount] = {
+const dt_flash_ctrl_t kDtFlashCtrl[kDtFlashCtrlCount] = {
   // Properties for flash_ctrl
   {
     .device = kDtDeviceIdFlashCtrl,
@@ -267,7 +267,7 @@ _Static_assert(kDtGpioClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtGpioIrqTypeCount == 32, "IRQ count mismatch");
 _Static_assert(kDtGpioCount == 1, "Number of gpio modules mismatch");
 
-const dt_gpio_t kDtGpioList[kDtGpioCount] = {
+const dt_gpio_t kDtGpio[kDtGpioCount] = {
   // Properties for gpio
   {
     .device = kDtDeviceIdGpio,
@@ -319,7 +319,7 @@ _Static_assert(kDtHmacClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtHmacIrqTypeCount == 3, "IRQ count mismatch");
 _Static_assert(kDtHmacCount == 1, "Number of hmac modules mismatch");
 
-const dt_hmac_t kDtHmacList[kDtHmacCount] = {
+const dt_hmac_t kDtHmac[kDtHmacCount] = {
   // Properties for hmac
   {
     .device = kDtDeviceIdHmac,
@@ -342,7 +342,7 @@ _Static_assert(kDtI2cClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtI2cIrqTypeCount == 15, "IRQ count mismatch");
 _Static_assert(kDtI2cCount == 3, "Number of i2c modules mismatch");
 
-const dt_i2c_t kDtI2cList[kDtI2cCount] = {
+const dt_i2c_t kDtI2c[kDtI2cCount] = {
   // Properties for i2c0
   {
     .device = kDtDeviceIdI2c0,
@@ -431,7 +431,7 @@ _Static_assert(kDtKeymgrClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtKeymgrIrqTypeCount == 1, "IRQ count mismatch");
 _Static_assert(kDtKeymgrCount == 1, "Number of keymgr modules mismatch");
 
-const dt_keymgr_t kDtKeymgrList[kDtKeymgrCount] = {
+const dt_keymgr_t kDtKeymgr[kDtKeymgrCount] = {
   // Properties for keymgr
   {
     .device = kDtDeviceIdKeymgr,
@@ -453,7 +453,7 @@ _Static_assert(kDtKmacClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtKmacIrqTypeCount == 3, "IRQ count mismatch");
 _Static_assert(kDtKmacCount == 1, "Number of kmac modules mismatch");
 
-const dt_kmac_t kDtKmacList[kDtKmacCount] = {
+const dt_kmac_t kDtKmac[kDtKmacCount] = {
   // Properties for kmac
   {
     .device = kDtDeviceIdKmac,
@@ -476,7 +476,7 @@ _Static_assert(kDtLcCtrlRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtLcCtrlClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtLcCtrlCount == 1, "Number of lc_ctrl modules mismatch");
 
-const dt_lc_ctrl_t kDtLcCtrlList[kDtLcCtrlCount] = {
+const dt_lc_ctrl_t kDtLcCtrl[kDtLcCtrlCount] = {
   // Properties for lc_ctrl
   {
     .device = kDtDeviceIdLcCtrl,
@@ -495,7 +495,7 @@ _Static_assert(kDtOtbnClockCount == 3, "Clock count mismatch");
 _Static_assert(kDtOtbnIrqTypeCount == 1, "IRQ count mismatch");
 _Static_assert(kDtOtbnCount == 1, "Number of otbn modules mismatch");
 
-const dt_otbn_t kDtOtbnList[kDtOtbnCount] = {
+const dt_otbn_t kDtOtbn[kDtOtbnCount] = {
   // Properties for otbn
   {
     .device = kDtDeviceIdOtbn,
@@ -518,7 +518,7 @@ _Static_assert(kDtOtpCtrlClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtOtpCtrlIrqTypeCount == 2, "IRQ count mismatch");
 _Static_assert(kDtOtpCtrlCount == 1, "Number of otp_ctrl modules mismatch");
 
-const dt_otp_ctrl_t kDtOtpCtrlList[kDtOtpCtrlCount] = {
+const dt_otp_ctrl_t kDtOtpCtrl[kDtOtpCtrlCount] = {
   // Properties for otp_ctrl
   {
     .device = kDtDeviceIdOtpCtrl,
@@ -542,7 +542,7 @@ _Static_assert(kDtPattgenClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtPattgenIrqTypeCount == 2, "IRQ count mismatch");
 _Static_assert(kDtPattgenCount == 1, "Number of pattgen modules mismatch");
 
-const dt_pattgen_t kDtPattgenList[kDtPattgenCount] = {
+const dt_pattgen_t kDtPattgen[kDtPattgenCount] = {
   // Properties for pattgen
   {
     .device = kDtDeviceIdPattgen,
@@ -563,7 +563,7 @@ _Static_assert(kDtPinmuxRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtPinmuxClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtPinmuxCount == 1, "Number of pinmux modules mismatch");
 
-const dt_pinmux_t kDtPinmuxList[kDtPinmuxCount] = {
+const dt_pinmux_t kDtPinmux[kDtPinmuxCount] = {
   // Properties for pinmux_aon
   {
     .device = kDtDeviceIdPinmuxAon,
@@ -581,7 +581,7 @@ _Static_assert(kDtPwmRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtPwmClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtPwmCount == 1, "Number of pwm modules mismatch");
 
-const dt_pwm_t kDtPwmList[kDtPwmCount] = {
+const dt_pwm_t kDtPwm[kDtPwmCount] = {
   // Properties for pwm_aon
   {
     .device = kDtDeviceIdPwmAon,
@@ -600,7 +600,7 @@ _Static_assert(kDtPwrmgrClockCount == 4, "Clock count mismatch");
 _Static_assert(kDtPwrmgrIrqTypeCount == 1, "IRQ count mismatch");
 _Static_assert(kDtPwrmgrCount == 1, "Number of pwrmgr modules mismatch");
 
-const dt_pwrmgr_t kDtPwrmgrList[kDtPwrmgrCount] = {
+const dt_pwrmgr_t kDtPwrmgr[kDtPwrmgrCount] = {
   // Properties for pwrmgr_aon
   {
     .device = kDtDeviceIdPwrmgrAon,
@@ -623,7 +623,7 @@ _Static_assert(kDtRomCtrlRegBlockCount == 2, "Reg block count mismatch");
 _Static_assert(kDtRomCtrlClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtRomCtrlCount == 1, "Number of rom_ctrl modules mismatch");
 
-const dt_rom_ctrl_t kDtRomCtrlList[kDtRomCtrlCount] = {
+const dt_rom_ctrl_t kDtRomCtrl[kDtRomCtrlCount] = {
   // Properties for rom_ctrl
   {
     .device = kDtDeviceIdRomCtrl,
@@ -641,7 +641,7 @@ _Static_assert(kDtRstmgrRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtRstmgrClockCount == 8, "Clock count mismatch");
 _Static_assert(kDtRstmgrCount == 1, "Number of rstmgr modules mismatch");
 
-const dt_rstmgr_t kDtRstmgrList[kDtRstmgrCount] = {
+const dt_rstmgr_t kDtRstmgr[kDtRstmgrCount] = {
   // Properties for rstmgr_aon
   {
     .device = kDtDeviceIdRstmgrAon,
@@ -665,7 +665,7 @@ _Static_assert(kDtRvCoreIbexRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtRvCoreIbexClockCount == 4, "Clock count mismatch");
 _Static_assert(kDtRvCoreIbexCount == 1, "Number of rv_core_ibex modules mismatch");
 
-const dt_rv_core_ibex_t kDtRvCoreIbexList[kDtRvCoreIbexCount] = {
+const dt_rv_core_ibex_t kDtRvCoreIbex[kDtRvCoreIbexCount] = {
   // Properties for rv_core_ibex
   {
     .device = kDtDeviceIdRvCoreIbex,
@@ -685,7 +685,7 @@ _Static_assert(kDtRvDmRegBlockCount == 2, "Reg block count mismatch");
 _Static_assert(kDtRvDmClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtRvDmCount == 1, "Number of rv_dm modules mismatch");
 
-const dt_rv_dm_t kDtRvDmList[kDtRvDmCount] = {
+const dt_rv_dm_t kDtRvDm[kDtRvDmCount] = {
   // Properties for rv_dm
   {
     .device = kDtDeviceIdRvDm,
@@ -704,7 +704,7 @@ _Static_assert(kDtRvPlicRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtRvPlicClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtRvPlicCount == 1, "Number of rv_plic modules mismatch");
 
-const dt_rv_plic_t kDtRvPlicList[kDtRvPlicCount] = {
+const dt_rv_plic_t kDtRvPlic[kDtRvPlicCount] = {
   // Properties for rv_plic
   {
     .device = kDtDeviceIdRvPlic,
@@ -722,7 +722,7 @@ _Static_assert(kDtRvTimerClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtRvTimerIrqTypeCount == 1, "IRQ count mismatch");
 _Static_assert(kDtRvTimerCount == 1, "Number of rv_timer modules mismatch");
 
-const dt_rv_timer_t kDtRvTimerList[kDtRvTimerCount] = {
+const dt_rv_timer_t kDtRvTimer[kDtRvTimerCount] = {
   // Properties for rv_timer
   {
     .device = kDtDeviceIdRvTimer,
@@ -743,7 +743,7 @@ _Static_assert(kDtSensorCtrlClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtSensorCtrlIrqTypeCount == 2, "IRQ count mismatch");
 _Static_assert(kDtSensorCtrlCount == 1, "Number of sensor_ctrl modules mismatch");
 
-const dt_sensor_ctrl_t kDtSensorCtrlList[kDtSensorCtrlCount] = {
+const dt_sensor_ctrl_t kDtSensorCtrl[kDtSensorCtrlCount] = {
   // Properties for sensor_ctrl_aon
   {
     .device = kDtDeviceIdSensorCtrlAon,
@@ -766,7 +766,7 @@ _Static_assert(kDtSpiDeviceClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtSpiDeviceIrqTypeCount == 8, "IRQ count mismatch");
 _Static_assert(kDtSpiDeviceCount == 1, "Number of spi_device modules mismatch");
 
-const dt_spi_device_t kDtSpiDeviceList[kDtSpiDeviceCount] = {
+const dt_spi_device_t kDtSpiDevice[kDtSpiDeviceCount] = {
   // Properties for spi_device
   {
     .device = kDtDeviceIdSpiDevice,
@@ -794,7 +794,7 @@ _Static_assert(kDtSpiHostClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtSpiHostIrqTypeCount == 2, "IRQ count mismatch");
 _Static_assert(kDtSpiHostCount == 2, "Number of spi_host modules mismatch");
 
-const dt_spi_host_t kDtSpiHostList[kDtSpiHostCount] = {
+const dt_spi_host_t kDtSpiHost[kDtSpiHostCount] = {
   // Properties for spi_host0
   {
     .device = kDtDeviceIdSpiHost0,
@@ -829,7 +829,7 @@ _Static_assert(kDtSramCtrlRegBlockCount == 2, "Reg block count mismatch");
 _Static_assert(kDtSramCtrlClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtSramCtrlCount == 2, "Number of sram_ctrl modules mismatch");
 
-const dt_sram_ctrl_t kDtSramCtrlList[kDtSramCtrlCount] = {
+const dt_sram_ctrl_t kDtSramCtrl[kDtSramCtrlCount] = {
   // Properties for sram_ctrl_ret_aon
   {
     .device = kDtDeviceIdSramCtrlRetAon,
@@ -861,7 +861,7 @@ _Static_assert(kDtSysrstCtrlClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtSysrstCtrlIrqTypeCount == 1, "IRQ count mismatch");
 _Static_assert(kDtSysrstCtrlCount == 1, "Number of sysrst_ctrl modules mismatch");
 
-const dt_sysrst_ctrl_t kDtSysrstCtrlList[kDtSysrstCtrlCount] = {
+const dt_sysrst_ctrl_t kDtSysrstCtrl[kDtSysrstCtrlCount] = {
   // Properties for sysrst_ctrl_aon
   {
     .device = kDtDeviceIdSysrstCtrlAon,
@@ -883,7 +883,7 @@ _Static_assert(kDtUartClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtUartIrqTypeCount == 9, "IRQ count mismatch");
 _Static_assert(kDtUartCount == 4, "Number of uart modules mismatch");
 
-const dt_uart_t kDtUartList[kDtUartCount] = {
+const dt_uart_t kDtUart[kDtUartCount] = {
   // Properties for uart0
   {
     .device = kDtDeviceIdUart0,
@@ -975,7 +975,7 @@ _Static_assert(kDtUsbdevClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtUsbdevIrqTypeCount == 18, "IRQ count mismatch");
 _Static_assert(kDtUsbdevCount == 1, "Number of usbdev modules mismatch");
 
-const dt_usbdev_t kDtUsbdevList[kDtUsbdevCount] = {
+const dt_usbdev_t kDtUsbdev[kDtUsbdevCount] = {
   // Properties for usbdev
   {
     .device = kDtDeviceIdUsbdev,

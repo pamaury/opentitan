@@ -40,7 +40,7 @@ ${autogen_banner}
   #include <assert.h>
 
   % for irq in ip.irqs:
-    static_assert(${ip.name_upper}_INTR_STATE_${irq.name_upper}_BIT == 
+    static_assert(${ip.name_upper}_INTR_STATE_${irq.name_upper}_BIT ==
                   ${ip.name_upper}_INTR_TEST_${irq.name_upper}_BIT,
                   "Expected IRQ bit offsets to match across STATE/TEST regs.");
   % endfor
@@ -49,10 +49,10 @@ ${autogen_banner}
   #include <assert.h>
 
   % for irq in ip.irqs:
-    static_assert(${ip.name_upper}_INTR_STATE0_IS_${loop.index}_BIT == 
+    static_assert(${ip.name_upper}_INTR_STATE0_IS_${loop.index}_BIT ==
                   ${ip.name_upper}_INTR_ENABLE0_IE_${loop.index}_BIT,
                   "Expected IRQ bit offsets to match across STATE/ENABLE regs.");
-    static_assert(${ip.name_upper}_INTR_STATE0_IS_${loop.index}_BIT == 
+    static_assert(${ip.name_upper}_INTR_STATE0_IS_${loop.index}_BIT ==
                   ${ip.name_upper}_INTR_TEST0_T_${loop.index}_BIT,
                   "Expected IRQ bit offsets to match across STATE/ENABLE regs.");
   % endfor
@@ -60,6 +60,19 @@ ${autogen_banner}
 
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_${ip.name_snake}_init(
+  mmio_region_t base_addr,
+  dif_${ip.name_snake}_t *${ip.name_snake}) {
+  if (${ip.name_snake} == NULL) {
+    return kDifBadArg;
+  }
+
+  ${ip.name_snake}->base_addr = base_addr;
+
+  return kDifOk;
+}
+
+OT_WARN_UNUSED_RESULT
+dif_result_t dif_${ip.name_snake}_init_dt(
   const dt_${ip.name_snake}_t *dt,
   dif_${ip.name_snake}_t *${ip.name_snake}) {
   if (${ip.name_snake} == NULL || dt == NULL) {
@@ -412,7 +425,7 @@ dif_result_t dif_${ip.name_snake}_init(
     const dif_${ip.name_snake}_t *${ip.name_snake},
     dt_${ip.name_snake}_irq_type_t irq,
     dif_toggle_t *state) {
-    
+
     if (${ip.name_snake} == NULL || state == NULL) {
       return kDifBadArg;
     }
@@ -435,7 +448,7 @@ dif_result_t dif_${ip.name_snake}_init(
   % endif
 
     bool is_enabled = bitfield_bit32_read(intr_enable_reg, index);
-    *state = is_enabled ? 
+    *state = is_enabled ?
       kDifToggleEnabled : kDifToggleDisabled;
 
     return kDifOk;

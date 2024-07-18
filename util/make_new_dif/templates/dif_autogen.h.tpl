@@ -44,7 +44,7 @@ extern "C" {
  *
  * This type should be treated as opaque by users.
  */
-typedef struct dif_${ip.name_snake} { 
+typedef struct dif_${ip.name_snake} {
   /**
    * The base address for the ${ip.name_snake} hardware registers.
    */
@@ -62,6 +62,20 @@ typedef struct dif_${ip.name_snake} {
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_${ip.name_snake}_init(
+  mmio_region_t base_addr,
+  dif_${ip.name_snake}_t *${ip.name_snake});
+
+/**
+ * Creates a new handle for a(n) ${ip.name_snake} peripheral.
+ *
+ * This function does not actuate the hardware.
+ *
+ * @param dt The devicetable description of the device.
+ * @param[out] ${ip.name_snake} Out param for the initialized handle.
+ * @return The result of the operation.
+ */
+OT_WARN_UNUSED_RESULT
+dif_result_t dif_${ip.name_snake}_init_dt(
   const dt_${ip.name_snake}_t *dt,
   dif_${ip.name_snake}_t *${ip.name_snake});
 
@@ -93,6 +107,61 @@ dif_result_t dif_${ip.name_snake}_init(
 % endif
 
 % if ip.irqs:
+  /**
+   * A ${ip.name_snake} interrupt request type.
+   *
+   * DEPRECATED This enumeration exists solely for the transition to
+   * dt-based interrupt numbers and will be removed in the future.
+   */
+  enum {
+  % for irq in ip.irqs:
+    /**
+     * ${irq.description}
+     */
+    ## This handles the GPIO IP case where there is a multi-bit interrupt.
+    % if irq.width > 1:
+      % for irq_idx in range(irq.width):
+        kDif${ip.name_camel}Irq${irq.name_camel}${irq_idx} = kDt${ip.name_camel}IrqType${irq.name_camel}${irq_idx},
+      % endfor
+    ## This handles the RV Timer IP where there are different ENABLE/STATE/TEST
+    ## IRQ registers per hart.
+    % elif ip.name_snake == "rv_timer":
+      kDif${ip.name_camel}Irq${irq.name_camel} = kDt${ip.name_camel}IrqType${irq.name_camel},
+    ## This handles all other IPs.
+    % else:
+      kDif${ip.name_camel}Irq${irq.name_camel} = kDt${ip.name_camel}IrqType${irq.name_camel},
+    % endif
+  % endfor
+  };
+
+  // These checks ensure that the dif-based interrupt numbering is compatible
+  // with the dt-based numbering, to avoid any breakage.
+  % for irq in ip.irqs:
+    /**
+     * ${irq.description}
+     */
+    ## This handles the GPIO IP case where there is a multi-bit interrupt.
+    % if irq.width > 1:
+      % for irq_idx in range(irq.width):
+        static_assert(kDif${ip.name_camel}Irq${irq.name_camel}${irq_idx} == ${loop.index},
+                      "DIF-based interrupt numbering does not match DT-based numbering");
+      % endfor
+    ## This handles the RV Timer IP where there are different ENABLE/STATE/TEST
+    ## IRQ registers per hart.
+    % elif ip.name_snake == "rv_timer":
+      static_assert(kDif${ip.name_camel}Irq${irq.name_camel} == ${loop.index % int(ip.parameters["N_TIMERS"].default)},
+                    "DIF-based interrupt numbering does not match DT-based numbering");
+    ## This handles all other IPs.
+    % else:
+      static_assert(kDif${ip.name_camel}Irq${irq.name_camel} == ${loop.index},
+                    "DIF-based interrupt numbering does not match DT-based numbering");
+    % endif
+  % endfor
+
+  // DEPRECATED This typedef exists solely for the transition to
+  // dt-based interrupt numbers and will be removed in the future.
+  typedef dt_${ip.name_snake}_irq_type_t dif_${ip.name_snake}_irq_t;
+
   /**
    * A snapshot of the state of the interrupts for this IP.
    *

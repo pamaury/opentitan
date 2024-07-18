@@ -96,7 +96,7 @@ _Static_assert(${irq_count_enum} == ${str(irq_count)}, "IRQ count mismatch");
 %   endif
 _Static_assert(${snake_to_constant_name("dt_" + module_name)}Count == ${len(modules)}, "Number of ${module_name} modules mismatch");
 
-const dt_${module_name}_t ${snake_to_constant_name("dt_" + module_name)}List[${snake_to_constant_name("dt_" + module_name)}Count] = {
+const dt_${module_name}_t ${snake_to_constant_name("dt_" + module_name)}[${snake_to_constant_name("dt_" + module_name)}Count] = {
 %   for (dev_index, m) in enumerate(modules):
   // Properties for ${m["name"]}
   {

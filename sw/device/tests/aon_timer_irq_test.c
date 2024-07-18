@@ -9,7 +9,6 @@
 
 #include "sw/device/lib/base/math.h"
 #include "sw/device/lib/base/mmio.h"
-#include "sw/device/lib/devicetables/dt.h"
 #include "sw/device/lib/devicetables/devicetables.h"
 #include "sw/device/lib/dif/dif_aon_timer.h"
 #include "sw/device/lib/dif/dif_rv_plic.h"
@@ -32,7 +31,7 @@ static const uint32_t kPlicTarget = 0;
 static const uint32_t kTickFreqHz = 1000 * 1000;  // 1Mhz / 1us
 static dif_rv_core_ibex_t rv_core_ibex;
 static dif_aon_timer_t aon_timer;
-static const dt_aon_timer_t *aon_timer_dt = &kDtAonTimerAon;
+static const dt_aon_timer_t *aon_timer_dt = &kDtAonTimer[0];
 static dif_rv_timer_t rv_timer;
 static dif_rv_plic_t plic;
 
@@ -211,7 +210,7 @@ bool test_main(void) {
   tick_init();
 
   // Initialize aon timer.
-  CHECK_DIF_OK(dif_aon_timer_init(aon_timer_dt, &aon_timer));
+  CHECK_DIF_OK(dif_aon_timer_init_dt(aon_timer_dt, &aon_timer));
 
   CHECK_DIF_OK(dif_rv_core_ibex_init(
       mmio_region_from_addr(TOP_EARLGREY_RV_CORE_IBEX_CFG_BASE_ADDR),
