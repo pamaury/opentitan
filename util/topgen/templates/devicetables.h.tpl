@@ -39,10 +39,6 @@ def snake_to_constant_name(s):
 
 enum {
 % for module_name in module_types:
-%   if module_name in top_reggen_module_types:
-// TODO: Handle tables for top_reggen types
-<%    continue %>\
-%   endif
 <%
     modules = [m for m in top["module"] if m["type"] == module_name]
 %>\
@@ -52,17 +48,7 @@ enum {
 
 % for module_name in module_types:
 // Device tables for ${module_name}
-%   if module_name in top_reggen_module_types:
-// TODO: Handle tables for top_reggen types
-<%    continue %>\
-%   endif
-<%
-    modules = [m for m in top["module"] if m["type"] == module_name]
-%>\
-%   for (dev_index, m) in enumerate(modules):
-extern const dt_${module_name}_t kDt${snake_to_constant_name(m["name"])};
-%   endfor
-extern const dt_${module_name}_t* const kDt${snake_to_constant_name(module_name)}List[kDt${snake_to_constant_name(module_name)}Count];
+extern const dt_${module_name}_t kDt${snake_to_constant_name(module_name)}List[kDt${snake_to_constant_name(module_name)}Count];
 
 % endfor
 

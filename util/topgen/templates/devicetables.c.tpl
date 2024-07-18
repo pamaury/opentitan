@@ -26,10 +26,6 @@ def snake_to_constant_name(s):
 
 % for module_name in module_types:
 // Device tables for ${module_name}
-%   if module_name in top_reggen_module_types:
-// TODO: Handle tables for top_reggen types
-<%    continue %>\
-%   endif
 <%
     modules = [m for m in top["module"] if m["type"] == module_name]
     block = name_to_block[module_name]
@@ -100,22 +96,17 @@ _Static_assert(${irq_count_enum} == ${str(irq_count)}, "IRQ count mismatch");
 %   endif
 _Static_assert(${snake_to_constant_name("dt_" + module_name)}Count == ${len(modules)}, "Number of ${module_name} modules mismatch");
 
-const dt_${module_name}_t* const ${snake_to_constant_name("dt_" + module_name)}List[${snake_to_constant_name("dt_" + module_name)}Count] = {
+const dt_${module_name}_t ${snake_to_constant_name("dt_" + module_name)}List[${snake_to_constant_name("dt_" + module_name)}Count] = {
 %   for (dev_index, m) in enumerate(modules):
-  &${snake_to_constant_name("dt_" + m["name"])},
-%   endfor
-};
-
-%   for (dev_index, m) in enumerate(modules):
-// Properties for ${m["name"]}
-const dt_${module_name}_t ${snake_to_constant_name("dt_" + m["name"])} = {
-  .device = ${snake_to_constant_name("dt_device_id_" + m["name"])},
-  .base_addrs = {
+  // Properties for ${m["name"]}
+  {
+    .device = ${snake_to_constant_name("dt_device_id_" + m["name"])},
+    .base_addrs = {
 %     for addr in m["base_addrs"].values():
-    ${addr},
+      ${addr},
 %     endfor
-  },
-  .clocks = {
+    },
+    .clocks = {
 %     for port, clock in m["clock_srcs"].items():
 %       if port in block_clocks:
 <%
@@ -125,19 +116,20 @@ const dt_${module_name}_t ${snake_to_constant_name("dt_" + m["name"])} = {
             clock_id = top_clock_prefix + Name.from_snake_case(clock["clock"])
         block_clock_enum = block_clocks[port].as_c_enum()
 %>\
-    [${block_clock_enum}] = ${clock_id.as_c_enum()},
+      [${block_clock_enum}] = ${clock_id.as_c_enum()},
 %       endif
 %     endfor
-  },
+    },
 %   if len(block.interrupts) > 0:
-  .irqs = {
+    .irqs = {
 %     for irq in irqs[m["name"]]:
-    ${irq.as_c_enum()},
+      ${irq.as_c_enum()},
 %     endfor
-  },
+    },
 %   endif
-};
+  },
 %   endfor
+};
 % endfor
 
 <%

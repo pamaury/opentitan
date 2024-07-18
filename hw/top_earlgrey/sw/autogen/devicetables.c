@@ -23,22 +23,20 @@ _Static_assert(kDtAdcCtrlClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtAdcCtrlIrqTypeCount == 1, "IRQ count mismatch");
 _Static_assert(kDtAdcCtrlCount == 1, "Number of adc_ctrl modules mismatch");
 
-const dt_adc_ctrl_t* const kDtAdcCtrlList[kDtAdcCtrlCount] = {
-  &kDtAdcCtrlAon,
-};
-
-// Properties for adc_ctrl_aon
-const dt_adc_ctrl_t kDtAdcCtrlAon = {
-  .device = kDtDeviceIdAdcCtrlAon,
-  .base_addrs = {
-    0x40440000,
-  },
-  .clocks = {
-    [kDtAdcCtrlClockClk] = kTopEarlgreyClockSrcIoDiv4,
-    [kDtAdcCtrlClockAon] = kTopEarlgreyClockSrcAon,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdAdcCtrlAonMatchPending,
+const dt_adc_ctrl_t kDtAdcCtrlList[kDtAdcCtrlCount] = {
+  // Properties for adc_ctrl_aon
+  {
+    .device = kDtDeviceIdAdcCtrlAon,
+    .base_addrs = {
+      0x40440000,
+    },
+    .clocks = {
+      [kDtAdcCtrlClockClk] = kTopEarlgreyClockSrcIoDiv4,
+      [kDtAdcCtrlClockAon] = kTopEarlgreyClockSrcAon,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdAdcCtrlAonMatchPending,
+    },
   },
 };
 // Device tables for aes
@@ -46,19 +44,17 @@ _Static_assert(kDtAesRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtAesClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtAesCount == 1, "Number of aes modules mismatch");
 
-const dt_aes_t* const kDtAesList[kDtAesCount] = {
-  &kDtAes,
-};
-
-// Properties for aes
-const dt_aes_t kDtAes = {
-  .device = kDtDeviceIdAes,
-  .base_addrs = {
-    0x41100000,
-  },
-  .clocks = {
-    [kDtAesClockClk] = kTopEarlgreyClockSrcMain,
-    [kDtAesClockEdn] = kTopEarlgreyClockSrcMain,
+const dt_aes_t kDtAesList[kDtAesCount] = {
+  // Properties for aes
+  {
+    .device = kDtDeviceIdAes,
+    .base_addrs = {
+      0x41100000,
+    },
+    .clocks = {
+      [kDtAesClockClk] = kTopEarlgreyClockSrcMain,
+      [kDtAesClockEdn] = kTopEarlgreyClockSrcMain,
+    },
   },
 };
 // Device tables for alert_handler
@@ -67,25 +63,23 @@ _Static_assert(kDtAlertHandlerClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtAlertHandlerIrqTypeCount == 4, "IRQ count mismatch");
 _Static_assert(kDtAlertHandlerCount == 1, "Number of alert_handler modules mismatch");
 
-const dt_alert_handler_t* const kDtAlertHandlerList[kDtAlertHandlerCount] = {
-  &kDtAlertHandler,
-};
-
-// Properties for alert_handler
-const dt_alert_handler_t kDtAlertHandler = {
-  .device = kDtDeviceIdAlertHandler,
-  .base_addrs = {
-    0x40150000,
-  },
-  .clocks = {
-    [kDtAlertHandlerClockClk] = kTopEarlgreyClockSrcIoDiv4,
-    [kDtAlertHandlerClockEdn] = kTopEarlgreyClockSrcMain,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdAlertHandlerClassa,
-    kTopEarlgreyPlicIrqIdAlertHandlerClassb,
-    kTopEarlgreyPlicIrqIdAlertHandlerClassc,
-    kTopEarlgreyPlicIrqIdAlertHandlerClassd,
+const dt_alert_handler_t kDtAlertHandlerList[kDtAlertHandlerCount] = {
+  // Properties for alert_handler
+  {
+    .device = kDtDeviceIdAlertHandler,
+    .base_addrs = {
+      0x40150000,
+    },
+    .clocks = {
+      [kDtAlertHandlerClockClk] = kTopEarlgreyClockSrcIoDiv4,
+      [kDtAlertHandlerClockEdn] = kTopEarlgreyClockSrcMain,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdAlertHandlerClassa,
+      kTopEarlgreyPlicIrqIdAlertHandlerClassb,
+      kTopEarlgreyPlicIrqIdAlertHandlerClassc,
+      kTopEarlgreyPlicIrqIdAlertHandlerClassd,
+    },
   },
 };
 // Device tables for aon_timer
@@ -94,48 +88,64 @@ _Static_assert(kDtAonTimerClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtAonTimerIrqTypeCount == 2, "IRQ count mismatch");
 _Static_assert(kDtAonTimerCount == 1, "Number of aon_timer modules mismatch");
 
-const dt_aon_timer_t* const kDtAonTimerList[kDtAonTimerCount] = {
-  &kDtAonTimerAon,
-};
-
-// Properties for aon_timer_aon
-const dt_aon_timer_t kDtAonTimerAon = {
-  .device = kDtDeviceIdAonTimerAon,
-  .base_addrs = {
-    0x40470000,
-  },
-  .clocks = {
-    [kDtAonTimerClockClk] = kTopEarlgreyClockSrcIoDiv4,
-    [kDtAonTimerClockAon] = kTopEarlgreyClockSrcAon,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdAonTimerAonWkupTimerExpired,
-    kTopEarlgreyPlicIrqIdAonTimerAonWdogTimerBark,
+const dt_aon_timer_t kDtAonTimerList[kDtAonTimerCount] = {
+  // Properties for aon_timer_aon
+  {
+    .device = kDtDeviceIdAonTimerAon,
+    .base_addrs = {
+      0x40470000,
+    },
+    .clocks = {
+      [kDtAonTimerClockClk] = kTopEarlgreyClockSrcIoDiv4,
+      [kDtAonTimerClockAon] = kTopEarlgreyClockSrcAon,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdAonTimerAonWkupTimerExpired,
+      kTopEarlgreyPlicIrqIdAonTimerAonWdogTimerBark,
+    },
   },
 };
 // Device tables for ast
-// TODO: Handle tables for top_reggen types
+_Static_assert(kDtAstRegBlockCount == 1, "Reg block count mismatch");
+_Static_assert(kDtAstClockCount == 6, "Clock count mismatch");
+_Static_assert(kDtAstCount == 1, "Number of ast modules mismatch");
+
+const dt_ast_t kDtAstList[kDtAstCount] = {
+  // Properties for ast
+  {
+    .device = kDtDeviceIdAst,
+    .base_addrs = {
+      0x40480000,
+    },
+    .clocks = {
+      [kDtAstClockAstTlul] = kTopEarlgreyClockSrcIoDiv4,
+      [kDtAstClockAstAdc] = kTopEarlgreyClockSrcAon,
+      [kDtAstClockAstAlert] = kTopEarlgreyClockSrcIoDiv4,
+      [kDtAstClockAstEs] = kTopEarlgreyClockSrcMain,
+      [kDtAstClockAstRng] = kTopEarlgreyClockSrcMain,
+      [kDtAstClockAstUsb] = kTopEarlgreyClockSrcUsb,
+    },
+  },
+};
 // Device tables for clkmgr
 _Static_assert(kDtClkmgrRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtClkmgrClockCount == 5, "Clock count mismatch");
 _Static_assert(kDtClkmgrCount == 1, "Number of clkmgr modules mismatch");
 
-const dt_clkmgr_t* const kDtClkmgrList[kDtClkmgrCount] = {
-  &kDtClkmgrAon,
-};
-
-// Properties for clkmgr_aon
-const dt_clkmgr_t kDtClkmgrAon = {
-  .device = kDtDeviceIdClkmgrAon,
-  .base_addrs = {
-    0x40420000,
-  },
-  .clocks = {
-    [kDtClkmgrClockClk] = kTopEarlgreyClockSrcIoDiv4,
-    [kDtClkmgrClockMain] = kTopEarlgreyClockSrcMain,
-    [kDtClkmgrClockIo] = kTopEarlgreyClockSrcIo,
-    [kDtClkmgrClockUsb] = kTopEarlgreyClockSrcUsb,
-    [kDtClkmgrClockAon] = kTopEarlgreyClockSrcAon,
+const dt_clkmgr_t kDtClkmgrList[kDtClkmgrCount] = {
+  // Properties for clkmgr_aon
+  {
+    .device = kDtDeviceIdClkmgrAon,
+    .base_addrs = {
+      0x40420000,
+    },
+    .clocks = {
+      [kDtClkmgrClockClk] = kTopEarlgreyClockSrcIoDiv4,
+      [kDtClkmgrClockMain] = kTopEarlgreyClockSrcMain,
+      [kDtClkmgrClockIo] = kTopEarlgreyClockSrcIo,
+      [kDtClkmgrClockUsb] = kTopEarlgreyClockSrcUsb,
+      [kDtClkmgrClockAon] = kTopEarlgreyClockSrcAon,
+    },
   },
 };
 // Device tables for csrng
@@ -144,24 +154,22 @@ _Static_assert(kDtCsrngClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtCsrngIrqTypeCount == 4, "IRQ count mismatch");
 _Static_assert(kDtCsrngCount == 1, "Number of csrng modules mismatch");
 
-const dt_csrng_t* const kDtCsrngList[kDtCsrngCount] = {
-  &kDtCsrng,
-};
-
-// Properties for csrng
-const dt_csrng_t kDtCsrng = {
-  .device = kDtDeviceIdCsrng,
-  .base_addrs = {
-    0x41150000,
-  },
-  .clocks = {
-    [kDtCsrngClockClk] = kTopEarlgreyClockSrcMain,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdCsrngCsCmdReqDone,
-    kTopEarlgreyPlicIrqIdCsrngCsEntropyReq,
-    kTopEarlgreyPlicIrqIdCsrngCsHwInstExc,
-    kTopEarlgreyPlicIrqIdCsrngCsFatalErr,
+const dt_csrng_t kDtCsrngList[kDtCsrngCount] = {
+  // Properties for csrng
+  {
+    .device = kDtDeviceIdCsrng,
+    .base_addrs = {
+      0x41150000,
+    },
+    .clocks = {
+      [kDtCsrngClockClk] = kTopEarlgreyClockSrcMain,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdCsrngCsCmdReqDone,
+      kTopEarlgreyPlicIrqIdCsrngCsEntropyReq,
+      kTopEarlgreyPlicIrqIdCsrngCsHwInstExc,
+      kTopEarlgreyPlicIrqIdCsrngCsFatalErr,
+    },
   },
 };
 // Device tables for edn
@@ -170,37 +178,34 @@ _Static_assert(kDtEdnClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtEdnIrqTypeCount == 2, "IRQ count mismatch");
 _Static_assert(kDtEdnCount == 2, "Number of edn modules mismatch");
 
-const dt_edn_t* const kDtEdnList[kDtEdnCount] = {
-  &kDtEdn0,
-  &kDtEdn1,
-};
-
-// Properties for edn0
-const dt_edn_t kDtEdn0 = {
-  .device = kDtDeviceIdEdn0,
-  .base_addrs = {
-    0x41170000,
+const dt_edn_t kDtEdnList[kDtEdnCount] = {
+  // Properties for edn0
+  {
+    .device = kDtDeviceIdEdn0,
+    .base_addrs = {
+      0x41170000,
+    },
+    .clocks = {
+      [kDtEdnClockClk] = kTopEarlgreyClockSrcMain,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdEdn0EdnCmdReqDone,
+      kTopEarlgreyPlicIrqIdEdn0EdnFatalErr,
+    },
   },
-  .clocks = {
-    [kDtEdnClockClk] = kTopEarlgreyClockSrcMain,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdEdn0EdnCmdReqDone,
-    kTopEarlgreyPlicIrqIdEdn0EdnFatalErr,
-  },
-};
-// Properties for edn1
-const dt_edn_t kDtEdn1 = {
-  .device = kDtDeviceIdEdn1,
-  .base_addrs = {
-    0x41180000,
-  },
-  .clocks = {
-    [kDtEdnClockClk] = kTopEarlgreyClockSrcMain,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdEdn1EdnCmdReqDone,
-    kTopEarlgreyPlicIrqIdEdn1EdnFatalErr,
+  // Properties for edn1
+  {
+    .device = kDtDeviceIdEdn1,
+    .base_addrs = {
+      0x41180000,
+    },
+    .clocks = {
+      [kDtEdnClockClk] = kTopEarlgreyClockSrcMain,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdEdn1EdnCmdReqDone,
+      kTopEarlgreyPlicIrqIdEdn1EdnFatalErr,
+    },
   },
 };
 // Device tables for entropy_src
@@ -209,24 +214,22 @@ _Static_assert(kDtEntropySrcClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtEntropySrcIrqTypeCount == 4, "IRQ count mismatch");
 _Static_assert(kDtEntropySrcCount == 1, "Number of entropy_src modules mismatch");
 
-const dt_entropy_src_t* const kDtEntropySrcList[kDtEntropySrcCount] = {
-  &kDtEntropySrc,
-};
-
-// Properties for entropy_src
-const dt_entropy_src_t kDtEntropySrc = {
-  .device = kDtDeviceIdEntropySrc,
-  .base_addrs = {
-    0x41160000,
-  },
-  .clocks = {
-    [kDtEntropySrcClockClk] = kTopEarlgreyClockSrcMain,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdEntropySrcEsEntropyValid,
-    kTopEarlgreyPlicIrqIdEntropySrcEsHealthTestFailed,
-    kTopEarlgreyPlicIrqIdEntropySrcEsObserveFifoReady,
-    kTopEarlgreyPlicIrqIdEntropySrcEsFatalErr,
+const dt_entropy_src_t kDtEntropySrcList[kDtEntropySrcCount] = {
+  // Properties for entropy_src
+  {
+    .device = kDtDeviceIdEntropySrc,
+    .base_addrs = {
+      0x41160000,
+    },
+    .clocks = {
+      [kDtEntropySrcClockClk] = kTopEarlgreyClockSrcMain,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdEntropySrcEsEntropyValid,
+      kTopEarlgreyPlicIrqIdEntropySrcEsHealthTestFailed,
+      kTopEarlgreyPlicIrqIdEntropySrcEsObserveFifoReady,
+      kTopEarlgreyPlicIrqIdEntropySrcEsFatalErr,
+    },
   },
 };
 // Device tables for flash_ctrl
@@ -235,29 +238,27 @@ _Static_assert(kDtFlashCtrlClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtFlashCtrlIrqTypeCount == 6, "IRQ count mismatch");
 _Static_assert(kDtFlashCtrlCount == 1, "Number of flash_ctrl modules mismatch");
 
-const dt_flash_ctrl_t* const kDtFlashCtrlList[kDtFlashCtrlCount] = {
-  &kDtFlashCtrl,
-};
-
-// Properties for flash_ctrl
-const dt_flash_ctrl_t kDtFlashCtrl = {
-  .device = kDtDeviceIdFlashCtrl,
-  .base_addrs = {
-    0x41000000,
-    0x41008000,
-    0x20000000,
-  },
-  .clocks = {
-    [kDtFlashCtrlClockClk] = kTopEarlgreyClockSrcMain,
-    [kDtFlashCtrlClockOtp] = kTopEarlgreyClockSrcIoDiv4,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdFlashCtrlProgEmpty,
-    kTopEarlgreyPlicIrqIdFlashCtrlProgLvl,
-    kTopEarlgreyPlicIrqIdFlashCtrlRdFull,
-    kTopEarlgreyPlicIrqIdFlashCtrlRdLvl,
-    kTopEarlgreyPlicIrqIdFlashCtrlOpDone,
-    kTopEarlgreyPlicIrqIdFlashCtrlCorrErr,
+const dt_flash_ctrl_t kDtFlashCtrlList[kDtFlashCtrlCount] = {
+  // Properties for flash_ctrl
+  {
+    .device = kDtDeviceIdFlashCtrl,
+    .base_addrs = {
+      0x41000000,
+      0x41008000,
+      0x20000000,
+    },
+    .clocks = {
+      [kDtFlashCtrlClockClk] = kTopEarlgreyClockSrcMain,
+      [kDtFlashCtrlClockOtp] = kTopEarlgreyClockSrcIoDiv4,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdFlashCtrlProgEmpty,
+      kTopEarlgreyPlicIrqIdFlashCtrlProgLvl,
+      kTopEarlgreyPlicIrqIdFlashCtrlRdFull,
+      kTopEarlgreyPlicIrqIdFlashCtrlRdLvl,
+      kTopEarlgreyPlicIrqIdFlashCtrlOpDone,
+      kTopEarlgreyPlicIrqIdFlashCtrlCorrErr,
+    },
   },
 };
 // Device tables for gpio
@@ -266,52 +267,50 @@ _Static_assert(kDtGpioClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtGpioIrqTypeCount == 32, "IRQ count mismatch");
 _Static_assert(kDtGpioCount == 1, "Number of gpio modules mismatch");
 
-const dt_gpio_t* const kDtGpioList[kDtGpioCount] = {
-  &kDtGpio,
-};
-
-// Properties for gpio
-const dt_gpio_t kDtGpio = {
-  .device = kDtDeviceIdGpio,
-  .base_addrs = {
-    0x40040000,
-  },
-  .clocks = {
-    [kDtGpioClockClk] = kTopEarlgreyClockSrcIoDiv4,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdGpioGpio0,
-    kTopEarlgreyPlicIrqIdGpioGpio1,
-    kTopEarlgreyPlicIrqIdGpioGpio2,
-    kTopEarlgreyPlicIrqIdGpioGpio3,
-    kTopEarlgreyPlicIrqIdGpioGpio4,
-    kTopEarlgreyPlicIrqIdGpioGpio5,
-    kTopEarlgreyPlicIrqIdGpioGpio6,
-    kTopEarlgreyPlicIrqIdGpioGpio7,
-    kTopEarlgreyPlicIrqIdGpioGpio8,
-    kTopEarlgreyPlicIrqIdGpioGpio9,
-    kTopEarlgreyPlicIrqIdGpioGpio10,
-    kTopEarlgreyPlicIrqIdGpioGpio11,
-    kTopEarlgreyPlicIrqIdGpioGpio12,
-    kTopEarlgreyPlicIrqIdGpioGpio13,
-    kTopEarlgreyPlicIrqIdGpioGpio14,
-    kTopEarlgreyPlicIrqIdGpioGpio15,
-    kTopEarlgreyPlicIrqIdGpioGpio16,
-    kTopEarlgreyPlicIrqIdGpioGpio17,
-    kTopEarlgreyPlicIrqIdGpioGpio18,
-    kTopEarlgreyPlicIrqIdGpioGpio19,
-    kTopEarlgreyPlicIrqIdGpioGpio20,
-    kTopEarlgreyPlicIrqIdGpioGpio21,
-    kTopEarlgreyPlicIrqIdGpioGpio22,
-    kTopEarlgreyPlicIrqIdGpioGpio23,
-    kTopEarlgreyPlicIrqIdGpioGpio24,
-    kTopEarlgreyPlicIrqIdGpioGpio25,
-    kTopEarlgreyPlicIrqIdGpioGpio26,
-    kTopEarlgreyPlicIrqIdGpioGpio27,
-    kTopEarlgreyPlicIrqIdGpioGpio28,
-    kTopEarlgreyPlicIrqIdGpioGpio29,
-    kTopEarlgreyPlicIrqIdGpioGpio30,
-    kTopEarlgreyPlicIrqIdGpioGpio31,
+const dt_gpio_t kDtGpioList[kDtGpioCount] = {
+  // Properties for gpio
+  {
+    .device = kDtDeviceIdGpio,
+    .base_addrs = {
+      0x40040000,
+    },
+    .clocks = {
+      [kDtGpioClockClk] = kTopEarlgreyClockSrcIoDiv4,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdGpioGpio0,
+      kTopEarlgreyPlicIrqIdGpioGpio1,
+      kTopEarlgreyPlicIrqIdGpioGpio2,
+      kTopEarlgreyPlicIrqIdGpioGpio3,
+      kTopEarlgreyPlicIrqIdGpioGpio4,
+      kTopEarlgreyPlicIrqIdGpioGpio5,
+      kTopEarlgreyPlicIrqIdGpioGpio6,
+      kTopEarlgreyPlicIrqIdGpioGpio7,
+      kTopEarlgreyPlicIrqIdGpioGpio8,
+      kTopEarlgreyPlicIrqIdGpioGpio9,
+      kTopEarlgreyPlicIrqIdGpioGpio10,
+      kTopEarlgreyPlicIrqIdGpioGpio11,
+      kTopEarlgreyPlicIrqIdGpioGpio12,
+      kTopEarlgreyPlicIrqIdGpioGpio13,
+      kTopEarlgreyPlicIrqIdGpioGpio14,
+      kTopEarlgreyPlicIrqIdGpioGpio15,
+      kTopEarlgreyPlicIrqIdGpioGpio16,
+      kTopEarlgreyPlicIrqIdGpioGpio17,
+      kTopEarlgreyPlicIrqIdGpioGpio18,
+      kTopEarlgreyPlicIrqIdGpioGpio19,
+      kTopEarlgreyPlicIrqIdGpioGpio20,
+      kTopEarlgreyPlicIrqIdGpioGpio21,
+      kTopEarlgreyPlicIrqIdGpioGpio22,
+      kTopEarlgreyPlicIrqIdGpioGpio23,
+      kTopEarlgreyPlicIrqIdGpioGpio24,
+      kTopEarlgreyPlicIrqIdGpioGpio25,
+      kTopEarlgreyPlicIrqIdGpioGpio26,
+      kTopEarlgreyPlicIrqIdGpioGpio27,
+      kTopEarlgreyPlicIrqIdGpioGpio28,
+      kTopEarlgreyPlicIrqIdGpioGpio29,
+      kTopEarlgreyPlicIrqIdGpioGpio30,
+      kTopEarlgreyPlicIrqIdGpioGpio31,
+    },
   },
 };
 // Device tables for hmac
@@ -320,23 +319,21 @@ _Static_assert(kDtHmacClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtHmacIrqTypeCount == 3, "IRQ count mismatch");
 _Static_assert(kDtHmacCount == 1, "Number of hmac modules mismatch");
 
-const dt_hmac_t* const kDtHmacList[kDtHmacCount] = {
-  &kDtHmac,
-};
-
-// Properties for hmac
-const dt_hmac_t kDtHmac = {
-  .device = kDtDeviceIdHmac,
-  .base_addrs = {
-    0x41110000,
-  },
-  .clocks = {
-    [kDtHmacClockClk] = kTopEarlgreyClockSrcMain,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdHmacHmacDone,
-    kTopEarlgreyPlicIrqIdHmacFifoEmpty,
-    kTopEarlgreyPlicIrqIdHmacHmacErr,
+const dt_hmac_t kDtHmacList[kDtHmacCount] = {
+  // Properties for hmac
+  {
+    .device = kDtDeviceIdHmac,
+    .base_addrs = {
+      0x41110000,
+    },
+    .clocks = {
+      [kDtHmacClockClk] = kTopEarlgreyClockSrcMain,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdHmacHmacDone,
+      kTopEarlgreyPlicIrqIdHmacFifoEmpty,
+      kTopEarlgreyPlicIrqIdHmacHmacErr,
+    },
   },
 };
 // Device tables for i2c
@@ -345,91 +342,87 @@ _Static_assert(kDtI2cClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtI2cIrqTypeCount == 15, "IRQ count mismatch");
 _Static_assert(kDtI2cCount == 3, "Number of i2c modules mismatch");
 
-const dt_i2c_t* const kDtI2cList[kDtI2cCount] = {
-  &kDtI2c0,
-  &kDtI2c1,
-  &kDtI2c2,
-};
-
-// Properties for i2c0
-const dt_i2c_t kDtI2c0 = {
-  .device = kDtDeviceIdI2c0,
-  .base_addrs = {
-    0x40080000,
+const dt_i2c_t kDtI2cList[kDtI2cCount] = {
+  // Properties for i2c0
+  {
+    .device = kDtDeviceIdI2c0,
+    .base_addrs = {
+      0x40080000,
+    },
+    .clocks = {
+      [kDtI2cClockClk] = kTopEarlgreyClockSrcIoDiv4,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdI2c0FmtThreshold,
+      kTopEarlgreyPlicIrqIdI2c0RxThreshold,
+      kTopEarlgreyPlicIrqIdI2c0AcqThreshold,
+      kTopEarlgreyPlicIrqIdI2c0RxOverflow,
+      kTopEarlgreyPlicIrqIdI2c0ControllerHalt,
+      kTopEarlgreyPlicIrqIdI2c0SclInterference,
+      kTopEarlgreyPlicIrqIdI2c0SdaInterference,
+      kTopEarlgreyPlicIrqIdI2c0StretchTimeout,
+      kTopEarlgreyPlicIrqIdI2c0SdaUnstable,
+      kTopEarlgreyPlicIrqIdI2c0CmdComplete,
+      kTopEarlgreyPlicIrqIdI2c0TxStretch,
+      kTopEarlgreyPlicIrqIdI2c0TxThreshold,
+      kTopEarlgreyPlicIrqIdI2c0AcqStretch,
+      kTopEarlgreyPlicIrqIdI2c0UnexpStop,
+      kTopEarlgreyPlicIrqIdI2c0HostTimeout,
+    },
   },
-  .clocks = {
-    [kDtI2cClockClk] = kTopEarlgreyClockSrcIoDiv4,
+  // Properties for i2c1
+  {
+    .device = kDtDeviceIdI2c1,
+    .base_addrs = {
+      0x40090000,
+    },
+    .clocks = {
+      [kDtI2cClockClk] = kTopEarlgreyClockSrcIoDiv4,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdI2c1FmtThreshold,
+      kTopEarlgreyPlicIrqIdI2c1RxThreshold,
+      kTopEarlgreyPlicIrqIdI2c1AcqThreshold,
+      kTopEarlgreyPlicIrqIdI2c1RxOverflow,
+      kTopEarlgreyPlicIrqIdI2c1ControllerHalt,
+      kTopEarlgreyPlicIrqIdI2c1SclInterference,
+      kTopEarlgreyPlicIrqIdI2c1SdaInterference,
+      kTopEarlgreyPlicIrqIdI2c1StretchTimeout,
+      kTopEarlgreyPlicIrqIdI2c1SdaUnstable,
+      kTopEarlgreyPlicIrqIdI2c1CmdComplete,
+      kTopEarlgreyPlicIrqIdI2c1TxStretch,
+      kTopEarlgreyPlicIrqIdI2c1TxThreshold,
+      kTopEarlgreyPlicIrqIdI2c1AcqStretch,
+      kTopEarlgreyPlicIrqIdI2c1UnexpStop,
+      kTopEarlgreyPlicIrqIdI2c1HostTimeout,
+    },
   },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdI2c0FmtThreshold,
-    kTopEarlgreyPlicIrqIdI2c0RxThreshold,
-    kTopEarlgreyPlicIrqIdI2c0AcqThreshold,
-    kTopEarlgreyPlicIrqIdI2c0RxOverflow,
-    kTopEarlgreyPlicIrqIdI2c0ControllerHalt,
-    kTopEarlgreyPlicIrqIdI2c0SclInterference,
-    kTopEarlgreyPlicIrqIdI2c0SdaInterference,
-    kTopEarlgreyPlicIrqIdI2c0StretchTimeout,
-    kTopEarlgreyPlicIrqIdI2c0SdaUnstable,
-    kTopEarlgreyPlicIrqIdI2c0CmdComplete,
-    kTopEarlgreyPlicIrqIdI2c0TxStretch,
-    kTopEarlgreyPlicIrqIdI2c0TxThreshold,
-    kTopEarlgreyPlicIrqIdI2c0AcqStretch,
-    kTopEarlgreyPlicIrqIdI2c0UnexpStop,
-    kTopEarlgreyPlicIrqIdI2c0HostTimeout,
-  },
-};
-// Properties for i2c1
-const dt_i2c_t kDtI2c1 = {
-  .device = kDtDeviceIdI2c1,
-  .base_addrs = {
-    0x40090000,
-  },
-  .clocks = {
-    [kDtI2cClockClk] = kTopEarlgreyClockSrcIoDiv4,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdI2c1FmtThreshold,
-    kTopEarlgreyPlicIrqIdI2c1RxThreshold,
-    kTopEarlgreyPlicIrqIdI2c1AcqThreshold,
-    kTopEarlgreyPlicIrqIdI2c1RxOverflow,
-    kTopEarlgreyPlicIrqIdI2c1ControllerHalt,
-    kTopEarlgreyPlicIrqIdI2c1SclInterference,
-    kTopEarlgreyPlicIrqIdI2c1SdaInterference,
-    kTopEarlgreyPlicIrqIdI2c1StretchTimeout,
-    kTopEarlgreyPlicIrqIdI2c1SdaUnstable,
-    kTopEarlgreyPlicIrqIdI2c1CmdComplete,
-    kTopEarlgreyPlicIrqIdI2c1TxStretch,
-    kTopEarlgreyPlicIrqIdI2c1TxThreshold,
-    kTopEarlgreyPlicIrqIdI2c1AcqStretch,
-    kTopEarlgreyPlicIrqIdI2c1UnexpStop,
-    kTopEarlgreyPlicIrqIdI2c1HostTimeout,
-  },
-};
-// Properties for i2c2
-const dt_i2c_t kDtI2c2 = {
-  .device = kDtDeviceIdI2c2,
-  .base_addrs = {
-    0x400A0000,
-  },
-  .clocks = {
-    [kDtI2cClockClk] = kTopEarlgreyClockSrcIoDiv4,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdI2c2FmtThreshold,
-    kTopEarlgreyPlicIrqIdI2c2RxThreshold,
-    kTopEarlgreyPlicIrqIdI2c2AcqThreshold,
-    kTopEarlgreyPlicIrqIdI2c2RxOverflow,
-    kTopEarlgreyPlicIrqIdI2c2ControllerHalt,
-    kTopEarlgreyPlicIrqIdI2c2SclInterference,
-    kTopEarlgreyPlicIrqIdI2c2SdaInterference,
-    kTopEarlgreyPlicIrqIdI2c2StretchTimeout,
-    kTopEarlgreyPlicIrqIdI2c2SdaUnstable,
-    kTopEarlgreyPlicIrqIdI2c2CmdComplete,
-    kTopEarlgreyPlicIrqIdI2c2TxStretch,
-    kTopEarlgreyPlicIrqIdI2c2TxThreshold,
-    kTopEarlgreyPlicIrqIdI2c2AcqStretch,
-    kTopEarlgreyPlicIrqIdI2c2UnexpStop,
-    kTopEarlgreyPlicIrqIdI2c2HostTimeout,
+  // Properties for i2c2
+  {
+    .device = kDtDeviceIdI2c2,
+    .base_addrs = {
+      0x400A0000,
+    },
+    .clocks = {
+      [kDtI2cClockClk] = kTopEarlgreyClockSrcIoDiv4,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdI2c2FmtThreshold,
+      kTopEarlgreyPlicIrqIdI2c2RxThreshold,
+      kTopEarlgreyPlicIrqIdI2c2AcqThreshold,
+      kTopEarlgreyPlicIrqIdI2c2RxOverflow,
+      kTopEarlgreyPlicIrqIdI2c2ControllerHalt,
+      kTopEarlgreyPlicIrqIdI2c2SclInterference,
+      kTopEarlgreyPlicIrqIdI2c2SdaInterference,
+      kTopEarlgreyPlicIrqIdI2c2StretchTimeout,
+      kTopEarlgreyPlicIrqIdI2c2SdaUnstable,
+      kTopEarlgreyPlicIrqIdI2c2CmdComplete,
+      kTopEarlgreyPlicIrqIdI2c2TxStretch,
+      kTopEarlgreyPlicIrqIdI2c2TxThreshold,
+      kTopEarlgreyPlicIrqIdI2c2AcqStretch,
+      kTopEarlgreyPlicIrqIdI2c2UnexpStop,
+      kTopEarlgreyPlicIrqIdI2c2HostTimeout,
+    },
   },
 };
 // Device tables for keymgr
@@ -438,22 +431,20 @@ _Static_assert(kDtKeymgrClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtKeymgrIrqTypeCount == 1, "IRQ count mismatch");
 _Static_assert(kDtKeymgrCount == 1, "Number of keymgr modules mismatch");
 
-const dt_keymgr_t* const kDtKeymgrList[kDtKeymgrCount] = {
-  &kDtKeymgr,
-};
-
-// Properties for keymgr
-const dt_keymgr_t kDtKeymgr = {
-  .device = kDtDeviceIdKeymgr,
-  .base_addrs = {
-    0x41140000,
-  },
-  .clocks = {
-    [kDtKeymgrClockClk] = kTopEarlgreyClockSrcMain,
-    [kDtKeymgrClockEdn] = kTopEarlgreyClockSrcMain,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdKeymgrOpDone,
+const dt_keymgr_t kDtKeymgrList[kDtKeymgrCount] = {
+  // Properties for keymgr
+  {
+    .device = kDtDeviceIdKeymgr,
+    .base_addrs = {
+      0x41140000,
+    },
+    .clocks = {
+      [kDtKeymgrClockClk] = kTopEarlgreyClockSrcMain,
+      [kDtKeymgrClockEdn] = kTopEarlgreyClockSrcMain,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdKeymgrOpDone,
+    },
   },
 };
 // Device tables for kmac
@@ -462,24 +453,22 @@ _Static_assert(kDtKmacClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtKmacIrqTypeCount == 3, "IRQ count mismatch");
 _Static_assert(kDtKmacCount == 1, "Number of kmac modules mismatch");
 
-const dt_kmac_t* const kDtKmacList[kDtKmacCount] = {
-  &kDtKmac,
-};
-
-// Properties for kmac
-const dt_kmac_t kDtKmac = {
-  .device = kDtDeviceIdKmac,
-  .base_addrs = {
-    0x41120000,
-  },
-  .clocks = {
-    [kDtKmacClockClk] = kTopEarlgreyClockSrcMain,
-    [kDtKmacClockEdn] = kTopEarlgreyClockSrcMain,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdKmacKmacDone,
-    kTopEarlgreyPlicIrqIdKmacFifoEmpty,
-    kTopEarlgreyPlicIrqIdKmacKmacErr,
+const dt_kmac_t kDtKmacList[kDtKmacCount] = {
+  // Properties for kmac
+  {
+    .device = kDtDeviceIdKmac,
+    .base_addrs = {
+      0x41120000,
+    },
+    .clocks = {
+      [kDtKmacClockClk] = kTopEarlgreyClockSrcMain,
+      [kDtKmacClockEdn] = kTopEarlgreyClockSrcMain,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdKmacKmacDone,
+      kTopEarlgreyPlicIrqIdKmacFifoEmpty,
+      kTopEarlgreyPlicIrqIdKmacKmacErr,
+    },
   },
 };
 // Device tables for lc_ctrl
@@ -487,19 +476,17 @@ _Static_assert(kDtLcCtrlRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtLcCtrlClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtLcCtrlCount == 1, "Number of lc_ctrl modules mismatch");
 
-const dt_lc_ctrl_t* const kDtLcCtrlList[kDtLcCtrlCount] = {
-  &kDtLcCtrl,
-};
-
-// Properties for lc_ctrl
-const dt_lc_ctrl_t kDtLcCtrl = {
-  .device = kDtDeviceIdLcCtrl,
-  .base_addrs = {
-    0x40140000,
-  },
-  .clocks = {
-    [kDtLcCtrlClockClk] = kTopEarlgreyClockSrcIoDiv4,
-    [kDtLcCtrlClockKmac] = kTopEarlgreyClockSrcMain,
+const dt_lc_ctrl_t kDtLcCtrlList[kDtLcCtrlCount] = {
+  // Properties for lc_ctrl
+  {
+    .device = kDtDeviceIdLcCtrl,
+    .base_addrs = {
+      0x40140000,
+    },
+    .clocks = {
+      [kDtLcCtrlClockClk] = kTopEarlgreyClockSrcIoDiv4,
+      [kDtLcCtrlClockKmac] = kTopEarlgreyClockSrcMain,
+    },
   },
 };
 // Device tables for otbn
@@ -508,23 +495,21 @@ _Static_assert(kDtOtbnClockCount == 3, "Clock count mismatch");
 _Static_assert(kDtOtbnIrqTypeCount == 1, "IRQ count mismatch");
 _Static_assert(kDtOtbnCount == 1, "Number of otbn modules mismatch");
 
-const dt_otbn_t* const kDtOtbnList[kDtOtbnCount] = {
-  &kDtOtbn,
-};
-
-// Properties for otbn
-const dt_otbn_t kDtOtbn = {
-  .device = kDtDeviceIdOtbn,
-  .base_addrs = {
-    0x41130000,
-  },
-  .clocks = {
-    [kDtOtbnClockClk] = kTopEarlgreyClockSrcMain,
-    [kDtOtbnClockEdn] = kTopEarlgreyClockSrcMain,
-    [kDtOtbnClockOtp] = kTopEarlgreyClockSrcIoDiv4,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdOtbnDone,
+const dt_otbn_t kDtOtbnList[kDtOtbnCount] = {
+  // Properties for otbn
+  {
+    .device = kDtDeviceIdOtbn,
+    .base_addrs = {
+      0x41130000,
+    },
+    .clocks = {
+      [kDtOtbnClockClk] = kTopEarlgreyClockSrcMain,
+      [kDtOtbnClockEdn] = kTopEarlgreyClockSrcMain,
+      [kDtOtbnClockOtp] = kTopEarlgreyClockSrcIoDiv4,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdOtbnDone,
+    },
   },
 };
 // Device tables for otp_ctrl
@@ -533,24 +518,22 @@ _Static_assert(kDtOtpCtrlClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtOtpCtrlIrqTypeCount == 2, "IRQ count mismatch");
 _Static_assert(kDtOtpCtrlCount == 1, "Number of otp_ctrl modules mismatch");
 
-const dt_otp_ctrl_t* const kDtOtpCtrlList[kDtOtpCtrlCount] = {
-  &kDtOtpCtrl,
-};
-
-// Properties for otp_ctrl
-const dt_otp_ctrl_t kDtOtpCtrl = {
-  .device = kDtDeviceIdOtpCtrl,
-  .base_addrs = {
-    0x40130000,
-    0x40138000,
-  },
-  .clocks = {
-    [kDtOtpCtrlClockClk] = kTopEarlgreyClockSrcIoDiv4,
-    [kDtOtpCtrlClockEdn] = kTopEarlgreyClockSrcMain,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdOtpCtrlOtpOperationDone,
-    kTopEarlgreyPlicIrqIdOtpCtrlOtpError,
+const dt_otp_ctrl_t kDtOtpCtrlList[kDtOtpCtrlCount] = {
+  // Properties for otp_ctrl
+  {
+    .device = kDtDeviceIdOtpCtrl,
+    .base_addrs = {
+      0x40130000,
+      0x40138000,
+    },
+    .clocks = {
+      [kDtOtpCtrlClockClk] = kTopEarlgreyClockSrcIoDiv4,
+      [kDtOtpCtrlClockEdn] = kTopEarlgreyClockSrcMain,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdOtpCtrlOtpOperationDone,
+      kTopEarlgreyPlicIrqIdOtpCtrlOtpError,
+    },
   },
 };
 // Device tables for pattgen
@@ -559,22 +542,20 @@ _Static_assert(kDtPattgenClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtPattgenIrqTypeCount == 2, "IRQ count mismatch");
 _Static_assert(kDtPattgenCount == 1, "Number of pattgen modules mismatch");
 
-const dt_pattgen_t* const kDtPattgenList[kDtPattgenCount] = {
-  &kDtPattgen,
-};
-
-// Properties for pattgen
-const dt_pattgen_t kDtPattgen = {
-  .device = kDtDeviceIdPattgen,
-  .base_addrs = {
-    0x400E0000,
-  },
-  .clocks = {
-    [kDtPattgenClockClk] = kTopEarlgreyClockSrcIoDiv4,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdPattgenDoneCh0,
-    kTopEarlgreyPlicIrqIdPattgenDoneCh1,
+const dt_pattgen_t kDtPattgenList[kDtPattgenCount] = {
+  // Properties for pattgen
+  {
+    .device = kDtDeviceIdPattgen,
+    .base_addrs = {
+      0x400E0000,
+    },
+    .clocks = {
+      [kDtPattgenClockClk] = kTopEarlgreyClockSrcIoDiv4,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdPattgenDoneCh0,
+      kTopEarlgreyPlicIrqIdPattgenDoneCh1,
+    },
   },
 };
 // Device tables for pinmux
@@ -582,19 +563,17 @@ _Static_assert(kDtPinmuxRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtPinmuxClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtPinmuxCount == 1, "Number of pinmux modules mismatch");
 
-const dt_pinmux_t* const kDtPinmuxList[kDtPinmuxCount] = {
-  &kDtPinmuxAon,
-};
-
-// Properties for pinmux_aon
-const dt_pinmux_t kDtPinmuxAon = {
-  .device = kDtDeviceIdPinmuxAon,
-  .base_addrs = {
-    0x40460000,
-  },
-  .clocks = {
-    [kDtPinmuxClockClk] = kTopEarlgreyClockSrcIoDiv4,
-    [kDtPinmuxClockAon] = kTopEarlgreyClockSrcAon,
+const dt_pinmux_t kDtPinmuxList[kDtPinmuxCount] = {
+  // Properties for pinmux_aon
+  {
+    .device = kDtDeviceIdPinmuxAon,
+    .base_addrs = {
+      0x40460000,
+    },
+    .clocks = {
+      [kDtPinmuxClockClk] = kTopEarlgreyClockSrcIoDiv4,
+      [kDtPinmuxClockAon] = kTopEarlgreyClockSrcAon,
+    },
   },
 };
 // Device tables for pwm
@@ -602,19 +581,17 @@ _Static_assert(kDtPwmRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtPwmClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtPwmCount == 1, "Number of pwm modules mismatch");
 
-const dt_pwm_t* const kDtPwmList[kDtPwmCount] = {
-  &kDtPwmAon,
-};
-
-// Properties for pwm_aon
-const dt_pwm_t kDtPwmAon = {
-  .device = kDtDeviceIdPwmAon,
-  .base_addrs = {
-    0x40450000,
-  },
-  .clocks = {
-    [kDtPwmClockClk] = kTopEarlgreyClockSrcIoDiv4,
-    [kDtPwmClockCore] = kTopEarlgreyClockSrcAon,
+const dt_pwm_t kDtPwmList[kDtPwmCount] = {
+  // Properties for pwm_aon
+  {
+    .device = kDtDeviceIdPwmAon,
+    .base_addrs = {
+      0x40450000,
+    },
+    .clocks = {
+      [kDtPwmClockClk] = kTopEarlgreyClockSrcIoDiv4,
+      [kDtPwmClockCore] = kTopEarlgreyClockSrcAon,
+    },
   },
 };
 // Device tables for pwrmgr
@@ -623,24 +600,22 @@ _Static_assert(kDtPwrmgrClockCount == 4, "Clock count mismatch");
 _Static_assert(kDtPwrmgrIrqTypeCount == 1, "IRQ count mismatch");
 _Static_assert(kDtPwrmgrCount == 1, "Number of pwrmgr modules mismatch");
 
-const dt_pwrmgr_t* const kDtPwrmgrList[kDtPwrmgrCount] = {
-  &kDtPwrmgrAon,
-};
-
-// Properties for pwrmgr_aon
-const dt_pwrmgr_t kDtPwrmgrAon = {
-  .device = kDtDeviceIdPwrmgrAon,
-  .base_addrs = {
-    0x40400000,
-  },
-  .clocks = {
-    [kDtPwrmgrClockClk] = kTopEarlgreyClockSrcIoDiv4,
-    [kDtPwrmgrClockSlow] = kTopEarlgreyClockSrcAon,
-    [kDtPwrmgrClockLc] = kTopEarlgreyClockSrcIoDiv4,
-    [kDtPwrmgrClockEsc] = kTopEarlgreyClockSrcIoDiv4,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdPwrmgrAonWakeup,
+const dt_pwrmgr_t kDtPwrmgrList[kDtPwrmgrCount] = {
+  // Properties for pwrmgr_aon
+  {
+    .device = kDtDeviceIdPwrmgrAon,
+    .base_addrs = {
+      0x40400000,
+    },
+    .clocks = {
+      [kDtPwrmgrClockClk] = kTopEarlgreyClockSrcIoDiv4,
+      [kDtPwrmgrClockSlow] = kTopEarlgreyClockSrcAon,
+      [kDtPwrmgrClockLc] = kTopEarlgreyClockSrcIoDiv4,
+      [kDtPwrmgrClockEsc] = kTopEarlgreyClockSrcIoDiv4,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdPwrmgrAonWakeup,
+    },
   },
 };
 // Device tables for rom_ctrl
@@ -648,19 +623,17 @@ _Static_assert(kDtRomCtrlRegBlockCount == 2, "Reg block count mismatch");
 _Static_assert(kDtRomCtrlClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtRomCtrlCount == 1, "Number of rom_ctrl modules mismatch");
 
-const dt_rom_ctrl_t* const kDtRomCtrlList[kDtRomCtrlCount] = {
-  &kDtRomCtrl,
-};
-
-// Properties for rom_ctrl
-const dt_rom_ctrl_t kDtRomCtrl = {
-  .device = kDtDeviceIdRomCtrl,
-  .base_addrs = {
-    0x00008000,
-    0x411e0000,
-  },
-  .clocks = {
-    [kDtRomCtrlClockClk] = kTopEarlgreyClockSrcMain,
+const dt_rom_ctrl_t kDtRomCtrlList[kDtRomCtrlCount] = {
+  // Properties for rom_ctrl
+  {
+    .device = kDtDeviceIdRomCtrl,
+    .base_addrs = {
+      0x00008000,
+      0x411e0000,
+    },
+    .clocks = {
+      [kDtRomCtrlClockClk] = kTopEarlgreyClockSrcMain,
+    },
   },
 };
 // Device tables for rstmgr
@@ -668,25 +641,23 @@ _Static_assert(kDtRstmgrRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtRstmgrClockCount == 8, "Clock count mismatch");
 _Static_assert(kDtRstmgrCount == 1, "Number of rstmgr modules mismatch");
 
-const dt_rstmgr_t* const kDtRstmgrList[kDtRstmgrCount] = {
-  &kDtRstmgrAon,
-};
-
-// Properties for rstmgr_aon
-const dt_rstmgr_t kDtRstmgrAon = {
-  .device = kDtDeviceIdRstmgrAon,
-  .base_addrs = {
-    0x40410000,
-  },
-  .clocks = {
-    [kDtRstmgrClockClk] = kTopEarlgreyClockSrcIoDiv4,
-    [kDtRstmgrClockPor] = kTopEarlgreyClockSrcIoDiv4,
-    [kDtRstmgrClockAon] = kTopEarlgreyClockSrcAon,
-    [kDtRstmgrClockMain] = kTopEarlgreyClockSrcMain,
-    [kDtRstmgrClockIo] = kTopEarlgreyClockSrcIo,
-    [kDtRstmgrClockUsb] = kTopEarlgreyClockSrcUsb,
-    [kDtRstmgrClockIoDiv2] = kTopEarlgreyClockSrcIoDiv2,
-    [kDtRstmgrClockIoDiv4] = kTopEarlgreyClockSrcIoDiv4,
+const dt_rstmgr_t kDtRstmgrList[kDtRstmgrCount] = {
+  // Properties for rstmgr_aon
+  {
+    .device = kDtDeviceIdRstmgrAon,
+    .base_addrs = {
+      0x40410000,
+    },
+    .clocks = {
+      [kDtRstmgrClockClk] = kTopEarlgreyClockSrcIoDiv4,
+      [kDtRstmgrClockPor] = kTopEarlgreyClockSrcIoDiv4,
+      [kDtRstmgrClockAon] = kTopEarlgreyClockSrcAon,
+      [kDtRstmgrClockMain] = kTopEarlgreyClockSrcMain,
+      [kDtRstmgrClockIo] = kTopEarlgreyClockSrcIo,
+      [kDtRstmgrClockUsb] = kTopEarlgreyClockSrcUsb,
+      [kDtRstmgrClockIoDiv2] = kTopEarlgreyClockSrcIoDiv2,
+      [kDtRstmgrClockIoDiv4] = kTopEarlgreyClockSrcIoDiv4,
+    },
   },
 };
 // Device tables for rv_core_ibex
@@ -694,21 +665,19 @@ _Static_assert(kDtRvCoreIbexRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtRvCoreIbexClockCount == 4, "Clock count mismatch");
 _Static_assert(kDtRvCoreIbexCount == 1, "Number of rv_core_ibex modules mismatch");
 
-const dt_rv_core_ibex_t* const kDtRvCoreIbexList[kDtRvCoreIbexCount] = {
-  &kDtRvCoreIbex,
-};
-
-// Properties for rv_core_ibex
-const dt_rv_core_ibex_t kDtRvCoreIbex = {
-  .device = kDtDeviceIdRvCoreIbex,
-  .base_addrs = {
-    0x411F0000,
-  },
-  .clocks = {
-    [kDtRvCoreIbexClockClk] = kTopEarlgreyClockSrcMain,
-    [kDtRvCoreIbexClockEdn] = kTopEarlgreyClockSrcMain,
-    [kDtRvCoreIbexClockEsc] = kTopEarlgreyClockSrcIoDiv4,
-    [kDtRvCoreIbexClockOtp] = kTopEarlgreyClockSrcIoDiv4,
+const dt_rv_core_ibex_t kDtRvCoreIbexList[kDtRvCoreIbexCount] = {
+  // Properties for rv_core_ibex
+  {
+    .device = kDtDeviceIdRvCoreIbex,
+    .base_addrs = {
+      0x411F0000,
+    },
+    .clocks = {
+      [kDtRvCoreIbexClockClk] = kTopEarlgreyClockSrcMain,
+      [kDtRvCoreIbexClockEdn] = kTopEarlgreyClockSrcMain,
+      [kDtRvCoreIbexClockEsc] = kTopEarlgreyClockSrcIoDiv4,
+      [kDtRvCoreIbexClockOtp] = kTopEarlgreyClockSrcIoDiv4,
+    },
   },
 };
 // Device tables for rv_dm
@@ -716,20 +685,18 @@ _Static_assert(kDtRvDmRegBlockCount == 2, "Reg block count mismatch");
 _Static_assert(kDtRvDmClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtRvDmCount == 1, "Number of rv_dm modules mismatch");
 
-const dt_rv_dm_t* const kDtRvDmList[kDtRvDmCount] = {
-  &kDtRvDm,
-};
-
-// Properties for rv_dm
-const dt_rv_dm_t kDtRvDm = {
-  .device = kDtDeviceIdRvDm,
-  .base_addrs = {
-    0x00010000,
-    0x41200000,
-  },
-  .clocks = {
-    [kDtRvDmClockClk] = kTopEarlgreyClockSrcMain,
-    [kDtRvDmClockLc] = kTopEarlgreyClockSrcMain,
+const dt_rv_dm_t kDtRvDmList[kDtRvDmCount] = {
+  // Properties for rv_dm
+  {
+    .device = kDtDeviceIdRvDm,
+    .base_addrs = {
+      0x00010000,
+      0x41200000,
+    },
+    .clocks = {
+      [kDtRvDmClockClk] = kTopEarlgreyClockSrcMain,
+      [kDtRvDmClockLc] = kTopEarlgreyClockSrcMain,
+    },
   },
 };
 // Device tables for rv_plic
@@ -737,18 +704,16 @@ _Static_assert(kDtRvPlicRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtRvPlicClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtRvPlicCount == 1, "Number of rv_plic modules mismatch");
 
-const dt_rv_plic_t* const kDtRvPlicList[kDtRvPlicCount] = {
-  &kDtRvPlic,
-};
-
-// Properties for rv_plic
-const dt_rv_plic_t kDtRvPlic = {
-  .device = kDtDeviceIdRvPlic,
-  .base_addrs = {
-    0x48000000,
-  },
-  .clocks = {
-    [kDtRvPlicClockClk] = kTopEarlgreyClockSrcMain,
+const dt_rv_plic_t kDtRvPlicList[kDtRvPlicCount] = {
+  // Properties for rv_plic
+  {
+    .device = kDtDeviceIdRvPlic,
+    .base_addrs = {
+      0x48000000,
+    },
+    .clocks = {
+      [kDtRvPlicClockClk] = kTopEarlgreyClockSrcMain,
+    },
   },
 };
 // Device tables for rv_timer
@@ -757,53 +722,70 @@ _Static_assert(kDtRvTimerClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtRvTimerIrqTypeCount == 1, "IRQ count mismatch");
 _Static_assert(kDtRvTimerCount == 1, "Number of rv_timer modules mismatch");
 
-const dt_rv_timer_t* const kDtRvTimerList[kDtRvTimerCount] = {
-  &kDtRvTimer,
-};
-
-// Properties for rv_timer
-const dt_rv_timer_t kDtRvTimer = {
-  .device = kDtDeviceIdRvTimer,
-  .base_addrs = {
-    0x40100000,
-  },
-  .clocks = {
-    [kDtRvTimerClockClk] = kTopEarlgreyClockSrcIoDiv4,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdRvTimerTimerExpiredHart0Timer0,
+const dt_rv_timer_t kDtRvTimerList[kDtRvTimerCount] = {
+  // Properties for rv_timer
+  {
+    .device = kDtDeviceIdRvTimer,
+    .base_addrs = {
+      0x40100000,
+    },
+    .clocks = {
+      [kDtRvTimerClockClk] = kTopEarlgreyClockSrcIoDiv4,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdRvTimerTimerExpiredHart0Timer0,
+    },
   },
 };
 // Device tables for sensor_ctrl
-// TODO: Handle tables for top_reggen types
+_Static_assert(kDtSensorCtrlRegBlockCount == 1, "Reg block count mismatch");
+_Static_assert(kDtSensorCtrlClockCount == 2, "Clock count mismatch");
+_Static_assert(kDtSensorCtrlIrqTypeCount == 2, "IRQ count mismatch");
+_Static_assert(kDtSensorCtrlCount == 1, "Number of sensor_ctrl modules mismatch");
+
+const dt_sensor_ctrl_t kDtSensorCtrlList[kDtSensorCtrlCount] = {
+  // Properties for sensor_ctrl_aon
+  {
+    .device = kDtDeviceIdSensorCtrlAon,
+    .base_addrs = {
+      0x40490000,
+    },
+    .clocks = {
+      [kDtSensorCtrlClockClk] = kTopEarlgreyClockSrcIoDiv4,
+      [kDtSensorCtrlClockAon] = kTopEarlgreyClockSrcAon,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdSensorCtrlAonIoStatusChange,
+      kTopEarlgreyPlicIrqIdSensorCtrlAonInitStatusChange,
+    },
+  },
+};
 // Device tables for spi_device
 _Static_assert(kDtSpiDeviceRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtSpiDeviceClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtSpiDeviceIrqTypeCount == 8, "IRQ count mismatch");
 _Static_assert(kDtSpiDeviceCount == 1, "Number of spi_device modules mismatch");
 
-const dt_spi_device_t* const kDtSpiDeviceList[kDtSpiDeviceCount] = {
-  &kDtSpiDevice,
-};
-
-// Properties for spi_device
-const dt_spi_device_t kDtSpiDevice = {
-  .device = kDtDeviceIdSpiDevice,
-  .base_addrs = {
-    0x40050000,
-  },
-  .clocks = {
-    [kDtSpiDeviceClockClk] = kTopEarlgreyClockSrcIoDiv4,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdSpiDeviceUploadCmdfifoNotEmpty,
-    kTopEarlgreyPlicIrqIdSpiDeviceUploadPayloadNotEmpty,
-    kTopEarlgreyPlicIrqIdSpiDeviceUploadPayloadOverflow,
-    kTopEarlgreyPlicIrqIdSpiDeviceReadbufWatermark,
-    kTopEarlgreyPlicIrqIdSpiDeviceReadbufFlip,
-    kTopEarlgreyPlicIrqIdSpiDeviceTpmHeaderNotEmpty,
-    kTopEarlgreyPlicIrqIdSpiDeviceTpmRdfifoCmdEnd,
-    kTopEarlgreyPlicIrqIdSpiDeviceTpmRdfifoDrop,
+const dt_spi_device_t kDtSpiDeviceList[kDtSpiDeviceCount] = {
+  // Properties for spi_device
+  {
+    .device = kDtDeviceIdSpiDevice,
+    .base_addrs = {
+      0x40050000,
+    },
+    .clocks = {
+      [kDtSpiDeviceClockClk] = kTopEarlgreyClockSrcIoDiv4,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdSpiDeviceUploadCmdfifoNotEmpty,
+      kTopEarlgreyPlicIrqIdSpiDeviceUploadPayloadNotEmpty,
+      kTopEarlgreyPlicIrqIdSpiDeviceUploadPayloadOverflow,
+      kTopEarlgreyPlicIrqIdSpiDeviceReadbufWatermark,
+      kTopEarlgreyPlicIrqIdSpiDeviceReadbufFlip,
+      kTopEarlgreyPlicIrqIdSpiDeviceTpmHeaderNotEmpty,
+      kTopEarlgreyPlicIrqIdSpiDeviceTpmRdfifoCmdEnd,
+      kTopEarlgreyPlicIrqIdSpiDeviceTpmRdfifoDrop,
+    },
   },
 };
 // Device tables for spi_host
@@ -812,37 +794,34 @@ _Static_assert(kDtSpiHostClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtSpiHostIrqTypeCount == 2, "IRQ count mismatch");
 _Static_assert(kDtSpiHostCount == 2, "Number of spi_host modules mismatch");
 
-const dt_spi_host_t* const kDtSpiHostList[kDtSpiHostCount] = {
-  &kDtSpiHost0,
-  &kDtSpiHost1,
-};
-
-// Properties for spi_host0
-const dt_spi_host_t kDtSpiHost0 = {
-  .device = kDtDeviceIdSpiHost0,
-  .base_addrs = {
-    0x40300000,
+const dt_spi_host_t kDtSpiHostList[kDtSpiHostCount] = {
+  // Properties for spi_host0
+  {
+    .device = kDtDeviceIdSpiHost0,
+    .base_addrs = {
+      0x40300000,
+    },
+    .clocks = {
+      [kDtSpiHostClockClk] = kTopEarlgreyClockSrcIo,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdSpiHost0Error,
+      kTopEarlgreyPlicIrqIdSpiHost0SpiEvent,
+    },
   },
-  .clocks = {
-    [kDtSpiHostClockClk] = kTopEarlgreyClockSrcIo,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdSpiHost0Error,
-    kTopEarlgreyPlicIrqIdSpiHost0SpiEvent,
-  },
-};
-// Properties for spi_host1
-const dt_spi_host_t kDtSpiHost1 = {
-  .device = kDtDeviceIdSpiHost1,
-  .base_addrs = {
-    0x40310000,
-  },
-  .clocks = {
-    [kDtSpiHostClockClk] = kTopEarlgreyClockSrcIoDiv2,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdSpiHost1Error,
-    kTopEarlgreyPlicIrqIdSpiHost1SpiEvent,
+  // Properties for spi_host1
+  {
+    .device = kDtDeviceIdSpiHost1,
+    .base_addrs = {
+      0x40310000,
+    },
+    .clocks = {
+      [kDtSpiHostClockClk] = kTopEarlgreyClockSrcIoDiv2,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdSpiHost1Error,
+      kTopEarlgreyPlicIrqIdSpiHost1SpiEvent,
+    },
   },
 };
 // Device tables for sram_ctrl
@@ -850,33 +829,30 @@ _Static_assert(kDtSramCtrlRegBlockCount == 2, "Reg block count mismatch");
 _Static_assert(kDtSramCtrlClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtSramCtrlCount == 2, "Number of sram_ctrl modules mismatch");
 
-const dt_sram_ctrl_t* const kDtSramCtrlList[kDtSramCtrlCount] = {
-  &kDtSramCtrlRetAon,
-  &kDtSramCtrlMain,
-};
-
-// Properties for sram_ctrl_ret_aon
-const dt_sram_ctrl_t kDtSramCtrlRetAon = {
-  .device = kDtDeviceIdSramCtrlRetAon,
-  .base_addrs = {
-    0x40500000,
-    0x40600000,
+const dt_sram_ctrl_t kDtSramCtrlList[kDtSramCtrlCount] = {
+  // Properties for sram_ctrl_ret_aon
+  {
+    .device = kDtDeviceIdSramCtrlRetAon,
+    .base_addrs = {
+      0x40500000,
+      0x40600000,
+    },
+    .clocks = {
+      [kDtSramCtrlClockClk] = kTopEarlgreyClockSrcIoDiv4,
+      [kDtSramCtrlClockOtp] = kTopEarlgreyClockSrcIoDiv4,
+    },
   },
-  .clocks = {
-    [kDtSramCtrlClockClk] = kTopEarlgreyClockSrcIoDiv4,
-    [kDtSramCtrlClockOtp] = kTopEarlgreyClockSrcIoDiv4,
-  },
-};
-// Properties for sram_ctrl_main
-const dt_sram_ctrl_t kDtSramCtrlMain = {
-  .device = kDtDeviceIdSramCtrlMain,
-  .base_addrs = {
-    0x411C0000,
-    0x10000000,
-  },
-  .clocks = {
-    [kDtSramCtrlClockClk] = kTopEarlgreyClockSrcMain,
-    [kDtSramCtrlClockOtp] = kTopEarlgreyClockSrcIoDiv4,
+  // Properties for sram_ctrl_main
+  {
+    .device = kDtDeviceIdSramCtrlMain,
+    .base_addrs = {
+      0x411C0000,
+      0x10000000,
+    },
+    .clocks = {
+      [kDtSramCtrlClockClk] = kTopEarlgreyClockSrcMain,
+      [kDtSramCtrlClockOtp] = kTopEarlgreyClockSrcIoDiv4,
+    },
   },
 };
 // Device tables for sysrst_ctrl
@@ -885,22 +861,20 @@ _Static_assert(kDtSysrstCtrlClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtSysrstCtrlIrqTypeCount == 1, "IRQ count mismatch");
 _Static_assert(kDtSysrstCtrlCount == 1, "Number of sysrst_ctrl modules mismatch");
 
-const dt_sysrst_ctrl_t* const kDtSysrstCtrlList[kDtSysrstCtrlCount] = {
-  &kDtSysrstCtrlAon,
-};
-
-// Properties for sysrst_ctrl_aon
-const dt_sysrst_ctrl_t kDtSysrstCtrlAon = {
-  .device = kDtDeviceIdSysrstCtrlAon,
-  .base_addrs = {
-    0x40430000,
-  },
-  .clocks = {
-    [kDtSysrstCtrlClockClk] = kTopEarlgreyClockSrcIoDiv4,
-    [kDtSysrstCtrlClockAon] = kTopEarlgreyClockSrcAon,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdSysrstCtrlAonEventDetected,
+const dt_sysrst_ctrl_t kDtSysrstCtrlList[kDtSysrstCtrlCount] = {
+  // Properties for sysrst_ctrl_aon
+  {
+    .device = kDtDeviceIdSysrstCtrlAon,
+    .base_addrs = {
+      0x40430000,
+    },
+    .clocks = {
+      [kDtSysrstCtrlClockClk] = kTopEarlgreyClockSrcIoDiv4,
+      [kDtSysrstCtrlClockAon] = kTopEarlgreyClockSrcAon,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdSysrstCtrlAonEventDetected,
+    },
   },
 };
 // Device tables for uart
@@ -909,95 +883,90 @@ _Static_assert(kDtUartClockCount == 1, "Clock count mismatch");
 _Static_assert(kDtUartIrqTypeCount == 9, "IRQ count mismatch");
 _Static_assert(kDtUartCount == 4, "Number of uart modules mismatch");
 
-const dt_uart_t* const kDtUartList[kDtUartCount] = {
-  &kDtUart0,
-  &kDtUart1,
-  &kDtUart2,
-  &kDtUart3,
-};
-
-// Properties for uart0
-const dt_uart_t kDtUart0 = {
-  .device = kDtDeviceIdUart0,
-  .base_addrs = {
-    0x40000000,
+const dt_uart_t kDtUartList[kDtUartCount] = {
+  // Properties for uart0
+  {
+    .device = kDtDeviceIdUart0,
+    .base_addrs = {
+      0x40000000,
+    },
+    .clocks = {
+      [kDtUartClockClk] = kTopEarlgreyClockSrcIoDiv4,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdUart0TxWatermark,
+      kTopEarlgreyPlicIrqIdUart0RxWatermark,
+      kTopEarlgreyPlicIrqIdUart0TxDone,
+      kTopEarlgreyPlicIrqIdUart0RxOverflow,
+      kTopEarlgreyPlicIrqIdUart0RxFrameErr,
+      kTopEarlgreyPlicIrqIdUart0RxBreakErr,
+      kTopEarlgreyPlicIrqIdUart0RxTimeout,
+      kTopEarlgreyPlicIrqIdUart0RxParityErr,
+      kTopEarlgreyPlicIrqIdUart0TxEmpty,
+    },
   },
-  .clocks = {
-    [kDtUartClockClk] = kTopEarlgreyClockSrcIoDiv4,
+  // Properties for uart1
+  {
+    .device = kDtDeviceIdUart1,
+    .base_addrs = {
+      0x40010000,
+    },
+    .clocks = {
+      [kDtUartClockClk] = kTopEarlgreyClockSrcIoDiv4,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdUart1TxWatermark,
+      kTopEarlgreyPlicIrqIdUart1RxWatermark,
+      kTopEarlgreyPlicIrqIdUart1TxDone,
+      kTopEarlgreyPlicIrqIdUart1RxOverflow,
+      kTopEarlgreyPlicIrqIdUart1RxFrameErr,
+      kTopEarlgreyPlicIrqIdUart1RxBreakErr,
+      kTopEarlgreyPlicIrqIdUart1RxTimeout,
+      kTopEarlgreyPlicIrqIdUart1RxParityErr,
+      kTopEarlgreyPlicIrqIdUart1TxEmpty,
+    },
   },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdUart0TxWatermark,
-    kTopEarlgreyPlicIrqIdUart0RxWatermark,
-    kTopEarlgreyPlicIrqIdUart0TxDone,
-    kTopEarlgreyPlicIrqIdUart0RxOverflow,
-    kTopEarlgreyPlicIrqIdUart0RxFrameErr,
-    kTopEarlgreyPlicIrqIdUart0RxBreakErr,
-    kTopEarlgreyPlicIrqIdUart0RxTimeout,
-    kTopEarlgreyPlicIrqIdUart0RxParityErr,
-    kTopEarlgreyPlicIrqIdUart0TxEmpty,
+  // Properties for uart2
+  {
+    .device = kDtDeviceIdUart2,
+    .base_addrs = {
+      0x40020000,
+    },
+    .clocks = {
+      [kDtUartClockClk] = kTopEarlgreyClockSrcIoDiv4,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdUart2TxWatermark,
+      kTopEarlgreyPlicIrqIdUart2RxWatermark,
+      kTopEarlgreyPlicIrqIdUart2TxDone,
+      kTopEarlgreyPlicIrqIdUart2RxOverflow,
+      kTopEarlgreyPlicIrqIdUart2RxFrameErr,
+      kTopEarlgreyPlicIrqIdUart2RxBreakErr,
+      kTopEarlgreyPlicIrqIdUart2RxTimeout,
+      kTopEarlgreyPlicIrqIdUart2RxParityErr,
+      kTopEarlgreyPlicIrqIdUart2TxEmpty,
+    },
   },
-};
-// Properties for uart1
-const dt_uart_t kDtUart1 = {
-  .device = kDtDeviceIdUart1,
-  .base_addrs = {
-    0x40010000,
-  },
-  .clocks = {
-    [kDtUartClockClk] = kTopEarlgreyClockSrcIoDiv4,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdUart1TxWatermark,
-    kTopEarlgreyPlicIrqIdUart1RxWatermark,
-    kTopEarlgreyPlicIrqIdUart1TxDone,
-    kTopEarlgreyPlicIrqIdUart1RxOverflow,
-    kTopEarlgreyPlicIrqIdUart1RxFrameErr,
-    kTopEarlgreyPlicIrqIdUart1RxBreakErr,
-    kTopEarlgreyPlicIrqIdUart1RxTimeout,
-    kTopEarlgreyPlicIrqIdUart1RxParityErr,
-    kTopEarlgreyPlicIrqIdUart1TxEmpty,
-  },
-};
-// Properties for uart2
-const dt_uart_t kDtUart2 = {
-  .device = kDtDeviceIdUart2,
-  .base_addrs = {
-    0x40020000,
-  },
-  .clocks = {
-    [kDtUartClockClk] = kTopEarlgreyClockSrcIoDiv4,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdUart2TxWatermark,
-    kTopEarlgreyPlicIrqIdUart2RxWatermark,
-    kTopEarlgreyPlicIrqIdUart2TxDone,
-    kTopEarlgreyPlicIrqIdUart2RxOverflow,
-    kTopEarlgreyPlicIrqIdUart2RxFrameErr,
-    kTopEarlgreyPlicIrqIdUart2RxBreakErr,
-    kTopEarlgreyPlicIrqIdUart2RxTimeout,
-    kTopEarlgreyPlicIrqIdUart2RxParityErr,
-    kTopEarlgreyPlicIrqIdUart2TxEmpty,
-  },
-};
-// Properties for uart3
-const dt_uart_t kDtUart3 = {
-  .device = kDtDeviceIdUart3,
-  .base_addrs = {
-    0x40030000,
-  },
-  .clocks = {
-    [kDtUartClockClk] = kTopEarlgreyClockSrcIoDiv4,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdUart3TxWatermark,
-    kTopEarlgreyPlicIrqIdUart3RxWatermark,
-    kTopEarlgreyPlicIrqIdUart3TxDone,
-    kTopEarlgreyPlicIrqIdUart3RxOverflow,
-    kTopEarlgreyPlicIrqIdUart3RxFrameErr,
-    kTopEarlgreyPlicIrqIdUart3RxBreakErr,
-    kTopEarlgreyPlicIrqIdUart3RxTimeout,
-    kTopEarlgreyPlicIrqIdUart3RxParityErr,
-    kTopEarlgreyPlicIrqIdUart3TxEmpty,
+  // Properties for uart3
+  {
+    .device = kDtDeviceIdUart3,
+    .base_addrs = {
+      0x40030000,
+    },
+    .clocks = {
+      [kDtUartClockClk] = kTopEarlgreyClockSrcIoDiv4,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdUart3TxWatermark,
+      kTopEarlgreyPlicIrqIdUart3RxWatermark,
+      kTopEarlgreyPlicIrqIdUart3TxDone,
+      kTopEarlgreyPlicIrqIdUart3RxOverflow,
+      kTopEarlgreyPlicIrqIdUart3RxFrameErr,
+      kTopEarlgreyPlicIrqIdUart3RxBreakErr,
+      kTopEarlgreyPlicIrqIdUart3RxTimeout,
+      kTopEarlgreyPlicIrqIdUart3RxParityErr,
+      kTopEarlgreyPlicIrqIdUart3TxEmpty,
+    },
   },
 };
 // Device tables for usbdev
@@ -1006,39 +975,37 @@ _Static_assert(kDtUsbdevClockCount == 2, "Clock count mismatch");
 _Static_assert(kDtUsbdevIrqTypeCount == 18, "IRQ count mismatch");
 _Static_assert(kDtUsbdevCount == 1, "Number of usbdev modules mismatch");
 
-const dt_usbdev_t* const kDtUsbdevList[kDtUsbdevCount] = {
-  &kDtUsbdev,
-};
-
-// Properties for usbdev
-const dt_usbdev_t kDtUsbdev = {
-  .device = kDtDeviceIdUsbdev,
-  .base_addrs = {
-    0x40320000,
-  },
-  .clocks = {
-    [kDtUsbdevClockClk] = kTopEarlgreyClockSrcUsb,
-    [kDtUsbdevClockAon] = kTopEarlgreyClockSrcAon,
-  },
-  .irqs = {
-    kTopEarlgreyPlicIrqIdUsbdevPktReceived,
-    kTopEarlgreyPlicIrqIdUsbdevPktSent,
-    kTopEarlgreyPlicIrqIdUsbdevDisconnected,
-    kTopEarlgreyPlicIrqIdUsbdevHostLost,
-    kTopEarlgreyPlicIrqIdUsbdevLinkReset,
-    kTopEarlgreyPlicIrqIdUsbdevLinkSuspend,
-    kTopEarlgreyPlicIrqIdUsbdevLinkResume,
-    kTopEarlgreyPlicIrqIdUsbdevAvOutEmpty,
-    kTopEarlgreyPlicIrqIdUsbdevRxFull,
-    kTopEarlgreyPlicIrqIdUsbdevAvOverflow,
-    kTopEarlgreyPlicIrqIdUsbdevLinkInErr,
-    kTopEarlgreyPlicIrqIdUsbdevRxCrcErr,
-    kTopEarlgreyPlicIrqIdUsbdevRxPidErr,
-    kTopEarlgreyPlicIrqIdUsbdevRxBitstuffErr,
-    kTopEarlgreyPlicIrqIdUsbdevFrame,
-    kTopEarlgreyPlicIrqIdUsbdevPowered,
-    kTopEarlgreyPlicIrqIdUsbdevLinkOutErr,
-    kTopEarlgreyPlicIrqIdUsbdevAvSetupEmpty,
+const dt_usbdev_t kDtUsbdevList[kDtUsbdevCount] = {
+  // Properties for usbdev
+  {
+    .device = kDtDeviceIdUsbdev,
+    .base_addrs = {
+      0x40320000,
+    },
+    .clocks = {
+      [kDtUsbdevClockClk] = kTopEarlgreyClockSrcUsb,
+      [kDtUsbdevClockAon] = kTopEarlgreyClockSrcAon,
+    },
+    .irqs = {
+      kTopEarlgreyPlicIrqIdUsbdevPktReceived,
+      kTopEarlgreyPlicIrqIdUsbdevPktSent,
+      kTopEarlgreyPlicIrqIdUsbdevDisconnected,
+      kTopEarlgreyPlicIrqIdUsbdevHostLost,
+      kTopEarlgreyPlicIrqIdUsbdevLinkReset,
+      kTopEarlgreyPlicIrqIdUsbdevLinkSuspend,
+      kTopEarlgreyPlicIrqIdUsbdevLinkResume,
+      kTopEarlgreyPlicIrqIdUsbdevAvOutEmpty,
+      kTopEarlgreyPlicIrqIdUsbdevRxFull,
+      kTopEarlgreyPlicIrqIdUsbdevAvOverflow,
+      kTopEarlgreyPlicIrqIdUsbdevLinkInErr,
+      kTopEarlgreyPlicIrqIdUsbdevRxCrcErr,
+      kTopEarlgreyPlicIrqIdUsbdevRxPidErr,
+      kTopEarlgreyPlicIrqIdUsbdevRxBitstuffErr,
+      kTopEarlgreyPlicIrqIdUsbdevFrame,
+      kTopEarlgreyPlicIrqIdUsbdevPowered,
+      kTopEarlgreyPlicIrqIdUsbdevLinkOutErr,
+      kTopEarlgreyPlicIrqIdUsbdevAvSetupEmpty,
+    },
   },
 };
 
