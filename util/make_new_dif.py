@@ -118,10 +118,9 @@ def main():
             ip_name_snake = Path(autogen_src_filename).stem[4:-8]
             # NOTE: ip.name_long_* not needed for auto-generated files which
             # are the only files (re-)generated in regen mode.
-            if args.regen_ip != [] and ip_name_snake in args.regen_ip:
-                ips.append(
-                    Ip(ip_name_snake, "AUTOGEN", templated_modules, ipgen_modules,
-                    reggen_top_modules))
+            ips.append(
+                Ip(ip_name_snake, "AUTOGEN", templated_modules, ipgen_modules,
+                reggen_top_modules))
     else:
         assert args.ip_name_snake and args.ip_name_long, \
             "ERROR: pass --ip-name-snake and --ip-name-long when --mode=new."
@@ -141,6 +140,9 @@ def main():
     # Render DIF templates.
     template_path = REPO_TOP / "util/make_new_dif/templates"
     for ip in ips:
+        if args.regen_ip != [] and ip.name_snake not in args.regen_ip:
+            continue
+
         if "header" in args.only:
             header_template_file = template_path / "dif_template.h.tpl"
             header_out_file = dif_dir / "dif_{}.h".format(ip.name_snake)
