@@ -39,4 +39,24 @@ typedef struct dt_adc_ctrl {
   dt_clock_t clocks[kDtAdcCtrlClockCount];
 } dt_adc_ctrl_t;
 
+/**
+ * Convert a global IRQ ID to a local adc_ctrl IRQ type.
+ *
+ * @param dt Pointer to an instance of adc_ctrl.
+ * @param irq A global IRQ ID.
+ * @return The local adc_ctrl IRQ type of this irq.
+ *
+ * IMPORTANT This function assumes that the global IRQ belongs to the instance
+ * of adc_ctrl passed in parameter. In other words, it must the case that
+ * `dt->device == dt_irq_to_device(irq)`
+ *
+ * FIXME How should we handle errors (when the invariant above is violated)?
+ */
+static inline dt_adc_ctrl_irq_type_t dt_adc_ctrl_irq_type(
+    const dt_adc_ctrl_t *dt, dt_irq_t irq) {
+  // FIXME Should check that irq >= dt->irqs[0] and irq < dt->irqs[0] +
+  // kDtAdcCtrlIrqTypeCount
+  return irq - dt->irqs[0];
+}
+
 #endif  // OPENTITAN_SW_DEVICE_LIB_DEVICETABLES_DT_ADC_CTRL_H_

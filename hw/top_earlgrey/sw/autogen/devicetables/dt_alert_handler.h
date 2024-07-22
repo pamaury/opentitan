@@ -41,4 +41,24 @@ typedef struct dt_alert_handler {
   dt_clock_t clocks[kDtAlertHandlerClockCount];
 } dt_alert_handler_t;
 
+/**
+ * Convert a global IRQ ID to a local alert_handler IRQ type.
+ *
+ * @param dt Pointer to an instance of alert_handler.
+ * @param irq A global IRQ ID.
+ * @return The local alert_handler IRQ type of this irq.
+ *
+ * IMPORTANT This function assumes that the global IRQ belongs to the instance
+ * of alert_handler passed in parameter. In other words, it must the case that
+ * `dt->device == dt_irq_to_device(irq)`
+ *
+ * FIXME How should we handle errors (when the invariant above is violated)?
+ */
+static inline dt_alert_handler_irq_type_t dt_alert_handler_irq_type(
+    dt_alert_handler_t *dt,
+    dt_irq_t irq) {
+  // FIXME Should check that irq >= dt->irqs[0] and irq < dt->irqs[0] + kDtAlertHandlerIrqTypeCount
+  return irq - dt->irqs[0];
+}
+
 #endif  // OPENTITAN_HW_TOP_EARLGREY_SW_AUTOGEN_DEVICETABLES_DT_ALERT_HANDLER_H_

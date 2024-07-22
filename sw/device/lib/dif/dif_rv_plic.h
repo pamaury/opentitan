@@ -24,6 +24,8 @@
 #include "sw/device/lib/base/mmio.h"
 #include "sw/device/lib/dif/dif_base.h"
 
+#include "sw/device/lib/devicetables/dt.h"
+
 #include "sw/device/lib/dif/autogen/dif_rv_plic_autogen.h"
 
 #ifdef __cplusplus
@@ -51,7 +53,7 @@ extern const uint32_t kDifRvPlicMaxPriority;
  *
  * The value 0 corresponds to "No Interrupt".
  */
-typedef uint32_t dif_rv_plic_irq_id_t;
+typedef dt_irq_t dif_rv_plic_irq_id_t;
 
 /**
  * A PLIC interrupt target.

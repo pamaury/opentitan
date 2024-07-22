@@ -41,4 +41,24 @@ typedef struct dt_entropy_src {
   dt_clock_t clocks[kDtEntropySrcClockCount];
 } dt_entropy_src_t;
 
+/**
+ * Convert a global IRQ ID to a local entropy_src IRQ type.
+ *
+ * @param dt Pointer to an instance of entropy_src.
+ * @param irq A global IRQ ID.
+ * @return The local entropy_src IRQ type of this irq.
+ *
+ * IMPORTANT This function assumes that the global IRQ belongs to the instance
+ * of entropy_src passed in parameter. In other words, it must the case that
+ * `dt->device == dt_irq_to_device(irq)`
+ *
+ * FIXME How should we handle errors (when the invariant above is violated)?
+ */
+static inline dt_entropy_src_irq_type_t dt_entropy_src_irq_type(
+    const dt_entropy_src_t *dt, dt_irq_t irq) {
+  // FIXME Should check that irq >= dt->irqs[0] and irq < dt->irqs[0] +
+  // kDtEntropySrcIrqTypeCount
+  return irq - dt->irqs[0];
+}
+
 #endif  // OPENTITAN_SW_DEVICE_LIB_DEVICETABLES_DT_ENTROPY_SRC_H_

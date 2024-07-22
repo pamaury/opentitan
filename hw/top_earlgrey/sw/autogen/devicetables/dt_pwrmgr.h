@@ -40,4 +40,24 @@ typedef struct dt_pwrmgr {
   dt_clock_t clocks[kDtPwrmgrClockCount];
 } dt_pwrmgr_t;
 
+/**
+ * Convert a global IRQ ID to a local pwrmgr IRQ type.
+ *
+ * @param dt Pointer to an instance of pwrmgr.
+ * @param irq A global IRQ ID.
+ * @return The local pwrmgr IRQ type of this irq.
+ *
+ * IMPORTANT This function assumes that the global IRQ belongs to the instance
+ * of pwrmgr passed in parameter. In other words, it must the case that
+ * `dt->device == dt_irq_to_device(irq)`
+ *
+ * FIXME How should we handle errors (when the invariant above is violated)?
+ */
+static inline dt_pwrmgr_irq_type_t dt_pwrmgr_irq_type(
+    dt_pwrmgr_t *dt,
+    dt_irq_t irq) {
+  // FIXME Should check that irq >= dt->irqs[0] and irq < dt->irqs[0] + kDtPwrmgrIrqTypeCount
+  return irq - dt->irqs[0];
+}
+
 #endif  // OPENTITAN_HW_TOP_EARLGREY_SW_AUTOGEN_DEVICETABLES_DT_PWRMGR_H_

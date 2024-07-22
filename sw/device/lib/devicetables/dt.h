@@ -9,9 +9,14 @@
 #include <stdint.h>
 
 // An ID representing a particular device, with `kDtDeviceUnknown` reserved for "unknown."
+// This ID is opaque and top-specific.
 typedef uint32_t dt_device_t;
 // An ID representing a clock, with `kDtClockUnknown` reserved for "unknown."
+// This ID is opaque and top-specific.
 typedef uint32_t dt_clock_t;
+// An ID representing an IRQ, with `kDtIrqUnknown` reserved for "unknown."
+// This ID is opaque and top-specific.
+typedef uint32_t dt_irq_t;
 
 enum {
   kDtDeviceUnknown = 0,
@@ -22,16 +27,7 @@ enum {
 /**
  * Get the requesting device corresponding to the given global IRQ ID.
  */
-extern dt_device_t dt_irq_to_device(uint32_t irq);
-
-/**
- * Convert a global IRQ ID to a device-specific IRQ type that can be casted
- * to a `dt_<block>_irq_type_t`.
- *
- * For example, `kTopEarlgreyPlicIrqIdUart0TxWatermark` will be converted to
- * `kDtUartIrqTypeTxWatermark` that can be casted to a `dt_uart_irq_type_t`.
- */
-extern uint32_t dt_irq_to_device_irq(uint32_t irq);
+extern dt_device_t dt_irq_to_device(dt_irq_t irq);
 
 /**
  * Returns the clock frequency of the specified clock in Hz.

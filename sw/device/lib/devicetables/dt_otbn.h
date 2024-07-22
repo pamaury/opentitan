@@ -40,4 +40,24 @@ typedef struct dt_otbn {
   dt_clock_t clocks[kDtOtbnClockCount];
 } dt_otbn_t;
 
+/**
+ * Convert a global IRQ ID to a local otbn IRQ type.
+ *
+ * @param dt Pointer to an instance of otbn.
+ * @param irq A global IRQ ID.
+ * @return The local otbn IRQ type of this irq.
+ *
+ * IMPORTANT This function assumes that the global IRQ belongs to the instance
+ * of otbn passed in parameter. In other words, it must the case that
+ * `dt->device == dt_irq_to_device(irq)`
+ *
+ * FIXME How should we handle errors (when the invariant above is violated)?
+ */
+static inline dt_otbn_irq_type_t dt_otbn_irq_type(const dt_otbn_t *dt,
+                                                  dt_irq_t irq) {
+  // FIXME Should check that irq >= dt->irqs[0] and irq < dt->irqs[0] +
+  // kDtOtbnIrqTypeCount
+  return irq - dt->irqs[0];
+}
+
 #endif  // OPENTITAN_SW_DEVICE_LIB_DEVICETABLES_DT_OTBN_H_

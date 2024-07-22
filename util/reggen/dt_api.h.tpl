@@ -119,4 +119,26 @@ typedef struct dt_${device_name} {
   dt_clock_t clocks[${snake_to_enum(f"dt_{device_name}_clock_count")}];
 } dt_${device_name}_t;
 
+% if len(device_irqs) > 0:
+/**
+ * Convert a global IRQ ID to a local ${device_name} IRQ type.
+ *
+ * @param dt Pointer to an instance of ${device_name}.
+ * @param irq A global IRQ ID.
+ * @return The local ${device_name} IRQ type of this irq.
+ *
+ * IMPORTANT This function assumes that the global IRQ belongs to the instance
+ * of ${device_name} passed in parameter. In other words, it must the case that
+ * `dt->device == dt_irq_to_device(irq)`
+ *
+ * FIXME How should we handle errors (when the invariant above is violated)?
+ */
+static inline dt_${device_name}_irq_type_t dt_${device_name}_irq_type(
+    const dt_${device_name}_t *dt,
+    dt_irq_t irq) {
+  // FIXME Should check that irq >= dt->irqs[0] and irq < dt->irqs[0] + ${snake_to_enum(f"dt_{device_name}_irq_type_count")}
+  return irq - dt->irqs[0];
+}
+
+%endif
 #endif  // ${include_guard}

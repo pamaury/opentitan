@@ -41,4 +41,24 @@ typedef struct dt_csrng {
   dt_clock_t clocks[kDtCsrngClockCount];
 } dt_csrng_t;
 
+/**
+ * Convert a global IRQ ID to a local csrng IRQ type.
+ *
+ * @param dt Pointer to an instance of csrng.
+ * @param irq A global IRQ ID.
+ * @return The local csrng IRQ type of this irq.
+ *
+ * IMPORTANT This function assumes that the global IRQ belongs to the instance
+ * of csrng passed in parameter. In other words, it must the case that
+ * `dt->device == dt_irq_to_device(irq)`
+ *
+ * FIXME How should we handle errors (when the invariant above is violated)?
+ */
+static inline dt_csrng_irq_type_t dt_csrng_irq_type(const dt_csrng_t *dt,
+                                                    dt_irq_t irq) {
+  // FIXME Should check that irq >= dt->irqs[0] and irq < dt->irqs[0] +
+  // kDtCsrngIrqTypeCount
+  return irq - dt->irqs[0];
+}
+
 #endif  // OPENTITAN_SW_DEVICE_LIB_DEVICETABLES_DT_CSRNG_H_

@@ -167,25 +167,9 @@ static const dt_device_t device_from_irq[kDtIrqIdCount] = {
 /**
  * Return device ID for a given peripheral.
  */
-dt_device_t dt_irq_to_device(uint32_t irq) {
+dt_device_t dt_irq_to_device(dt_irq_t irq) {
   if (irq < kDtIrqIdCount) {
     return device_from_irq[irq];
-  }
-  return kDtDeviceUnknown;
-}
-
-static const dt_device_t device_irq_type_from_irq[kDtIrqIdCount] = {
-% for (irq, dev_irq) in device_irq_table.items():
-    [${irq.as_c_enum()}] = ${dev_irq.as_c_enum()},
-% endfor
-};
-
-/**
- * Return local IRQ type for a global IRQ ID.
- */
-uint32_t dt_irq_to_device_irq(uint32_t irq) {
-  if (irq < kDtIrqIdCount) {
-    return device_irq_type_from_irq[irq];
   }
   return kDtDeviceUnknown;
 }

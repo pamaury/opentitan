@@ -101,4 +101,24 @@ typedef struct dt_gpio {
   dt_clock_t clocks[kDtGpioClockCount];
 } dt_gpio_t;
 
+/**
+ * Convert a global IRQ ID to a local gpio IRQ type.
+ *
+ * @param dt Pointer to an instance of gpio.
+ * @param irq A global IRQ ID.
+ * @return The local gpio IRQ type of this irq.
+ *
+ * IMPORTANT This function assumes that the global IRQ belongs to the instance
+ * of gpio passed in parameter. In other words, it must the case that
+ * `dt->device == dt_irq_to_device(irq)`
+ *
+ * FIXME How should we handle errors (when the invariant above is violated)?
+ */
+static inline dt_gpio_irq_type_t dt_gpio_irq_type(const dt_gpio_t *dt,
+                                                  dt_irq_t irq) {
+  // FIXME Should check that irq >= dt->irqs[0] and irq < dt->irqs[0] +
+  // kDtGpioIrqTypeCount
+  return irq - dt->irqs[0];
+}
+
 #endif  // OPENTITAN_SW_DEVICE_LIB_DEVICETABLES_DT_GPIO_H_

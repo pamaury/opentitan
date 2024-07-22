@@ -163,7 +163,7 @@ void ottf_external_isr(uint32_t *exc_info) {
   peripheral = dt_irq_to_device(irq_id);
 
   if (peripheral == aon_timer_dt->device) {
-    irq = dt_irq_to_device_irq(irq_id);
+    irq = dt_aon_timer_irq_type(aon_timer_dt, irq_id);
 
     if (irq_id == kDtAonTimerIrqTypeWkupTimerExpired) {
       CHECK_DIF_OK(dif_aon_timer_wakeup_stop(&aon_timer));
