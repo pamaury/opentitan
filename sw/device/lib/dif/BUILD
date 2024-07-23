@@ -845,8 +845,8 @@ cc_library(
     deps = [
         ":base",
         "//hw/ip/rv_core_ibex/data:rv_core_ibex_c_regs",
-        "//hw/top_earlgrey/sw/autogen:top_earlgrey",
         "//sw/device/lib/base:mmio",
+        "//sw/device/lib/devicetables",
         "//sw/device/lib/runtime:hart",
     ],
 )
@@ -950,6 +950,7 @@ cc_library(
         "//sw/device/lib/base:memory",
         "//sw/device/lib/base:mmio",
         "//sw/device/lib/base:multibits",
+        "//sw/device/lib/devicetables",
     ],
 )
 

@@ -27,6 +27,7 @@ cc_library(
         "dt_rv_plic.h",
         "dt_sensor_ctrl.h",
     ],
-    includes = ["."],
+    # We pretend that this header lives in sw/device/lib/devicetables
+    include_prefix = "sw/device/lib/devicetables/",
     deps = ["//sw/device/lib/devicetables:dt_api"],
 )

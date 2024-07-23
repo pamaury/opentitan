@@ -40,8 +40,7 @@ dif_result_t dif_aon_timer_init_dt(const dt_aon_timer_t *dt,
     return kDifBadArg;
   }
 
-  aon_timer->base_addr =
-      mmio_region_from_addr(dt->base_addrs[kDtAonTimerRegBlockCore]);
+  aon_timer->base_addr = mmio_region_from_addr(dt->base_addrs[0]);
 
   return kDifOk;
 }

@@ -18,6 +18,7 @@
 
 #include "sw/device/lib/base/macros.h"
 #include "sw/device/lib/base/mmio.h"
+#include "sw/device/lib/devicetables/dt_rv_plic.h"
 #include "sw/device/lib/dif/dif_base.h"
 
 #ifdef __cplusplus
@@ -47,6 +48,19 @@ typedef struct dif_rv_plic {
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_rv_plic_init(mmio_region_t base_addr, dif_rv_plic_t *rv_plic);
+
+/**
+ * Creates a new handle for a(n) rv_plic peripheral.
+ *
+ * This function does not actuate the hardware.
+ *
+ * @param dt The devicetable description of the device.
+ * @param[out] rv_plic Out param for the initialized handle.
+ * @return The result of the operation.
+ */
+OT_WARN_UNUSED_RESULT
+dif_result_t dif_rv_plic_init_dt(const dt_rv_plic_t *dt,
+                                 dif_rv_plic_t *rv_plic);
 
 /**
  * A rv_plic alert type.

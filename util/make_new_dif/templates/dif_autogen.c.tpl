@@ -79,11 +79,8 @@ dif_result_t dif_${ip.name_snake}_init_dt(
     return kDifBadArg;
   }
 
-## Assume that there is always a "core" block.
-<%
-  core_block = Name(["dt"]) + Name.from_snake_case(ip.name_snake) + Name(["reg", "block", "core"])
-%>\
-  ${ip.name_snake}->base_addr = mmio_region_from_addr(dt->base_addrs[${core_block.as_c_enum()}]);
+## Assume that the first block is always for registers.
+  ${ip.name_snake}->base_addr = mmio_region_from_addr(dt->base_addrs[0]);
 
   return kDifOk;
 }

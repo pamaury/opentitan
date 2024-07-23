@@ -31,6 +31,18 @@ dif_result_t dif_rv_timer_init(mmio_region_t base_addr,
   return kDifOk;
 }
 
+OT_WARN_UNUSED_RESULT
+dif_result_t dif_rv_timer_init_dt(const dt_rv_timer_t *dt,
+                                  dif_rv_timer_t *rv_timer) {
+  if (rv_timer == NULL || dt == NULL) {
+    return kDifBadArg;
+  }
+
+  rv_timer->base_addr = mmio_region_from_addr(dt->base_addrs[0]);
+
+  return kDifOk;
+}
+
 dif_result_t dif_rv_timer_alert_force(const dif_rv_timer_t *rv_timer,
                                       dif_rv_timer_alert_t alert) {
   if (rv_timer == NULL) {
@@ -61,7 +73,7 @@ typedef enum dif_rv_timer_intr_reg {
 } dif_rv_timer_intr_reg_t;
 
 static bool rv_timer_get_irq_reg_offset(dif_rv_timer_intr_reg_t intr_reg,
-                                        dif_rv_timer_irq_t irq,
+                                        dt_rv_timer_irq_type_t irq,
                                         uint32_t *intr_reg_offset) {
   switch (intr_reg) {
     case kDifRvTimerIntrRegState:
@@ -101,10 +113,10 @@ static bool rv_timer_get_irq_reg_offset(dif_rv_timer_intr_reg_t intr_reg,
 /**
  * Get the corresponding interrupt register bit offset of the IRQ.
  */
-static bool rv_timer_get_irq_bit_index(dif_rv_timer_irq_t irq,
+static bool rv_timer_get_irq_bit_index(dt_rv_timer_irq_type_t irq,
                                        bitfield_bit32_index_t *index_out) {
   switch (irq) {
-    case kDifRvTimerIrqTimerExpiredHart0Timer0:
+    case kDtRvTimerIrqTypeTimerExpiredHart0Timer0:
       *index_out = RV_TIMER_INTR_STATE0_IS_0_BIT;
       break;
     default:
@@ -120,10 +132,9 @@ static dif_irq_type_t irq_types[] = {
 
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_rv_timer_irq_get_type(const dif_rv_timer_t *rv_timer,
-                                       dif_rv_timer_irq_t irq,
+                                       dt_rv_timer_irq_type_t irq,
                                        dif_irq_type_t *type) {
-  if (rv_timer == NULL || type == NULL ||
-      irq == kDifRvTimerIrqTimerExpiredHart0Timer0 + 1) {
+  if (rv_timer == NULL || type == NULL || irq == kDtRvTimerIrqTypeCount) {
     return kDifBadArg;
   }
 
@@ -176,7 +187,7 @@ dif_result_t dif_rv_timer_irq_acknowledge_state(
 
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_rv_timer_irq_is_pending(const dif_rv_timer_t *rv_timer,
-                                         dif_rv_timer_irq_t irq,
+                                         dt_rv_timer_irq_type_t irq,
                                          bool *is_pending) {
   if (rv_timer == NULL || is_pending == NULL) {
     return kDifBadArg;
@@ -223,7 +234,7 @@ dif_result_t dif_rv_timer_irq_acknowledge_all(const dif_rv_timer_t *rv_timer,
 
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_rv_timer_irq_acknowledge(const dif_rv_timer_t *rv_timer,
-                                          dif_rv_timer_irq_t irq) {
+                                          dt_rv_timer_irq_type_t irq) {
   if (rv_timer == NULL) {
     return kDifBadArg;
   }
@@ -247,7 +258,8 @@ dif_result_t dif_rv_timer_irq_acknowledge(const dif_rv_timer_t *rv_timer,
 
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_rv_timer_irq_force(const dif_rv_timer_t *rv_timer,
-                                    dif_rv_timer_irq_t irq, const bool val) {
+                                    dt_rv_timer_irq_type_t irq,
+                                    const bool val) {
   if (rv_timer == NULL) {
     return kDifBadArg;
   }
@@ -270,7 +282,7 @@ dif_result_t dif_rv_timer_irq_force(const dif_rv_timer_t *rv_timer,
 
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_rv_timer_irq_get_enabled(const dif_rv_timer_t *rv_timer,
-                                          dif_rv_timer_irq_t irq,
+                                          dt_rv_timer_irq_type_t irq,
                                           dif_toggle_t *state) {
   if (rv_timer == NULL || state == NULL) {
     return kDifBadArg;
@@ -297,7 +309,7 @@ dif_result_t dif_rv_timer_irq_get_enabled(const dif_rv_timer_t *rv_timer,
 
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_rv_timer_irq_set_enabled(const dif_rv_timer_t *rv_timer,
-                                          dif_rv_timer_irq_t irq,
+                                          dt_rv_timer_irq_type_t irq,
                                           dif_toggle_t state) {
   if (rv_timer == NULL) {
     return kDifBadArg;

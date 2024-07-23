@@ -19,6 +19,7 @@
 
 #include "sw/device/lib/base/macros.h"
 #include "sw/device/lib/base/mmio.h"
+#include "sw/device/lib/devicetables/dt_rv_timer.h"
 #include "sw/device/lib/dif/dif_base.h"
 
 #ifdef __cplusplus
@@ -51,6 +52,19 @@ dif_result_t dif_rv_timer_init(mmio_region_t base_addr,
                                dif_rv_timer_t *rv_timer);
 
 /**
+ * Creates a new handle for a(n) rv_timer peripheral.
+ *
+ * This function does not actuate the hardware.
+ *
+ * @param dt The devicetable description of the device.
+ * @param[out] rv_timer Out param for the initialized handle.
+ * @return The result of the operation.
+ */
+OT_WARN_UNUSED_RESULT
+dif_result_t dif_rv_timer_init_dt(const dt_rv_timer_t *dt,
+                                  dif_rv_timer_t *rv_timer);
+
+/**
  * A rv_timer alert type.
  */
 typedef enum dif_rv_timer_alert {
@@ -75,13 +89,30 @@ dif_result_t dif_rv_timer_alert_force(const dif_rv_timer_t *rv_timer,
 
 /**
  * A rv_timer interrupt request type.
+ *
+ * DEPRECATED This enumeration exists solely for the transition to
+ * dt-based interrupt numbers and will be removed in the future.
  */
-typedef enum dif_rv_timer_irq {
+enum {
   /**
    * Raised if hart0's timer0 expired (mtimecmp >= mtime)
    */
-  kDifRvTimerIrqTimerExpiredHart0Timer0 = 0,
-} dif_rv_timer_irq_t;
+  kDifRvTimerIrqTimerExpiredHart0Timer0 =
+      kDtRvTimerIrqTypeTimerExpiredHart0Timer0,
+};
+
+// These checks ensure that the dif-based interrupt numbering is compatible
+// with the dt-based numbering, to avoid any breakage.
+/**
+ * Raised if hart0's timer0 expired (mtimecmp >= mtime)
+ */
+static_assert(
+    kDifRvTimerIrqTimerExpiredHart0Timer0 == 0,
+    "DIF-based interrupt numbering does not match DT-based numbering");
+
+// DEPRECATED This typedef exists solely for the transition to
+// dt-based interrupt numbers and will be removed in the future.
+typedef dt_rv_timer_irq_type_t dif_rv_timer_irq_t;
 
 /**
  * A snapshot of the state of the interrupts for this IP.
@@ -101,7 +132,7 @@ typedef uint32_t dif_rv_timer_irq_state_snapshot_t;
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_rv_timer_irq_get_type(const dif_rv_timer_t *rv_timer,
-                                       dif_rv_timer_irq_t irq,
+                                       dt_rv_timer_irq_type_t irq,
                                        dif_irq_type_t *type);
 
 /**
@@ -127,7 +158,7 @@ dif_result_t dif_rv_timer_irq_get_state(
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_rv_timer_irq_is_pending(const dif_rv_timer_t *rv_timer,
-                                         dif_rv_timer_irq_t irq,
+                                         dt_rv_timer_irq_type_t irq,
                                          bool *is_pending);
 
 /**
@@ -165,7 +196,7 @@ dif_result_t dif_rv_timer_irq_acknowledge_all(const dif_rv_timer_t *rv_timer,
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_rv_timer_irq_acknowledge(const dif_rv_timer_t *rv_timer,
-                                          dif_rv_timer_irq_t irq);
+                                          dt_rv_timer_irq_type_t irq);
 
 /**
  * Forces a particular interrupt, causing it to be serviced as if hardware had
@@ -178,7 +209,7 @@ dif_result_t dif_rv_timer_irq_acknowledge(const dif_rv_timer_t *rv_timer,
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_rv_timer_irq_force(const dif_rv_timer_t *rv_timer,
-                                    dif_rv_timer_irq_t irq, const bool val);
+                                    dt_rv_timer_irq_type_t irq, const bool val);
 
 /**
  * A snapshot of the enablement state of the interrupts for this IP.
@@ -199,7 +230,7 @@ typedef uint32_t dif_rv_timer_irq_enable_snapshot_t;
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_rv_timer_irq_get_enabled(const dif_rv_timer_t *rv_timer,
-                                          dif_rv_timer_irq_t irq,
+                                          dt_rv_timer_irq_type_t irq,
                                           dif_toggle_t *state);
 
 /**
@@ -212,7 +243,7 @@ dif_result_t dif_rv_timer_irq_get_enabled(const dif_rv_timer_t *rv_timer,
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_rv_timer_irq_set_enabled(const dif_rv_timer_t *rv_timer,
-                                          dif_rv_timer_irq_t irq,
+                                          dt_rv_timer_irq_type_t irq,
                                           dif_toggle_t state);
 
 /**

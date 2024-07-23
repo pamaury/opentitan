@@ -22,18 +22,18 @@
 #include "sw/device/lib/testing/test_framework/check.h"
 #include "sw/device/lib/testing/test_framework/ottf_main.h"
 
-// TODO Remove when fully converted to DT.
-#include "hw/top_earlgrey/sw/autogen/top_earlgrey.h"
-
 OTTF_DEFINE_TEST_CONFIG();
 
 static const uint32_t kPlicTarget = 0;
 static const uint32_t kTickFreqHz = 1000 * 1000;  // 1Mhz / 1us
 static dif_rv_core_ibex_t rv_core_ibex;
+static const dt_rv_core_ibex_t *rv_core_ibex_dt = &kDtRvCoreIbex[0];
 static dif_aon_timer_t aon_timer;
 static const dt_aon_timer_t *aon_timer_dt = &kDtAonTimer[0];
 static dif_rv_timer_t rv_timer;
+static const dt_rv_timer_t *rv_timer_dt = &kDtRvTimer[0];
 static dif_rv_plic_t plic;
+static const dt_rv_plic_t *rv_plic_dt = &kDtRvPlic[0];
 
 static volatile dt_aon_timer_irq_type_t irq;
 static volatile dt_device_t peripheral;
@@ -60,8 +60,7 @@ static_assert(configUSE_PREEMPTION == 0,
               "rv_timer may be initialized already by FreeRtos");
 
 static void tick_init(void) {
-  CHECK_DIF_OK(dif_rv_timer_init(
-      mmio_region_from_addr(TOP_EARLGREY_RV_TIMER_BASE_ADDR), &rv_timer));
+  CHECK_DIF_OK(dif_rv_timer_init_dt(rv_timer_dt, &rv_timer));
 
   CHECK_DIF_OK(dif_rv_timer_reset(&rv_timer));
 
@@ -212,14 +211,10 @@ bool test_main(void) {
   // Initialize aon timer.
   CHECK_DIF_OK(dif_aon_timer_init_dt(aon_timer_dt, &aon_timer));
 
-  CHECK_DIF_OK(dif_rv_core_ibex_init(
-      mmio_region_from_addr(TOP_EARLGREY_RV_CORE_IBEX_CFG_BASE_ADDR),
-      &rv_core_ibex));
+  CHECK_DIF_OK(dif_rv_core_ibex_init_dt(rv_core_ibex_dt, &rv_core_ibex));
 
   // Initialize the PLIC.
-  mmio_region_t plic_base_addr =
-      mmio_region_from_addr(TOP_EARLGREY_RV_PLIC_BASE_ADDR);
-  CHECK_DIF_OK(dif_rv_plic_init(plic_base_addr, &plic));
+  CHECK_DIF_OK(dif_rv_plic_init_dt(rv_plic_dt, &plic));
 
   // Enable all the AON interrupts used in this test.
   rv_plic_testutils_irq_range_enable(

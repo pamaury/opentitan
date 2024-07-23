@@ -43,6 +43,8 @@ cc_library(
     ],
     deps = [
         ":dt_api",
+        # The following cc_library sets `include_prefix` to this directory so that
+        # one can include top-specific DT headers without knowing the top name.
         "//hw/top_earlgrey/sw/autogen/devicetables:dt_api_ipgen",
     ],
 )

@@ -403,7 +403,6 @@ opentitan_test(
         {"//hw/top_earlgrey:silicon_creator": None},
     ),
     deps = [
-        "//hw/top_earlgrey/sw/autogen:top_earlgrey",
         "//hw/top_earlgrey/sw/autogen:devicetables",
         "//sw/device/lib/base:math",
         "//sw/device/lib/base:mmio",

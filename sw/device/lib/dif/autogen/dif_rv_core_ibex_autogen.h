@@ -19,6 +19,7 @@
 
 #include "sw/device/lib/base/macros.h"
 #include "sw/device/lib/base/mmio.h"
+#include "sw/device/lib/devicetables/dt_rv_core_ibex.h"
 #include "sw/device/lib/dif/dif_base.h"
 
 #ifdef __cplusplus
@@ -49,6 +50,19 @@ typedef struct dif_rv_core_ibex {
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_rv_core_ibex_init(mmio_region_t base_addr,
                                    dif_rv_core_ibex_t *rv_core_ibex);
+
+/**
+ * Creates a new handle for a(n) rv_core_ibex peripheral.
+ *
+ * This function does not actuate the hardware.
+ *
+ * @param dt The devicetable description of the device.
+ * @param[out] rv_core_ibex Out param for the initialized handle.
+ * @return The result of the operation.
+ */
+OT_WARN_UNUSED_RESULT
+dif_result_t dif_rv_core_ibex_init_dt(const dt_rv_core_ibex_t *dt,
+                                      dif_rv_core_ibex_t *rv_core_ibex);
 
 /**
  * A rv_core_ibex alert type.
