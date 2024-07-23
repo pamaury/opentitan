@@ -46,8 +46,8 @@ typedef struct dt_rv_timer {
  * @return The local rv_timer IRQ type of this irq.
  *
  * IMPORTANT This function assumes that the global IRQ belongs to the instance
- * of rv_timer passed in parameter. In other words, it must the case that
- * `dt->device == dt_irq_to_device(irq)`
+ * of rv_timer passed in parameter. In other words, it must be the case that
+ * `dt->device_id == dt_irq_to_device(irq)`
  *
  * FIXME How should we handle errors (when the invariant above is violated)?
  */

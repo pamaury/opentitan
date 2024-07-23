@@ -93,7 +93,7 @@ enum {
   kDtUsbdevCount = 1,
 };
 
-typedef enum dt_device_id_type {
+typedef enum dt_device_type {
   kDtDeviceTypeAdcCtrl,
   kDtDeviceTypeAes,
   kDtDeviceTypeAlertHandler,
@@ -139,7 +139,7 @@ typedef enum dt_device_id_type {
  * @param dev A device ID.
  * @return The device type.
  */
-static inline dt_device_type_t dt_device_id_type(dt_device_id_t dev) {
+static inline dt_device_type_t dt_device_type(dt_device_id_t dev) {
     return (dt_device_type_t)(dev >> 16);
 }
 
