@@ -375,6 +375,19 @@ extern "C++" {
  */
 #define OT_ALIAS(name) __attribute__((alias(name)))
 
+/** Mark a variable, type or function as deprecated.
+ *
+ * @param message Message to display to the user.
+ * @param replacement What to use as a replacement (optional).
+ *
+ * Clang supports two arguments but GCC only one.
+ */
+#ifdef __clang__
+#define OT_DEPRECATED(message, ...) __attribute__((deprecated(message, ##__VA_ARGS__)))
+#else
+#define OT_DEPRECATED(message, ...) __attribute__((deprecated(message ", use " __VA_ARGS__)))
+#endif
+
 /**
  * Defines a local symbol named `kName_` whose address resolves to the
  * program counter value an inline assembly block at this location would

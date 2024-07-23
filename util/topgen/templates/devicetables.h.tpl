@@ -33,6 +33,8 @@ def snake_to_constant_name(s):
 
 #include "sw/device/lib/devicetables/dt.h"
 
+#include <stddef.h>
+
 % for header_path in sorted(dt_headers):
 #include "${header_path}"
 % endfor
@@ -45,6 +47,53 @@ enum {
   kDt${snake_to_constant_name(module_name)}Count = ${len(modules)},
 % endfor
 };
+
+typedef enum dt_device_id_type {
+% for module_name in module_types:
+  kDtDeviceType${snake_to_constant_name(module_name)},
+% endfor
+} dt_device_type_t;
+
+/**
+ * Get the device type of a device.
+ *
+ * For example the device type of `kDtUart0` is `kDtUartDevice`.
+ *
+ * @param dev A device ID.
+ * @return The device type.
+ */
+static inline dt_device_type_t dt_device_id_type(dt_device_id_t dev) {
+    return (dt_device_type_t)(dev >> 16);
+}
+
+/**
+ * Get the device instance of a device.
+ *
+ * If a top instances several devices of the same type, this will
+ * return the instance number. This function guarantees that the instance
+ * number can be used to index into the correspond devicetable below.
+ *
+ * For example, the instance number of `kDtUart3` is 3. It is guaranteed
+ * then that `kDtUart[3].device == kDtUart3`.
+ *
+ * @param dev A device ID.
+ * @return The device instance number.
+ */
+static inline size_t dt_device_instance(dt_device_id_t dev) {
+    return (dt_device_type_t)(dev & 0xffff);
+}
+
+/**
+ * Return the device ID from a device type and instance.
+ *
+ * @param dev_type A device type (dt_device_type_t).
+ * @param instance A device instance (size_t).
+ * @return The corresponding device ID (dt_device_id_t).
+ *
+ * This is a macro so it can be used in `devicetables.c` to create constants.
+ */
+#define dt_get_device_id(dev_type, inst) \
+  ((dt_device_id_t)((dev_type) << 16 | ((inst) & 0xffff)))
 
 % for module_name in module_types:
 // Device tables for ${module_name}

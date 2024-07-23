@@ -59,6 +59,9 @@ typedef struct dif_${ip.name_snake} {
  * @param base_addr The MMIO base address of the ${ip.name_snake} peripheral.
  * @param[out] ${ip.name_snake} Out param for the initialized handle.
  * @return The result of the operation.
+ *
+ * DEPRECATED This function exists solely for the transition to
+ * dt-based DIFs and will be removed in the future.
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_${ip.name_snake}_init(

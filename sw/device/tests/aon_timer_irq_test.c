@@ -36,7 +36,7 @@ static dif_rv_plic_t plic;
 static const dt_rv_plic_t *rv_plic_dt = &kDtRvPlic[0];
 
 static volatile dt_aon_timer_irq_type_t irq;
-static volatile dt_device_t peripheral;
+static volatile dt_device_id_t peripheral;
 static volatile uint64_t irq_tick;
 
 // TODO:(lowrisc/opentitan#9984): Add timing API to the test framework
@@ -113,7 +113,7 @@ static void execute_test(dif_aon_timer_t *aon_timer, uint64_t irq_time_us,
   //           (uint32_t)count_cycles);
 
   // Set the default value to a different value than expected.
-  peripheral = kDtDeviceUnknown;
+  peripheral = kDtDeviceIdUnknown;
   irq = kDtAonTimerIrqTypeWdogTimerBark;
   if (expected_irq == kDtAonTimerIrqTypeWkupTimerExpired) {
     // Setup the wake up interrupt.
@@ -131,7 +131,7 @@ static void execute_test(dif_aon_timer_t *aon_timer, uint64_t irq_time_us,
   // Capture the current tick to measure the time the IRQ will take.
   uint32_t start_tick = (uint32_t)tick_count_get();
 
-  ATOMIC_WAIT_FOR_INTERRUPT(peripheral == aon_timer_dt->device);
+  ATOMIC_WAIT_FOR_INTERRUPT(peripheral == aon_timer_dt->device_id);
 
   uint32_t time_elapsed = (uint32_t)irq_tick - start_tick;
   CHECK(time_elapsed < sleep_range_h && time_elapsed > sleep_range_l,
@@ -139,9 +139,9 @@ static void execute_test(dif_aon_timer_t *aon_timer, uint64_t irq_time_us,
         (uint32_t)time_elapsed, (uint32_t)sleep_range_l,
         (uint32_t)sleep_range_h);
 
-  CHECK(peripheral == aon_timer_dt->device,
+  CHECK(peripheral == aon_timer_dt->device_id,
         "Interrupt from incorrect peripheral: exp = %d, obs = %d",
-        aon_timer_dt->device, peripheral);
+        aon_timer_dt->device_id, peripheral);
 
   CHECK(irq == expected_irq, "Interrupt type incorrect: exp = %d, obs = %d",
         kDtAonTimerIrqTypeWkupTimerExpired, irq);
@@ -161,7 +161,7 @@ void ottf_external_isr(uint32_t *exc_info) {
 
   peripheral = dt_irq_to_device(irq_id);
 
-  if (peripheral == aon_timer_dt->device) {
+  if (peripheral == aon_timer_dt->device_id) {
     irq = dt_aon_timer_irq_type(aon_timer_dt, irq_id);
 
     if (irq_id == kDtAonTimerIrqTypeWkupTimerExpired) {

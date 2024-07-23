@@ -42,7 +42,7 @@ typedef enum {
 } dt_sensor_ctrl_pinctrl_t;
 
 typedef struct dt_sensor_ctrl {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtSensorCtrlRegBlockCount];
   uint32_t irqs[kDtSensorCtrlIrqTypeCount];
   dt_clock_t clocks[kDtSensorCtrlClockCount];
@@ -62,7 +62,7 @@ typedef struct dt_sensor_ctrl {
  * FIXME How should we handle errors (when the invariant above is violated)?
  */
 static inline dt_sensor_ctrl_irq_type_t dt_sensor_ctrl_irq_type(
-    dt_sensor_ctrl_t *dt,
+    const dt_sensor_ctrl_t *dt,
     dt_irq_t irq) {
   // FIXME Should check that irq >= dt->irqs[0] and irq < dt->irqs[0] + kDtSensorCtrlIrqTypeCount
   return irq - dt->irqs[0];

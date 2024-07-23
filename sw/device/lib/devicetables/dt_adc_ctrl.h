@@ -33,7 +33,7 @@ typedef enum {
 } dt_adc_ctrl_pinctrl_t;
 
 typedef struct dt_adc_ctrl {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtAdcCtrlRegBlockCount];
   uint32_t irqs[kDtAdcCtrlIrqTypeCount];
   dt_clock_t clocks[kDtAdcCtrlClockCount];

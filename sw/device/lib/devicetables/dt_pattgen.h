@@ -37,7 +37,7 @@ typedef enum {
 } dt_pattgen_pinctrl_t;
 
 typedef struct dt_pattgen {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtPattgenRegBlockCount];
   uint32_t irqs[kDtPattgenIrqTypeCount];
   dt_clock_t clocks[kDtPattgenClockCount];

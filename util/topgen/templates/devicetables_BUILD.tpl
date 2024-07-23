@@ -13,6 +13,7 @@ cc_library(
         "${header_name}",
 % endfor
     ],
-    includes = ["."],
+    # We pretend that this header lives in sw/device/lib/devicetables
+    include_prefix = "sw/device/lib/devicetables/",
     deps = ["//sw/device/lib/devicetables:dt_api"],
 )

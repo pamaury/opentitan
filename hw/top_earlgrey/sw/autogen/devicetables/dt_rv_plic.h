@@ -26,7 +26,7 @@ typedef enum {
 } dt_rv_plic_pinctrl_t;
 
 typedef struct dt_rv_plic {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtRvPlicRegBlockCount];
   dt_clock_t clocks[kDtRvPlicClockCount];
 } dt_rv_plic_t;

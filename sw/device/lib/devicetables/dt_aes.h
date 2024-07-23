@@ -28,7 +28,7 @@ typedef enum {
 } dt_aes_pinctrl_t;
 
 typedef struct dt_aes {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtAesRegBlockCount];
   dt_clock_t clocks[kDtAesClockCount];
 } dt_aes_t;

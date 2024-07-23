@@ -95,7 +95,7 @@ typedef enum {
 } dt_gpio_pinctrl_t;
 
 typedef struct dt_gpio {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtGpioRegBlockCount];
   uint32_t irqs[kDtGpioIrqTypeCount];
   dt_clock_t clocks[kDtGpioClockCount];

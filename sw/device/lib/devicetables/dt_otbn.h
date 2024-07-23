@@ -34,7 +34,7 @@ typedef enum {
 } dt_otbn_pinctrl_t;
 
 typedef struct dt_otbn {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtOtbnRegBlockCount];
   uint32_t irqs[kDtOtbnIrqTypeCount];
   dt_clock_t clocks[kDtOtbnClockCount];

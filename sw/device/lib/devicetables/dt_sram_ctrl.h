@@ -29,7 +29,7 @@ typedef enum {
 } dt_sram_ctrl_pinctrl_t;
 
 typedef struct dt_sram_ctrl {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtSramCtrlRegBlockCount];
   dt_clock_t clocks[kDtSramCtrlClockCount];
 } dt_sram_ctrl_t;

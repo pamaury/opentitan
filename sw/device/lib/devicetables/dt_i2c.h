@@ -48,7 +48,7 @@ typedef enum {
 } dt_i2c_pinctrl_t;
 
 typedef struct dt_i2c {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtI2cRegBlockCount];
   uint32_t irqs[kDtI2cIrqTypeCount];
   dt_clock_t clocks[kDtI2cClockCount];

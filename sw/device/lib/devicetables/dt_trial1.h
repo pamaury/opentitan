@@ -27,7 +27,7 @@ typedef enum {
 } dt_trial1_pinctrl_t;
 
 typedef struct dt_trial1 {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtTrial1RegBlockCount];
   dt_clock_t clocks[kDtTrial1ClockCount];
 } dt_trial1_t;

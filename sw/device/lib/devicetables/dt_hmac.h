@@ -34,7 +34,7 @@ typedef enum {
 } dt_hmac_pinctrl_t;
 
 typedef struct dt_hmac {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtHmacRegBlockCount];
   uint32_t irqs[kDtHmacIrqTypeCount];
   dt_clock_t clocks[kDtHmacClockCount];

@@ -8,18 +8,18 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-// An ID representing a particular device, with `kDtDeviceUnknown` reserved for "unknown."
+// An ID representing a particular device, with `kDtDeviceUnknown` reserved for "unknown".
 // This ID is opaque and top-specific.
-typedef uint32_t dt_device_t;
-// An ID representing a clock, with `kDtClockUnknown` reserved for "unknown."
+typedef uint32_t dt_device_id_t;
+// An ID representing a clock, with `kDtClockUnknown` reserved for "unknown".
 // This ID is opaque and top-specific.
 typedef uint32_t dt_clock_t;
-// An ID representing an IRQ, with `kDtIrqUnknown` reserved for "unknown."
+// An ID representing an IRQ, with `kDtIrqUnknown` reserved for "unknown".
 // This ID is opaque and top-specific.
 typedef uint32_t dt_irq_t;
 
 enum {
-  kDtDeviceUnknown = 0,
+  kDtDeviceIdUnknown = 0,
   kDtClockUnknown = 0,
   kDtIrqUnknown = 0,
 };
@@ -27,7 +27,7 @@ enum {
 /**
  * Get the requesting device corresponding to the given global IRQ ID.
  */
-extern dt_device_t dt_irq_to_device(dt_irq_t irq);
+extern dt_device_id_t dt_irq_to_device(dt_irq_t irq);
 
 /**
  * Returns the clock frequency of the specified clock in Hz.

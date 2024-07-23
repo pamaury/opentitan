@@ -35,7 +35,7 @@ typedef enum {
 } dt_csrng_pinctrl_t;
 
 typedef struct dt_csrng {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtCsrngRegBlockCount];
   uint32_t irqs[kDtCsrngIrqTypeCount];
   dt_clock_t clocks[kDtCsrngClockCount];

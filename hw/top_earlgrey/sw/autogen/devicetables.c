@@ -17,6 +17,52 @@
 #include "hw/top_earlgrey/sw/autogen/top_earlgrey.h"
 #include <stdint.h>
 
+enum dt_device {
+  kDtDeviceIdAdcCtrlAon = dt_get_device_id(kDtDeviceTypeAdcCtrl, 0),
+  kDtDeviceIdAes = dt_get_device_id(kDtDeviceTypeAes, 0),
+  kDtDeviceIdAlertHandler = dt_get_device_id(kDtDeviceTypeAlertHandler, 0),
+  kDtDeviceIdAonTimerAon = dt_get_device_id(kDtDeviceTypeAonTimer, 0),
+  kDtDeviceIdAst = dt_get_device_id(kDtDeviceTypeAst, 0),
+  kDtDeviceIdClkmgrAon = dt_get_device_id(kDtDeviceTypeClkmgr, 0),
+  kDtDeviceIdCsrng = dt_get_device_id(kDtDeviceTypeCsrng, 0),
+  kDtDeviceIdEdn0 = dt_get_device_id(kDtDeviceTypeEdn, 0),
+  kDtDeviceIdEdn1 = dt_get_device_id(kDtDeviceTypeEdn, 1),
+  kDtDeviceIdEntropySrc = dt_get_device_id(kDtDeviceTypeEntropySrc, 0),
+  kDtDeviceIdFlashCtrl = dt_get_device_id(kDtDeviceTypeFlashCtrl, 0),
+  kDtDeviceIdGpio = dt_get_device_id(kDtDeviceTypeGpio, 0),
+  kDtDeviceIdHmac = dt_get_device_id(kDtDeviceTypeHmac, 0),
+  kDtDeviceIdI2c0 = dt_get_device_id(kDtDeviceTypeI2c, 0),
+  kDtDeviceIdI2c1 = dt_get_device_id(kDtDeviceTypeI2c, 1),
+  kDtDeviceIdI2c2 = dt_get_device_id(kDtDeviceTypeI2c, 2),
+  kDtDeviceIdKeymgr = dt_get_device_id(kDtDeviceTypeKeymgr, 0),
+  kDtDeviceIdKmac = dt_get_device_id(kDtDeviceTypeKmac, 0),
+  kDtDeviceIdLcCtrl = dt_get_device_id(kDtDeviceTypeLcCtrl, 0),
+  kDtDeviceIdOtbn = dt_get_device_id(kDtDeviceTypeOtbn, 0),
+  kDtDeviceIdOtpCtrl = dt_get_device_id(kDtDeviceTypeOtpCtrl, 0),
+  kDtDeviceIdPattgen = dt_get_device_id(kDtDeviceTypePattgen, 0),
+  kDtDeviceIdPinmuxAon = dt_get_device_id(kDtDeviceTypePinmux, 0),
+  kDtDeviceIdPwmAon = dt_get_device_id(kDtDeviceTypePwm, 0),
+  kDtDeviceIdPwrmgrAon = dt_get_device_id(kDtDeviceTypePwrmgr, 0),
+  kDtDeviceIdRomCtrl = dt_get_device_id(kDtDeviceTypeRomCtrl, 0),
+  kDtDeviceIdRstmgrAon = dt_get_device_id(kDtDeviceTypeRstmgr, 0),
+  kDtDeviceIdRvCoreIbex = dt_get_device_id(kDtDeviceTypeRvCoreIbex, 0),
+  kDtDeviceIdRvDm = dt_get_device_id(kDtDeviceTypeRvDm, 0),
+  kDtDeviceIdRvPlic = dt_get_device_id(kDtDeviceTypeRvPlic, 0),
+  kDtDeviceIdRvTimer = dt_get_device_id(kDtDeviceTypeRvTimer, 0),
+  kDtDeviceIdSensorCtrlAon = dt_get_device_id(kDtDeviceTypeSensorCtrl, 0),
+  kDtDeviceIdSpiDevice = dt_get_device_id(kDtDeviceTypeSpiDevice, 0),
+  kDtDeviceIdSpiHost0 = dt_get_device_id(kDtDeviceTypeSpiHost, 0),
+  kDtDeviceIdSpiHost1 = dt_get_device_id(kDtDeviceTypeSpiHost, 1),
+  kDtDeviceIdSramCtrlRetAon = dt_get_device_id(kDtDeviceTypeSramCtrl, 0),
+  kDtDeviceIdSramCtrlMain = dt_get_device_id(kDtDeviceTypeSramCtrl, 1),
+  kDtDeviceIdSysrstCtrlAon = dt_get_device_id(kDtDeviceTypeSysrstCtrl, 0),
+  kDtDeviceIdUart0 = dt_get_device_id(kDtDeviceTypeUart, 0),
+  kDtDeviceIdUart1 = dt_get_device_id(kDtDeviceTypeUart, 1),
+  kDtDeviceIdUart2 = dt_get_device_id(kDtDeviceTypeUart, 2),
+  kDtDeviceIdUart3 = dt_get_device_id(kDtDeviceTypeUart, 3),
+  kDtDeviceIdUsbdev = dt_get_device_id(kDtDeviceTypeUsbdev, 0),
+};
+
 // Device tables for adc_ctrl
 _Static_assert(kDtAdcCtrlRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtAdcCtrlClockCount == 2, "Clock count mismatch");
@@ -26,7 +72,7 @@ _Static_assert(kDtAdcCtrlCount == 1, "Number of adc_ctrl modules mismatch");
 const dt_adc_ctrl_t kDtAdcCtrl[kDtAdcCtrlCount] = {
   // Properties for adc_ctrl_aon
   {
-    .device = kDtDeviceIdAdcCtrlAon,
+    .device_id = kDtDeviceIdAdcCtrlAon,
     .base_addrs = {
       0x40440000,
     },
@@ -47,7 +93,7 @@ _Static_assert(kDtAesCount == 1, "Number of aes modules mismatch");
 const dt_aes_t kDtAes[kDtAesCount] = {
   // Properties for aes
   {
-    .device = kDtDeviceIdAes,
+    .device_id = kDtDeviceIdAes,
     .base_addrs = {
       0x41100000,
     },
@@ -66,7 +112,7 @@ _Static_assert(kDtAlertHandlerCount == 1, "Number of alert_handler modules misma
 const dt_alert_handler_t kDtAlertHandler[kDtAlertHandlerCount] = {
   // Properties for alert_handler
   {
-    .device = kDtDeviceIdAlertHandler,
+    .device_id = kDtDeviceIdAlertHandler,
     .base_addrs = {
       0x40150000,
     },
@@ -91,7 +137,7 @@ _Static_assert(kDtAonTimerCount == 1, "Number of aon_timer modules mismatch");
 const dt_aon_timer_t kDtAonTimer[kDtAonTimerCount] = {
   // Properties for aon_timer_aon
   {
-    .device = kDtDeviceIdAonTimerAon,
+    .device_id = kDtDeviceIdAonTimerAon,
     .base_addrs = {
       0x40470000,
     },
@@ -113,7 +159,7 @@ _Static_assert(kDtAstCount == 1, "Number of ast modules mismatch");
 const dt_ast_t kDtAst[kDtAstCount] = {
   // Properties for ast
   {
-    .device = kDtDeviceIdAst,
+    .device_id = kDtDeviceIdAst,
     .base_addrs = {
       0x40480000,
     },
@@ -135,7 +181,7 @@ _Static_assert(kDtClkmgrCount == 1, "Number of clkmgr modules mismatch");
 const dt_clkmgr_t kDtClkmgr[kDtClkmgrCount] = {
   // Properties for clkmgr_aon
   {
-    .device = kDtDeviceIdClkmgrAon,
+    .device_id = kDtDeviceIdClkmgrAon,
     .base_addrs = {
       0x40420000,
     },
@@ -157,7 +203,7 @@ _Static_assert(kDtCsrngCount == 1, "Number of csrng modules mismatch");
 const dt_csrng_t kDtCsrng[kDtCsrngCount] = {
   // Properties for csrng
   {
-    .device = kDtDeviceIdCsrng,
+    .device_id = kDtDeviceIdCsrng,
     .base_addrs = {
       0x41150000,
     },
@@ -181,7 +227,7 @@ _Static_assert(kDtEdnCount == 2, "Number of edn modules mismatch");
 const dt_edn_t kDtEdn[kDtEdnCount] = {
   // Properties for edn0
   {
-    .device = kDtDeviceIdEdn0,
+    .device_id = kDtDeviceIdEdn0,
     .base_addrs = {
       0x41170000,
     },
@@ -195,7 +241,7 @@ const dt_edn_t kDtEdn[kDtEdnCount] = {
   },
   // Properties for edn1
   {
-    .device = kDtDeviceIdEdn1,
+    .device_id = kDtDeviceIdEdn1,
     .base_addrs = {
       0x41180000,
     },
@@ -217,7 +263,7 @@ _Static_assert(kDtEntropySrcCount == 1, "Number of entropy_src modules mismatch"
 const dt_entropy_src_t kDtEntropySrc[kDtEntropySrcCount] = {
   // Properties for entropy_src
   {
-    .device = kDtDeviceIdEntropySrc,
+    .device_id = kDtDeviceIdEntropySrc,
     .base_addrs = {
       0x41160000,
     },
@@ -241,7 +287,7 @@ _Static_assert(kDtFlashCtrlCount == 1, "Number of flash_ctrl modules mismatch");
 const dt_flash_ctrl_t kDtFlashCtrl[kDtFlashCtrlCount] = {
   // Properties for flash_ctrl
   {
-    .device = kDtDeviceIdFlashCtrl,
+    .device_id = kDtDeviceIdFlashCtrl,
     .base_addrs = {
       0x41000000,
       0x41008000,
@@ -270,7 +316,7 @@ _Static_assert(kDtGpioCount == 1, "Number of gpio modules mismatch");
 const dt_gpio_t kDtGpio[kDtGpioCount] = {
   // Properties for gpio
   {
-    .device = kDtDeviceIdGpio,
+    .device_id = kDtDeviceIdGpio,
     .base_addrs = {
       0x40040000,
     },
@@ -322,7 +368,7 @@ _Static_assert(kDtHmacCount == 1, "Number of hmac modules mismatch");
 const dt_hmac_t kDtHmac[kDtHmacCount] = {
   // Properties for hmac
   {
-    .device = kDtDeviceIdHmac,
+    .device_id = kDtDeviceIdHmac,
     .base_addrs = {
       0x41110000,
     },
@@ -345,7 +391,7 @@ _Static_assert(kDtI2cCount == 3, "Number of i2c modules mismatch");
 const dt_i2c_t kDtI2c[kDtI2cCount] = {
   // Properties for i2c0
   {
-    .device = kDtDeviceIdI2c0,
+    .device_id = kDtDeviceIdI2c0,
     .base_addrs = {
       0x40080000,
     },
@@ -372,7 +418,7 @@ const dt_i2c_t kDtI2c[kDtI2cCount] = {
   },
   // Properties for i2c1
   {
-    .device = kDtDeviceIdI2c1,
+    .device_id = kDtDeviceIdI2c1,
     .base_addrs = {
       0x40090000,
     },
@@ -399,7 +445,7 @@ const dt_i2c_t kDtI2c[kDtI2cCount] = {
   },
   // Properties for i2c2
   {
-    .device = kDtDeviceIdI2c2,
+    .device_id = kDtDeviceIdI2c2,
     .base_addrs = {
       0x400A0000,
     },
@@ -434,7 +480,7 @@ _Static_assert(kDtKeymgrCount == 1, "Number of keymgr modules mismatch");
 const dt_keymgr_t kDtKeymgr[kDtKeymgrCount] = {
   // Properties for keymgr
   {
-    .device = kDtDeviceIdKeymgr,
+    .device_id = kDtDeviceIdKeymgr,
     .base_addrs = {
       0x41140000,
     },
@@ -456,7 +502,7 @@ _Static_assert(kDtKmacCount == 1, "Number of kmac modules mismatch");
 const dt_kmac_t kDtKmac[kDtKmacCount] = {
   // Properties for kmac
   {
-    .device = kDtDeviceIdKmac,
+    .device_id = kDtDeviceIdKmac,
     .base_addrs = {
       0x41120000,
     },
@@ -479,7 +525,7 @@ _Static_assert(kDtLcCtrlCount == 1, "Number of lc_ctrl modules mismatch");
 const dt_lc_ctrl_t kDtLcCtrl[kDtLcCtrlCount] = {
   // Properties for lc_ctrl
   {
-    .device = kDtDeviceIdLcCtrl,
+    .device_id = kDtDeviceIdLcCtrl,
     .base_addrs = {
       0x40140000,
     },
@@ -498,7 +544,7 @@ _Static_assert(kDtOtbnCount == 1, "Number of otbn modules mismatch");
 const dt_otbn_t kDtOtbn[kDtOtbnCount] = {
   // Properties for otbn
   {
-    .device = kDtDeviceIdOtbn,
+    .device_id = kDtDeviceIdOtbn,
     .base_addrs = {
       0x41130000,
     },
@@ -521,7 +567,7 @@ _Static_assert(kDtOtpCtrlCount == 1, "Number of otp_ctrl modules mismatch");
 const dt_otp_ctrl_t kDtOtpCtrl[kDtOtpCtrlCount] = {
   // Properties for otp_ctrl
   {
-    .device = kDtDeviceIdOtpCtrl,
+    .device_id = kDtDeviceIdOtpCtrl,
     .base_addrs = {
       0x40130000,
       0x40138000,
@@ -545,7 +591,7 @@ _Static_assert(kDtPattgenCount == 1, "Number of pattgen modules mismatch");
 const dt_pattgen_t kDtPattgen[kDtPattgenCount] = {
   // Properties for pattgen
   {
-    .device = kDtDeviceIdPattgen,
+    .device_id = kDtDeviceIdPattgen,
     .base_addrs = {
       0x400E0000,
     },
@@ -566,7 +612,7 @@ _Static_assert(kDtPinmuxCount == 1, "Number of pinmux modules mismatch");
 const dt_pinmux_t kDtPinmux[kDtPinmuxCount] = {
   // Properties for pinmux_aon
   {
-    .device = kDtDeviceIdPinmuxAon,
+    .device_id = kDtDeviceIdPinmuxAon,
     .base_addrs = {
       0x40460000,
     },
@@ -584,7 +630,7 @@ _Static_assert(kDtPwmCount == 1, "Number of pwm modules mismatch");
 const dt_pwm_t kDtPwm[kDtPwmCount] = {
   // Properties for pwm_aon
   {
-    .device = kDtDeviceIdPwmAon,
+    .device_id = kDtDeviceIdPwmAon,
     .base_addrs = {
       0x40450000,
     },
@@ -603,7 +649,7 @@ _Static_assert(kDtPwrmgrCount == 1, "Number of pwrmgr modules mismatch");
 const dt_pwrmgr_t kDtPwrmgr[kDtPwrmgrCount] = {
   // Properties for pwrmgr_aon
   {
-    .device = kDtDeviceIdPwrmgrAon,
+    .device_id = kDtDeviceIdPwrmgrAon,
     .base_addrs = {
       0x40400000,
     },
@@ -626,7 +672,7 @@ _Static_assert(kDtRomCtrlCount == 1, "Number of rom_ctrl modules mismatch");
 const dt_rom_ctrl_t kDtRomCtrl[kDtRomCtrlCount] = {
   // Properties for rom_ctrl
   {
-    .device = kDtDeviceIdRomCtrl,
+    .device_id = kDtDeviceIdRomCtrl,
     .base_addrs = {
       0x00008000,
       0x411e0000,
@@ -644,7 +690,7 @@ _Static_assert(kDtRstmgrCount == 1, "Number of rstmgr modules mismatch");
 const dt_rstmgr_t kDtRstmgr[kDtRstmgrCount] = {
   // Properties for rstmgr_aon
   {
-    .device = kDtDeviceIdRstmgrAon,
+    .device_id = kDtDeviceIdRstmgrAon,
     .base_addrs = {
       0x40410000,
     },
@@ -668,7 +714,7 @@ _Static_assert(kDtRvCoreIbexCount == 1, "Number of rv_core_ibex modules mismatch
 const dt_rv_core_ibex_t kDtRvCoreIbex[kDtRvCoreIbexCount] = {
   // Properties for rv_core_ibex
   {
-    .device = kDtDeviceIdRvCoreIbex,
+    .device_id = kDtDeviceIdRvCoreIbex,
     .base_addrs = {
       0x411F0000,
     },
@@ -688,7 +734,7 @@ _Static_assert(kDtRvDmCount == 1, "Number of rv_dm modules mismatch");
 const dt_rv_dm_t kDtRvDm[kDtRvDmCount] = {
   // Properties for rv_dm
   {
-    .device = kDtDeviceIdRvDm,
+    .device_id = kDtDeviceIdRvDm,
     .base_addrs = {
       0x00010000,
       0x41200000,
@@ -707,7 +753,7 @@ _Static_assert(kDtRvPlicCount == 1, "Number of rv_plic modules mismatch");
 const dt_rv_plic_t kDtRvPlic[kDtRvPlicCount] = {
   // Properties for rv_plic
   {
-    .device = kDtDeviceIdRvPlic,
+    .device_id = kDtDeviceIdRvPlic,
     .base_addrs = {
       0x48000000,
     },
@@ -725,7 +771,7 @@ _Static_assert(kDtRvTimerCount == 1, "Number of rv_timer modules mismatch");
 const dt_rv_timer_t kDtRvTimer[kDtRvTimerCount] = {
   // Properties for rv_timer
   {
-    .device = kDtDeviceIdRvTimer,
+    .device_id = kDtDeviceIdRvTimer,
     .base_addrs = {
       0x40100000,
     },
@@ -746,7 +792,7 @@ _Static_assert(kDtSensorCtrlCount == 1, "Number of sensor_ctrl modules mismatch"
 const dt_sensor_ctrl_t kDtSensorCtrl[kDtSensorCtrlCount] = {
   // Properties for sensor_ctrl_aon
   {
-    .device = kDtDeviceIdSensorCtrlAon,
+    .device_id = kDtDeviceIdSensorCtrlAon,
     .base_addrs = {
       0x40490000,
     },
@@ -769,7 +815,7 @@ _Static_assert(kDtSpiDeviceCount == 1, "Number of spi_device modules mismatch");
 const dt_spi_device_t kDtSpiDevice[kDtSpiDeviceCount] = {
   // Properties for spi_device
   {
-    .device = kDtDeviceIdSpiDevice,
+    .device_id = kDtDeviceIdSpiDevice,
     .base_addrs = {
       0x40050000,
     },
@@ -797,7 +843,7 @@ _Static_assert(kDtSpiHostCount == 2, "Number of spi_host modules mismatch");
 const dt_spi_host_t kDtSpiHost[kDtSpiHostCount] = {
   // Properties for spi_host0
   {
-    .device = kDtDeviceIdSpiHost0,
+    .device_id = kDtDeviceIdSpiHost0,
     .base_addrs = {
       0x40300000,
     },
@@ -811,7 +857,7 @@ const dt_spi_host_t kDtSpiHost[kDtSpiHostCount] = {
   },
   // Properties for spi_host1
   {
-    .device = kDtDeviceIdSpiHost1,
+    .device_id = kDtDeviceIdSpiHost1,
     .base_addrs = {
       0x40310000,
     },
@@ -832,7 +878,7 @@ _Static_assert(kDtSramCtrlCount == 2, "Number of sram_ctrl modules mismatch");
 const dt_sram_ctrl_t kDtSramCtrl[kDtSramCtrlCount] = {
   // Properties for sram_ctrl_ret_aon
   {
-    .device = kDtDeviceIdSramCtrlRetAon,
+    .device_id = kDtDeviceIdSramCtrlRetAon,
     .base_addrs = {
       0x40500000,
       0x40600000,
@@ -844,7 +890,7 @@ const dt_sram_ctrl_t kDtSramCtrl[kDtSramCtrlCount] = {
   },
   // Properties for sram_ctrl_main
   {
-    .device = kDtDeviceIdSramCtrlMain,
+    .device_id = kDtDeviceIdSramCtrlMain,
     .base_addrs = {
       0x411C0000,
       0x10000000,
@@ -864,7 +910,7 @@ _Static_assert(kDtSysrstCtrlCount == 1, "Number of sysrst_ctrl modules mismatch"
 const dt_sysrst_ctrl_t kDtSysrstCtrl[kDtSysrstCtrlCount] = {
   // Properties for sysrst_ctrl_aon
   {
-    .device = kDtDeviceIdSysrstCtrlAon,
+    .device_id = kDtDeviceIdSysrstCtrlAon,
     .base_addrs = {
       0x40430000,
     },
@@ -886,7 +932,7 @@ _Static_assert(kDtUartCount == 4, "Number of uart modules mismatch");
 const dt_uart_t kDtUart[kDtUartCount] = {
   // Properties for uart0
   {
-    .device = kDtDeviceIdUart0,
+    .device_id = kDtDeviceIdUart0,
     .base_addrs = {
       0x40000000,
     },
@@ -907,7 +953,7 @@ const dt_uart_t kDtUart[kDtUartCount] = {
   },
   // Properties for uart1
   {
-    .device = kDtDeviceIdUart1,
+    .device_id = kDtDeviceIdUart1,
     .base_addrs = {
       0x40010000,
     },
@@ -928,7 +974,7 @@ const dt_uart_t kDtUart[kDtUartCount] = {
   },
   // Properties for uart2
   {
-    .device = kDtDeviceIdUart2,
+    .device_id = kDtDeviceIdUart2,
     .base_addrs = {
       0x40020000,
     },
@@ -949,7 +995,7 @@ const dt_uart_t kDtUart[kDtUartCount] = {
   },
   // Properties for uart3
   {
-    .device = kDtDeviceIdUart3,
+    .device_id = kDtDeviceIdUart3,
     .base_addrs = {
       0x40030000,
     },
@@ -978,7 +1024,7 @@ _Static_assert(kDtUsbdevCount == 1, "Number of usbdev modules mismatch");
 const dt_usbdev_t kDtUsbdev[kDtUsbdevCount] = {
   // Properties for usbdev
   {
-    .device = kDtDeviceIdUsbdev,
+    .device_id = kDtDeviceIdUsbdev,
     .base_addrs = {
       0x40320000,
     },
@@ -1014,7 +1060,7 @@ enum {
   kDtIrqIdCount = 186,
 };
 
-static const dt_device_t device_from_irq[kDtIrqIdCount] = {
+static const dt_device_id_t device_from_irq[kDtIrqIdCount] = {
     [kTopEarlgreyPlicIrqIdNone] = kDtDeviceIdUnknown,
     [kTopEarlgreyPlicIrqIdUart0TxWatermark] = kDtDeviceIdUart0,
     [kTopEarlgreyPlicIrqIdUart0RxWatermark] = kDtDeviceIdUart0,
@@ -1206,9 +1252,9 @@ static const dt_device_t device_from_irq[kDtIrqIdCount] = {
 /**
  * Return device ID for a given peripheral.
  */
-dt_device_t dt_irq_to_device(dt_irq_t irq) {
+dt_device_id_t dt_irq_to_device(dt_irq_t irq) {
   if (irq < kDtIrqIdCount) {
     return device_from_irq[irq];
   }
-  return kDtDeviceUnknown;
+  return kDtDeviceIdUnknown;
 }

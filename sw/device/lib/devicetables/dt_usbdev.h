@@ -53,7 +53,7 @@ typedef enum {
 } dt_usbdev_pinctrl_t;
 
 typedef struct dt_usbdev {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtUsbdevRegBlockCount];
   uint32_t irqs[kDtUsbdevIrqTypeCount];
   dt_clock_t clocks[kDtUsbdevClockCount];

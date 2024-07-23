@@ -42,7 +42,7 @@ typedef enum {
 } dt_uart_pinctrl_t;
 
 typedef struct dt_uart {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtUartRegBlockCount];
   uint32_t irqs[kDtUartIrqTypeCount];
   dt_clock_t clocks[kDtUartClockCount];

@@ -111,7 +111,7 @@ typedef enum {
 
 ## DT structure.
 typedef struct dt_${device_name} {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[${snake_to_enum(f"dt_{device_name}_reg_block_count")}];
 % if len(device_irqs) > 0:
   uint32_t irqs[${snake_to_enum(f"dt_{device_name}_irq_type_count")}];

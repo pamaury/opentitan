@@ -43,7 +43,7 @@ typedef enum {
 } dt_flash_ctrl_pinctrl_t;
 
 typedef struct dt_flash_ctrl {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtFlashCtrlRegBlockCount];
   uint32_t irqs[kDtFlashCtrlIrqTypeCount];
   dt_clock_t clocks[kDtFlashCtrlClockCount];
@@ -63,7 +63,7 @@ typedef struct dt_flash_ctrl {
  * FIXME How should we handle errors (when the invariant above is violated)?
  */
 static inline dt_flash_ctrl_irq_type_t dt_flash_ctrl_irq_type(
-    dt_flash_ctrl_t *dt,
+    const dt_flash_ctrl_t *dt,
     dt_irq_t irq) {
   // FIXME Should check that irq >= dt->irqs[0] and irq < dt->irqs[0] + kDtFlashCtrlIrqTypeCount
   return irq - dt->irqs[0];

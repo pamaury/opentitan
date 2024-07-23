@@ -46,6 +46,9 @@ typedef struct dif_rv_timer {
  * @param base_addr The MMIO base address of the rv_timer peripheral.
  * @param[out] rv_timer Out param for the initialized handle.
  * @return The result of the operation.
+ *
+ * DEPRECATED This function exists solely for the transition to
+ * dt-based DIFs and will be removed in the future.
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_rv_timer_init(mmio_region_t base_addr,

@@ -31,7 +31,7 @@ typedef enum {
 } dt_ast_pinctrl_t;
 
 typedef struct dt_ast {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtAstRegBlockCount];
   dt_clock_t clocks[kDtAstClockCount];
 } dt_ast_t;

@@ -24,6 +24,17 @@ def snake_to_constant_name(s):
 #include "hw/top_${top["name"]}/sw/autogen/top_${top["name"]}.h"
 #include <stdint.h>
 
+enum dt_device {
+% for module_name in module_types:
+<%
+    modules = [m for m in top["module"] if m["type"] == module_name]
+%>\
+%   for (dev_index, m) in enumerate(modules):
+  ${snake_to_constant_name("dt_device_id_" + m["name"])} = dt_get_device_id(${snake_to_constant_name("dt_device_type_" + module_name)}, ${dev_index}),
+%   endfor
+% endfor
+};
+
 % for module_name in module_types:
 // Device tables for ${module_name}
 <%
@@ -100,7 +111,7 @@ const dt_${module_name}_t ${snake_to_constant_name("dt_" + module_name)}[${snake
 %   for (dev_index, m) in enumerate(modules):
   // Properties for ${m["name"]}
   {
-    .device = ${snake_to_constant_name("dt_device_id_" + m["name"])},
+    .device_id = ${snake_to_constant_name("dt_device_id_" + m["name"])},
     .base_addrs = {
 %     for addr in m["base_addrs"].values():
       ${addr},
@@ -158,7 +169,7 @@ enum {
   kDtIrqIdCount = ${str(len(irq_table.keys()))},
 };
 
-static const dt_device_t device_from_irq[kDtIrqIdCount] = {
+static const dt_device_id_t device_from_irq[kDtIrqIdCount] = {
 % for irq, device_id in irq_table.items():
     [${irq.as_c_enum()}] = ${device_id.as_c_enum()},
 % endfor
@@ -167,9 +178,9 @@ static const dt_device_t device_from_irq[kDtIrqIdCount] = {
 /**
  * Return device ID for a given peripheral.
  */
-dt_device_t dt_irq_to_device(dt_irq_t irq) {
+dt_device_id_t dt_irq_to_device(dt_irq_t irq) {
   if (irq < kDtIrqIdCount) {
     return device_from_irq[irq];
   }
-  return kDtDeviceUnknown;
+  return kDtDeviceIdUnknown;
 }

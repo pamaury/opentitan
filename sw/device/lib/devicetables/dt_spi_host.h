@@ -39,7 +39,7 @@ typedef enum {
 } dt_spi_host_pinctrl_t;
 
 typedef struct dt_spi_host {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtSpiHostRegBlockCount];
   uint32_t irqs[kDtSpiHostIrqTypeCount];
   dt_clock_t clocks[kDtSpiHostClockCount];

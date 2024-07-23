@@ -34,7 +34,7 @@ typedef enum {
 } dt_pwrmgr_pinctrl_t;
 
 typedef struct dt_pwrmgr {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtPwrmgrRegBlockCount];
   uint32_t irqs[kDtPwrmgrIrqTypeCount];
   dt_clock_t clocks[kDtPwrmgrClockCount];
@@ -54,7 +54,7 @@ typedef struct dt_pwrmgr {
  * FIXME How should we handle errors (when the invariant above is violated)?
  */
 static inline dt_pwrmgr_irq_type_t dt_pwrmgr_irq_type(
-    dt_pwrmgr_t *dt,
+    const dt_pwrmgr_t *dt,
     dt_irq_t irq) {
   // FIXME Should check that irq >= dt->irqs[0] and irq < dt->irqs[0] + kDtPwrmgrIrqTypeCount
   return irq - dt->irqs[0];

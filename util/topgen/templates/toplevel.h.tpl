@@ -221,23 +221,6 @@ ${helper.clocks.render()}
 #define ${helper.mmio.base_addr_name().as_c_define()} ${"0x{:X}u".format(helper.mmio.base_addr)}
 #define ${helper.mmio.size_bytes_name().as_c_define()} ${"0x{:X}u".format(helper.mmio.size_bytes)}
 
-/**
- * Device IDs
- */
-${helper.device_ids.render()}
-##typedef enum {
-##<%
-##    enum_base_name = Name(["dt", "device", "id"])
-##%>\
-##% for idx, device in enumerate(helper.device_ids):
-##<%
-##    enum_name = enum_base_name + device
-##%>\
-##  ${enum_name.as_c_enum()} = ${str(idx)},
-##% endfor
-##  ${Name(["dt", "device", "id", "count"]).as_c_enum()} = ${str(len(helper.device_ids))},
-##} top_${top["name"]}_device_t;
-
 // Header Extern Guard
 #ifdef __cplusplus
 }  // extern "C"

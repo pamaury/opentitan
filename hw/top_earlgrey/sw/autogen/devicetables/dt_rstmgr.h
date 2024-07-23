@@ -33,7 +33,7 @@ typedef enum {
 } dt_rstmgr_pinctrl_t;
 
 typedef struct dt_rstmgr {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtRstmgrRegBlockCount];
   dt_clock_t clocks[kDtRstmgrClockCount];
 } dt_rstmgr_t;

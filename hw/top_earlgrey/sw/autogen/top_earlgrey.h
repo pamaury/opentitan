@@ -1792,57 +1792,6 @@ typedef enum top_earlgrey_clock_src {
 #define TOP_EARLGREY_MMIO_BASE_ADDR 0x40000000u
 #define TOP_EARLGREY_MMIO_SIZE_BYTES 0x10000000u
 
-/**
- * Device IDs
- */
-typedef enum dt_device_id {
-  kDtDeviceIdUnknown = 0, /**<  */
-  kDtDeviceIdUart0 = 1, /**< uart instance named uart0 */
-  kDtDeviceIdUart1 = 2, /**< uart instance named uart1 */
-  kDtDeviceIdUart2 = 3, /**< uart instance named uart2 */
-  kDtDeviceIdUart3 = 4, /**< uart instance named uart3 */
-  kDtDeviceIdGpio = 5, /**< gpio instance named gpio */
-  kDtDeviceIdSpiDevice = 6, /**< spi_device instance named spi_device */
-  kDtDeviceIdI2c0 = 7, /**< i2c instance named i2c0 */
-  kDtDeviceIdI2c1 = 8, /**< i2c instance named i2c1 */
-  kDtDeviceIdI2c2 = 9, /**< i2c instance named i2c2 */
-  kDtDeviceIdPattgen = 10, /**< pattgen instance named pattgen */
-  kDtDeviceIdRvTimer = 11, /**< rv_timer instance named rv_timer */
-  kDtDeviceIdOtpCtrl = 12, /**< otp_ctrl instance named otp_ctrl */
-  kDtDeviceIdLcCtrl = 13, /**< lc_ctrl instance named lc_ctrl */
-  kDtDeviceIdAlertHandler = 14, /**< alert_handler instance named alert_handler */
-  kDtDeviceIdSpiHost0 = 15, /**< spi_host instance named spi_host0 */
-  kDtDeviceIdSpiHost1 = 16, /**< spi_host instance named spi_host1 */
-  kDtDeviceIdUsbdev = 17, /**< usbdev instance named usbdev */
-  kDtDeviceIdPwrmgrAon = 18, /**< pwrmgr instance named pwrmgr_aon */
-  kDtDeviceIdRstmgrAon = 19, /**< rstmgr instance named rstmgr_aon */
-  kDtDeviceIdClkmgrAon = 20, /**< clkmgr instance named clkmgr_aon */
-  kDtDeviceIdSysrstCtrlAon = 21, /**< sysrst_ctrl instance named sysrst_ctrl_aon */
-  kDtDeviceIdAdcCtrlAon = 22, /**< adc_ctrl instance named adc_ctrl_aon */
-  kDtDeviceIdPwmAon = 23, /**< pwm instance named pwm_aon */
-  kDtDeviceIdPinmuxAon = 24, /**< pinmux instance named pinmux_aon */
-  kDtDeviceIdAonTimerAon = 25, /**< aon_timer instance named aon_timer_aon */
-  kDtDeviceIdAst = 26, /**< ast instance named ast */
-  kDtDeviceIdSensorCtrlAon = 27, /**< sensor_ctrl instance named sensor_ctrl_aon */
-  kDtDeviceIdSramCtrlRetAon = 28, /**< sram_ctrl instance named sram_ctrl_ret_aon */
-  kDtDeviceIdSramCtrlMain = 29, /**< sram_ctrl instance named sram_ctrl_main */
-  kDtDeviceIdFlashCtrl = 30, /**< flash_ctrl instance named flash_ctrl */
-  kDtDeviceIdRvDm = 31, /**< rv_dm instance named rv_dm */
-  kDtDeviceIdRvPlic = 32, /**< rv_plic instance named rv_plic */
-  kDtDeviceIdAes = 33, /**< aes instance named aes */
-  kDtDeviceIdHmac = 34, /**< hmac instance named hmac */
-  kDtDeviceIdKmac = 35, /**< kmac instance named kmac */
-  kDtDeviceIdOtbn = 36, /**< otbn instance named otbn */
-  kDtDeviceIdKeymgr = 37, /**< keymgr instance named keymgr */
-  kDtDeviceIdCsrng = 38, /**< csrng instance named csrng */
-  kDtDeviceIdEntropySrc = 39, /**< entropy_src instance named entropy_src */
-  kDtDeviceIdEdn0 = 40, /**< edn instance named edn0 */
-  kDtDeviceIdEdn1 = 41, /**< edn instance named edn1 */
-  kDtDeviceIdRomCtrl = 42, /**< rom_ctrl instance named rom_ctrl */
-  kDtDeviceIdRvCoreIbex = 43, /**< rv_core_ibex instance named rv_core_ibex */
-  kDtDeviceIdCount = 44, /**<  */
-} dt_device_id_t;
-
 // Header Extern Guard
 #ifdef __cplusplus
 }  // extern "C"

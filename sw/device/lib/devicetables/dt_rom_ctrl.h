@@ -28,7 +28,7 @@ typedef enum {
 } dt_rom_ctrl_pinctrl_t;
 
 typedef struct dt_rom_ctrl {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtRomCtrlRegBlockCount];
   dt_clock_t clocks[kDtRomCtrlClockCount];
 } dt_rom_ctrl_t;

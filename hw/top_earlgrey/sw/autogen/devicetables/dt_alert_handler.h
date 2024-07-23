@@ -35,7 +35,7 @@ typedef enum {
 } dt_alert_handler_pinctrl_t;
 
 typedef struct dt_alert_handler {
-  dt_device_t device;
+  dt_device_id_t device_id;
   uint32_t base_addrs[kDtAlertHandlerRegBlockCount];
   uint32_t irqs[kDtAlertHandlerIrqTypeCount];
   dt_clock_t clocks[kDtAlertHandlerClockCount];
@@ -55,7 +55,7 @@ typedef struct dt_alert_handler {
  * FIXME How should we handle errors (when the invariant above is violated)?
  */
 static inline dt_alert_handler_irq_type_t dt_alert_handler_irq_type(
-    dt_alert_handler_t *dt,
+    const dt_alert_handler_t *dt,
     dt_irq_t irq) {
   // FIXME Should check that irq >= dt->irqs[0] and irq < dt->irqs[0] + kDtAlertHandlerIrqTypeCount
   return irq - dt->irqs[0];
