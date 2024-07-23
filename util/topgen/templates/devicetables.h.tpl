@@ -48,7 +48,7 @@ enum {
 % endfor
 };
 
-typedef enum dt_device_id_type {
+typedef enum dt_device_type {
 % for module_name in module_types:
   kDtDeviceType${snake_to_constant_name(module_name)},
 % endfor
