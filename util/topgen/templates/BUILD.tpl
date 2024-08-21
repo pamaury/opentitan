@@ -6,6 +6,7 @@ ${gencmd.replace("//", "#")}
 <%
 irq_peripheral_names = sorted({p.name for p in helper.irq_peripherals})
 alert_peripheral_names = sorted({p.name for p in helper.alert_peripherals})
+top_name = "top_" + top["name"]
 %>\
 load(
     "//rules/opentitan:defs.bzl",
@@ -33,9 +34,9 @@ package(default_visibility = ["//visibility:public"])
             EARLGREY_TEST_ENVS,
             EARLGREY_SILICON_OWNER_ROM_EXT_ENVS,
             {
-                "//hw/top_earlgrey:fpga_cw310_test_rom": None,
-                "//hw/top_earlgrey:fpga_cw310_sival": None,
-                "//hw/top_earlgrey:silicon_creator": None,
+                "//hw/${top_name}:fpga_cw310_test_rom": None,
+                "//hw/${top_name}:fpga_cw310_sival": None,
+                "//hw/${top_name}:silicon_creator": None,
             },
         ),
         verilator = verilator_params(
@@ -44,7 +45,7 @@ package(default_visibility = ["//visibility:public"])
             # often times out in 3600s on 4 cores
         ),
         deps = [
-            "//hw/top_earlgrey/sw/autogen:top_earlgrey",
+            "//hw/${top_name}/sw/autogen:${top_name}",
             "//sw/device/lib/arch:boot_stage",
             "//sw/device/lib/base:mmio",
 % for n in sorted(irq_peripheral_names + ["rv_plic"]):
@@ -79,14 +80,14 @@ opentitan_test(
         EARLGREY_TEST_ENVS,
         EARLGREY_SILICON_OWNER_ROM_EXT_ENVS,
         {
-            "//hw/top_earlgrey:fpga_cw310_test_rom": None,
-            "//hw/top_earlgrey:fpga_cw310_sival": None,
-            "//hw/top_earlgrey:fpga_cw310_sival_rom_ext": "broken",
-            "//hw/top_earlgrey:silicon_creator": None,
+            "//hw/${top_name}:fpga_cw310_test_rom": None,
+            "//hw/${top_name}:fpga_cw310_sival": None,
+            "//hw/${top_name}:fpga_cw310_sival_rom_ext": "broken",
+            "//hw/${top_name}:silicon_creator": None,
         },
     ),
     deps = [
-        "//hw/top_earlgrey/sw/autogen:top_earlgrey",
+        "//hw/${top_name}/sw/autogen:${top_name}",
         "//sw/device/lib/arch:boot_stage",
         "//sw/device/lib/base:memory",
         "//sw/device/lib/base:mmio",

@@ -24,7 +24,7 @@
 #include "sw/device/lib/base/mmio.h"
 #include "sw/device/lib/dif/dif_base.h"
 
-#include "sw/device/lib/devicetables/dt.h"
+#include "sw/device/lib/devicetables/dt_api.h"
 
 #include "sw/device/lib/dif/autogen/dif_rv_plic_autogen.h"
 

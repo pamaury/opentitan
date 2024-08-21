@@ -4,6 +4,9 @@
 #
 ${gencmd.replace("//", "#")}
 
+<%
+top_name = "top_" + top["name"]
+%>\
 package(default_visibility = ["//visibility:public"])
 
 cc_library(
@@ -15,5 +18,5 @@ cc_library(
     ],
     # We pretend that this header lives in sw/device/lib/devicetables
     include_prefix = "sw/device/lib/devicetables/",
-    deps = ["//sw/device/lib/devicetables:dt_api"],
+    deps = ["//hw/${top_name}/sw/autogen:dt_api"],
 )

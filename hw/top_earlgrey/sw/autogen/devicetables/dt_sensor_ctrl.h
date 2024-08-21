@@ -7,7 +7,7 @@
 #ifndef OPENTITAN_HW_TOP_EARLGREY_SW_AUTOGEN_DEVICETABLES_DT_SENSOR_CTRL_H_
 #define OPENTITAN_HW_TOP_EARLGREY_SW_AUTOGEN_DEVICETABLES_DT_SENSOR_CTRL_H_
 
-#include "sw/device/lib/devicetables/dt.h"
+#include "sw/device/lib/devicetables/dt_api.h"
 #include <stdint.h>
 
 typedef enum {
@@ -56,8 +56,8 @@ typedef struct dt_sensor_ctrl {
  * @return The local sensor_ctrl IRQ type of this irq.
  *
  * IMPORTANT This function assumes that the global IRQ belongs to the instance
- * of sensor_ctrl passed in parameter. In other words, it must the case that
- * `dt->device == dt_irq_to_device(irq)`
+ * of sensor_ctrl passed in parameter. In other words, it must be the case that
+ * `dt->device_id == dt_irq_to_device(irq)`
  *
  * FIXME How should we handle errors (when the invariant above is violated)?
  */

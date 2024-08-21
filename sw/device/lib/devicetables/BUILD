@@ -6,8 +6,10 @@ load("//rules:opentitan.bzl", "OPENTITAN_CPU")
 
 package(default_visibility = ["//visibility:public"])
 
+# This library gets depended upon by each top-specific
+# `devicetables`.
 cc_library(
-    name = "devicetables",
+    name = "dt_api_reggen",
     srcs = [],
     hdrs = [
         "dt_adc_ctrl.h",
@@ -42,14 +44,16 @@ cc_library(
         "dt_usbdev.h",
     ],
     deps = [
-        ":dt_api",
-        # The following cc_library sets `include_prefix` to this directory so that
-        # one can include top-specific DT headers without knowing the top name.
-        "//hw/top_earlgrey/sw/autogen/devicetables:dt_api_ipgen",
+        "//hw/top_earlgrey/sw/autogen:dt_api",
     ],
 )
 
 cc_library(
-    name = "dt_api",
-    hdrs = ["dt.h"],
+    name = "devicetables",
+    srcs = [],
+    deps = [
+        # The following cc_library sets `include_prefix` to this directory so that
+        # one can include top-specific DT headers without knowing the top name.
+        "//hw/top_earlgrey/sw/autogen:devicetables",
+    ],
 )

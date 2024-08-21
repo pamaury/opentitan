@@ -17,6 +17,5 @@ cc_library(
         "//hw/top_earlgrey/sw/autogen:top_earlgrey",
         "//sw/device/lib/base:macros",
         "//sw/device/lib/devicetables",
-        "//sw/device/lib/devicetables:dt_api",
     ],
 )

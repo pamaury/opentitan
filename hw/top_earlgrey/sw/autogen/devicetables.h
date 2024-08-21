@@ -15,9 +15,7 @@
 #ifndef OPENTITAN_HW_TOP_EARLGREY_SW_AUTOGEN_DEVICETABLES_H_
 #define OPENTITAN_HW_TOP_EARLGREY_SW_AUTOGEN_DEVICETABLES_H_
 
-#include "sw/device/lib/devicetables/dt.h"
-
-#include <stddef.h>
+#include "sw/device/lib/devicetables/dt_api.h"
 
 #include "hw/top_earlgrey/sw/autogen/devicetables/dt_alert_handler.h"
 #include "hw/top_earlgrey/sw/autogen/devicetables/dt_ast.h"
@@ -54,122 +52,6 @@
 #include "sw/device/lib/devicetables/dt_sysrst_ctrl.h"
 #include "sw/device/lib/devicetables/dt_uart.h"
 #include "sw/device/lib/devicetables/dt_usbdev.h"
-
-enum {
-  kDtAdcCtrlCount = 1,
-  kDtAesCount = 1,
-  kDtAlertHandlerCount = 1,
-  kDtAonTimerCount = 1,
-  kDtAstCount = 1,
-  kDtClkmgrCount = 1,
-  kDtCsrngCount = 1,
-  kDtEdnCount = 2,
-  kDtEntropySrcCount = 1,
-  kDtFlashCtrlCount = 1,
-  kDtGpioCount = 1,
-  kDtHmacCount = 1,
-  kDtI2cCount = 3,
-  kDtKeymgrCount = 1,
-  kDtKmacCount = 1,
-  kDtLcCtrlCount = 1,
-  kDtOtbnCount = 1,
-  kDtOtpCtrlCount = 1,
-  kDtPattgenCount = 1,
-  kDtPinmuxCount = 1,
-  kDtPwmCount = 1,
-  kDtPwrmgrCount = 1,
-  kDtRomCtrlCount = 1,
-  kDtRstmgrCount = 1,
-  kDtRvCoreIbexCount = 1,
-  kDtRvDmCount = 1,
-  kDtRvPlicCount = 1,
-  kDtRvTimerCount = 1,
-  kDtSensorCtrlCount = 1,
-  kDtSpiDeviceCount = 1,
-  kDtSpiHostCount = 2,
-  kDtSramCtrlCount = 2,
-  kDtSysrstCtrlCount = 1,
-  kDtUartCount = 4,
-  kDtUsbdevCount = 1,
-};
-
-typedef enum dt_device_type {
-  kDtDeviceTypeAdcCtrl,
-  kDtDeviceTypeAes,
-  kDtDeviceTypeAlertHandler,
-  kDtDeviceTypeAonTimer,
-  kDtDeviceTypeAst,
-  kDtDeviceTypeClkmgr,
-  kDtDeviceTypeCsrng,
-  kDtDeviceTypeEdn,
-  kDtDeviceTypeEntropySrc,
-  kDtDeviceTypeFlashCtrl,
-  kDtDeviceTypeGpio,
-  kDtDeviceTypeHmac,
-  kDtDeviceTypeI2c,
-  kDtDeviceTypeKeymgr,
-  kDtDeviceTypeKmac,
-  kDtDeviceTypeLcCtrl,
-  kDtDeviceTypeOtbn,
-  kDtDeviceTypeOtpCtrl,
-  kDtDeviceTypePattgen,
-  kDtDeviceTypePinmux,
-  kDtDeviceTypePwm,
-  kDtDeviceTypePwrmgr,
-  kDtDeviceTypeRomCtrl,
-  kDtDeviceTypeRstmgr,
-  kDtDeviceTypeRvCoreIbex,
-  kDtDeviceTypeRvDm,
-  kDtDeviceTypeRvPlic,
-  kDtDeviceTypeRvTimer,
-  kDtDeviceTypeSensorCtrl,
-  kDtDeviceTypeSpiDevice,
-  kDtDeviceTypeSpiHost,
-  kDtDeviceTypeSramCtrl,
-  kDtDeviceTypeSysrstCtrl,
-  kDtDeviceTypeUart,
-  kDtDeviceTypeUsbdev,
-} dt_device_type_t;
-
-/**
- * Get the device type of a device.
- *
- * For example the device type of `kDtUart0` is `kDtUartDevice`.
- *
- * @param dev A device ID.
- * @return The device type.
- */
-static inline dt_device_type_t dt_device_type(dt_device_id_t dev) {
-    return (dt_device_type_t)(dev >> 16);
-}
-
-/**
- * Get the device instance of a device.
- *
- * If a top instances several devices of the same type, this will
- * return the instance number. This function guarantees that the instance
- * number can be used to index into the correspond devicetable below.
- *
- * For example, the instance number of `kDtUart3` is 3. It is guaranteed
- * then that `kDtUart[3].device == kDtUart3`.
- *
- * @param dev A device ID.
- * @return The device instance number.
- */
-static inline size_t dt_device_instance(dt_device_id_t dev) {
-    return (dt_device_type_t)(dev & 0xffff);
-}
-
-/**
- * Return the device ID from a device type and instance.
- *
- * @param dev_type A device type (dt_device_type_t).
- * @param instance A device instance (size_t).
- * @return The corresponding device ID (dt_device_id_t).
- *
- * This is a macro so it can be used in `devicetables.c` to create constants.
- */
-#define dt_get_device_id(dev_type, inst)   ((dt_device_id_t)((dev_type) << 16 | ((inst) & 0xffff)))
 
 // Device tables for adc_ctrl
 extern const dt_adc_ctrl_t kDtAdcCtrl[kDtAdcCtrlCount];

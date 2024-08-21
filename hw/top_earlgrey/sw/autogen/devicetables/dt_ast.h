@@ -7,7 +7,7 @@
 #ifndef OPENTITAN_HW_TOP_EARLGREY_SW_AUTOGEN_DEVICETABLES_DT_AST_H_
 #define OPENTITAN_HW_TOP_EARLGREY_SW_AUTOGEN_DEVICETABLES_DT_AST_H_
 
-#include "sw/device/lib/devicetables/dt.h"
+#include "sw/device/lib/devicetables/dt_api.h"
 #include <stdint.h>
 
 typedef enum {

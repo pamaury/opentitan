@@ -9,7 +9,7 @@
 
 #include <stdint.h>
 
-#include "sw/device/lib/devicetables/dt.h"
+#include "sw/device/lib/devicetables/dt_api.h"
 
 typedef enum {
   kDtUsbdevRegBlockCore = 0,

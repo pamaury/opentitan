@@ -17,52 +17,6 @@
 #include "hw/top_earlgrey/sw/autogen/top_earlgrey.h"
 #include <stdint.h>
 
-enum dt_device {
-  kDtDeviceIdAdcCtrlAon = dt_get_device_id(kDtDeviceTypeAdcCtrl, 0),
-  kDtDeviceIdAes = dt_get_device_id(kDtDeviceTypeAes, 0),
-  kDtDeviceIdAlertHandler = dt_get_device_id(kDtDeviceTypeAlertHandler, 0),
-  kDtDeviceIdAonTimerAon = dt_get_device_id(kDtDeviceTypeAonTimer, 0),
-  kDtDeviceIdAst = dt_get_device_id(kDtDeviceTypeAst, 0),
-  kDtDeviceIdClkmgrAon = dt_get_device_id(kDtDeviceTypeClkmgr, 0),
-  kDtDeviceIdCsrng = dt_get_device_id(kDtDeviceTypeCsrng, 0),
-  kDtDeviceIdEdn0 = dt_get_device_id(kDtDeviceTypeEdn, 0),
-  kDtDeviceIdEdn1 = dt_get_device_id(kDtDeviceTypeEdn, 1),
-  kDtDeviceIdEntropySrc = dt_get_device_id(kDtDeviceTypeEntropySrc, 0),
-  kDtDeviceIdFlashCtrl = dt_get_device_id(kDtDeviceTypeFlashCtrl, 0),
-  kDtDeviceIdGpio = dt_get_device_id(kDtDeviceTypeGpio, 0),
-  kDtDeviceIdHmac = dt_get_device_id(kDtDeviceTypeHmac, 0),
-  kDtDeviceIdI2c0 = dt_get_device_id(kDtDeviceTypeI2c, 0),
-  kDtDeviceIdI2c1 = dt_get_device_id(kDtDeviceTypeI2c, 1),
-  kDtDeviceIdI2c2 = dt_get_device_id(kDtDeviceTypeI2c, 2),
-  kDtDeviceIdKeymgr = dt_get_device_id(kDtDeviceTypeKeymgr, 0),
-  kDtDeviceIdKmac = dt_get_device_id(kDtDeviceTypeKmac, 0),
-  kDtDeviceIdLcCtrl = dt_get_device_id(kDtDeviceTypeLcCtrl, 0),
-  kDtDeviceIdOtbn = dt_get_device_id(kDtDeviceTypeOtbn, 0),
-  kDtDeviceIdOtpCtrl = dt_get_device_id(kDtDeviceTypeOtpCtrl, 0),
-  kDtDeviceIdPattgen = dt_get_device_id(kDtDeviceTypePattgen, 0),
-  kDtDeviceIdPinmuxAon = dt_get_device_id(kDtDeviceTypePinmux, 0),
-  kDtDeviceIdPwmAon = dt_get_device_id(kDtDeviceTypePwm, 0),
-  kDtDeviceIdPwrmgrAon = dt_get_device_id(kDtDeviceTypePwrmgr, 0),
-  kDtDeviceIdRomCtrl = dt_get_device_id(kDtDeviceTypeRomCtrl, 0),
-  kDtDeviceIdRstmgrAon = dt_get_device_id(kDtDeviceTypeRstmgr, 0),
-  kDtDeviceIdRvCoreIbex = dt_get_device_id(kDtDeviceTypeRvCoreIbex, 0),
-  kDtDeviceIdRvDm = dt_get_device_id(kDtDeviceTypeRvDm, 0),
-  kDtDeviceIdRvPlic = dt_get_device_id(kDtDeviceTypeRvPlic, 0),
-  kDtDeviceIdRvTimer = dt_get_device_id(kDtDeviceTypeRvTimer, 0),
-  kDtDeviceIdSensorCtrlAon = dt_get_device_id(kDtDeviceTypeSensorCtrl, 0),
-  kDtDeviceIdSpiDevice = dt_get_device_id(kDtDeviceTypeSpiDevice, 0),
-  kDtDeviceIdSpiHost0 = dt_get_device_id(kDtDeviceTypeSpiHost, 0),
-  kDtDeviceIdSpiHost1 = dt_get_device_id(kDtDeviceTypeSpiHost, 1),
-  kDtDeviceIdSramCtrlRetAon = dt_get_device_id(kDtDeviceTypeSramCtrl, 0),
-  kDtDeviceIdSramCtrlMain = dt_get_device_id(kDtDeviceTypeSramCtrl, 1),
-  kDtDeviceIdSysrstCtrlAon = dt_get_device_id(kDtDeviceTypeSysrstCtrl, 0),
-  kDtDeviceIdUart0 = dt_get_device_id(kDtDeviceTypeUart, 0),
-  kDtDeviceIdUart1 = dt_get_device_id(kDtDeviceTypeUart, 1),
-  kDtDeviceIdUart2 = dt_get_device_id(kDtDeviceTypeUart, 2),
-  kDtDeviceIdUart3 = dt_get_device_id(kDtDeviceTypeUart, 3),
-  kDtDeviceIdUsbdev = dt_get_device_id(kDtDeviceTypeUsbdev, 0),
-};
-
 // Device tables for adc_ctrl
 _Static_assert(kDtAdcCtrlRegBlockCount == 1, "Reg block count mismatch");
 _Static_assert(kDtAdcCtrlClockCount == 2, "Clock count mismatch");
@@ -1249,12 +1203,115 @@ static const dt_device_id_t device_from_irq[kDtIrqIdCount] = {
     [kTopEarlgreyPlicIrqIdEdn1EdnFatalErr] = kDtDeviceIdEdn1,
 };
 
-/**
- * Return device ID for a given peripheral.
- */
 dt_device_id_t dt_irq_to_device(dt_irq_t irq) {
   if (irq < kDtIrqIdCount) {
     return device_from_irq[irq];
   }
   return kDtDeviceIdUnknown;
+}
+
+static const dt_device_type_t device_type[kDtDeviceIdCount] = {
+  [kDtDeviceIdAdcCtrlAon] = kDtDeviceTypeAdcCtrl,
+  [kDtDeviceIdAes] = kDtDeviceTypeAes,
+  [kDtDeviceIdAlertHandler] = kDtDeviceTypeAlertHandler,
+  [kDtDeviceIdAonTimerAon] = kDtDeviceTypeAonTimer,
+  [kDtDeviceIdAst] = kDtDeviceTypeAst,
+  [kDtDeviceIdClkmgrAon] = kDtDeviceTypeClkmgr,
+  [kDtDeviceIdCsrng] = kDtDeviceTypeCsrng,
+  [kDtDeviceIdEdn0] = kDtDeviceTypeEdn,
+  [kDtDeviceIdEdn1] = kDtDeviceTypeEdn,
+  [kDtDeviceIdEntropySrc] = kDtDeviceTypeEntropySrc,
+  [kDtDeviceIdFlashCtrl] = kDtDeviceTypeFlashCtrl,
+  [kDtDeviceIdGpio] = kDtDeviceTypeGpio,
+  [kDtDeviceIdHmac] = kDtDeviceTypeHmac,
+  [kDtDeviceIdI2c0] = kDtDeviceTypeI2c,
+  [kDtDeviceIdI2c1] = kDtDeviceTypeI2c,
+  [kDtDeviceIdI2c2] = kDtDeviceTypeI2c,
+  [kDtDeviceIdKeymgr] = kDtDeviceTypeKeymgr,
+  [kDtDeviceIdKmac] = kDtDeviceTypeKmac,
+  [kDtDeviceIdLcCtrl] = kDtDeviceTypeLcCtrl,
+  [kDtDeviceIdOtbn] = kDtDeviceTypeOtbn,
+  [kDtDeviceIdOtpCtrl] = kDtDeviceTypeOtpCtrl,
+  [kDtDeviceIdPattgen] = kDtDeviceTypePattgen,
+  [kDtDeviceIdPinmuxAon] = kDtDeviceTypePinmux,
+  [kDtDeviceIdPwmAon] = kDtDeviceTypePwm,
+  [kDtDeviceIdPwrmgrAon] = kDtDeviceTypePwrmgr,
+  [kDtDeviceIdRomCtrl] = kDtDeviceTypeRomCtrl,
+  [kDtDeviceIdRstmgrAon] = kDtDeviceTypeRstmgr,
+  [kDtDeviceIdRvCoreIbex] = kDtDeviceTypeRvCoreIbex,
+  [kDtDeviceIdRvDm] = kDtDeviceTypeRvDm,
+  [kDtDeviceIdRvPlic] = kDtDeviceTypeRvPlic,
+  [kDtDeviceIdRvTimer] = kDtDeviceTypeRvTimer,
+  [kDtDeviceIdSensorCtrlAon] = kDtDeviceTypeSensorCtrl,
+  [kDtDeviceIdSpiDevice] = kDtDeviceTypeSpiDevice,
+  [kDtDeviceIdSpiHost0] = kDtDeviceTypeSpiHost,
+  [kDtDeviceIdSpiHost1] = kDtDeviceTypeSpiHost,
+  [kDtDeviceIdSramCtrlRetAon] = kDtDeviceTypeSramCtrl,
+  [kDtDeviceIdSramCtrlMain] = kDtDeviceTypeSramCtrl,
+  [kDtDeviceIdSysrstCtrlAon] = kDtDeviceTypeSysrstCtrl,
+  [kDtDeviceIdUart0] = kDtDeviceTypeUart,
+  [kDtDeviceIdUart1] = kDtDeviceTypeUart,
+  [kDtDeviceIdUart2] = kDtDeviceTypeUart,
+  [kDtDeviceIdUart3] = kDtDeviceTypeUart,
+  [kDtDeviceIdUsbdev] = kDtDeviceTypeUsbdev,
+};
+
+static const dt_device_type_t device_index[kDtDeviceIdCount] = {
+  [kDtDeviceIdAdcCtrlAon] = 0,
+  [kDtDeviceIdAes] = 0,
+  [kDtDeviceIdAlertHandler] = 0,
+  [kDtDeviceIdAonTimerAon] = 0,
+  [kDtDeviceIdAst] = 0,
+  [kDtDeviceIdClkmgrAon] = 0,
+  [kDtDeviceIdCsrng] = 0,
+  [kDtDeviceIdEdn0] = 0,
+  [kDtDeviceIdEdn1] = 1,
+  [kDtDeviceIdEntropySrc] = 0,
+  [kDtDeviceIdFlashCtrl] = 0,
+  [kDtDeviceIdGpio] = 0,
+  [kDtDeviceIdHmac] = 0,
+  [kDtDeviceIdI2c0] = 0,
+  [kDtDeviceIdI2c1] = 1,
+  [kDtDeviceIdI2c2] = 2,
+  [kDtDeviceIdKeymgr] = 0,
+  [kDtDeviceIdKmac] = 0,
+  [kDtDeviceIdLcCtrl] = 0,
+  [kDtDeviceIdOtbn] = 0,
+  [kDtDeviceIdOtpCtrl] = 0,
+  [kDtDeviceIdPattgen] = 0,
+  [kDtDeviceIdPinmuxAon] = 0,
+  [kDtDeviceIdPwmAon] = 0,
+  [kDtDeviceIdPwrmgrAon] = 0,
+  [kDtDeviceIdRomCtrl] = 0,
+  [kDtDeviceIdRstmgrAon] = 0,
+  [kDtDeviceIdRvCoreIbex] = 0,
+  [kDtDeviceIdRvDm] = 0,
+  [kDtDeviceIdRvPlic] = 0,
+  [kDtDeviceIdRvTimer] = 0,
+  [kDtDeviceIdSensorCtrlAon] = 0,
+  [kDtDeviceIdSpiDevice] = 0,
+  [kDtDeviceIdSpiHost0] = 0,
+  [kDtDeviceIdSpiHost1] = 1,
+  [kDtDeviceIdSramCtrlRetAon] = 0,
+  [kDtDeviceIdSramCtrlMain] = 1,
+  [kDtDeviceIdSysrstCtrlAon] = 0,
+  [kDtDeviceIdUart0] = 0,
+  [kDtDeviceIdUart1] = 1,
+  [kDtDeviceIdUart2] = 2,
+  [kDtDeviceIdUart3] = 3,
+  [kDtDeviceIdUsbdev] = 0,
+};
+
+dt_device_type_t dt_device_type(dt_device_id_t dev) {
+  if (dev < kDtDeviceIdCount) {
+    return device_type[dev];
+  }
+  return kDtDeviceTypeUnknown;
+}
+
+size_t dt_device_index(dt_device_id_t dev) {
+  if (dev < kDtDeviceIdCount) {
+    return device_index[dev];
+  }
+  return 0;
 }

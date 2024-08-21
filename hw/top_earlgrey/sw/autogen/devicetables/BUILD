@@ -29,5 +29,5 @@ cc_library(
     ],
     # We pretend that this header lives in sw/device/lib/devicetables
     include_prefix = "sw/device/lib/devicetables/",
-    deps = ["//sw/device/lib/devicetables:dt_api"],
+    deps = ["//hw/top_earlgrey/sw/autogen:dt_api"],
 )

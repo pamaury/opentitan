@@ -4,7 +4,7 @@
 
 #include <stdint.h>
 
-#include "sw/device/lib/devicetables/dt.h"
+#include "sw/device/lib/devicetables/dt_api.h"
 
 #include "hw/top_earlgrey/sw/autogen/top_earlgrey.h"
 

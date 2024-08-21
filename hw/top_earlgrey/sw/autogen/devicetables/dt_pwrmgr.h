@@ -7,7 +7,7 @@
 #ifndef OPENTITAN_HW_TOP_EARLGREY_SW_AUTOGEN_DEVICETABLES_DT_PWRMGR_H_
 #define OPENTITAN_HW_TOP_EARLGREY_SW_AUTOGEN_DEVICETABLES_DT_PWRMGR_H_
 
-#include "sw/device/lib/devicetables/dt.h"
+#include "sw/device/lib/devicetables/dt_api.h"
 #include <stdint.h>
 
 typedef enum {
@@ -48,8 +48,8 @@ typedef struct dt_pwrmgr {
  * @return The local pwrmgr IRQ type of this irq.
  *
  * IMPORTANT This function assumes that the global IRQ belongs to the instance
- * of pwrmgr passed in parameter. In other words, it must the case that
- * `dt->device == dt_irq_to_device(irq)`
+ * of pwrmgr passed in parameter. In other words, it must be the case that
+ * `dt->device_id == dt_irq_to_device(irq)`
  *
  * FIXME How should we handle errors (when the invariant above is violated)?
  */

@@ -63,7 +63,7 @@
 #ifndef ${include_guard}
 #define ${include_guard}
 
-#include "sw/device/lib/devicetables/dt.h"
+#include "sw/device/lib/devicetables/dt_api.h"
 #include <stdint.h>
 
 ## List of register blocks.
