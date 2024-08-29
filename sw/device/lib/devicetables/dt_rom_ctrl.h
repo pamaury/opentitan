@@ -22,11 +22,6 @@ typedef enum {
   kDtRomCtrlClockCount = 1,
 } dt_rom_ctrl_clock_t;
 
-typedef enum {
-  kDtRomCtrlPinctrlInputCount = 0,
-  kDtRomCtrlPinctrlOutputCount = 0,
-} dt_rom_ctrl_pinctrl_t;
-
 typedef struct dt_rom_ctrl {
   dt_device_id_t device_id;
   uint32_t base_addrs[kDtRomCtrlRegBlockCount];

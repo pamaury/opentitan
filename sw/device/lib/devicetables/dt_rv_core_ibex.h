@@ -24,11 +24,6 @@ typedef enum {
   kDtRvCoreIbexClockCount = 4,
 } dt_rv_core_ibex_clock_t;
 
-typedef enum {
-  kDtRvCoreIbexPinctrlInputCount = 0,
-  kDtRvCoreIbexPinctrlOutputCount = 0,
-} dt_rv_core_ibex_pinctrl_t;
-
 typedef struct dt_rv_core_ibex {
   dt_device_id_t device_id;
   uint32_t base_addrs[kDtRvCoreIbexRegBlockCount];

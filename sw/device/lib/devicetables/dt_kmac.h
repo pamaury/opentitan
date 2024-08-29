@@ -29,11 +29,6 @@ typedef enum {
   kDtKmacClockCount = 2,
 } dt_kmac_clock_t;
 
-typedef enum {
-  kDtKmacPinctrlInputCount = 0,
-  kDtKmacPinctrlOutputCount = 0,
-} dt_kmac_pinctrl_t;
-
 typedef struct dt_kmac {
   dt_device_id_t device_id;
   uint32_t base_addrs[kDtKmacRegBlockCount];

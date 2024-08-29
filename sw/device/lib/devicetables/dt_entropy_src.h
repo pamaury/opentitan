@@ -29,11 +29,6 @@ typedef enum {
   kDtEntropySrcClockCount = 1,
 } dt_entropy_src_clock_t;
 
-typedef enum {
-  kDtEntropySrcPinctrlInputCount = 0,
-  kDtEntropySrcPinctrlOutputCount = 0,
-} dt_entropy_src_pinctrl_t;
-
 typedef struct dt_entropy_src {
   dt_device_id_t device_id;
   uint32_t base_addrs[kDtEntropySrcRegBlockCount];

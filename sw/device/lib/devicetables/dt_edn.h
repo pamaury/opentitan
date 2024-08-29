@@ -27,11 +27,6 @@ typedef enum {
   kDtEdnClockCount = 1,
 } dt_edn_clock_t;
 
-typedef enum {
-  kDtEdnPinctrlInputCount = 0,
-  kDtEdnPinctrlOutputCount = 0,
-} dt_edn_pinctrl_t;
-
 typedef struct dt_edn {
   dt_device_id_t device_id;
   uint32_t base_addrs[kDtEdnRegBlockCount];

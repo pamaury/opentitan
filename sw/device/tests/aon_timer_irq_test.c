@@ -221,6 +221,8 @@ bool test_main(void) {
       &plic, kPlicTarget, aon_timer_dt->irqs[kDtAonTimerIrqTypeWkupTimerExpired],
       aon_timer_dt->irqs[kDtAonTimerIrqTypeWdogTimerBark]);
 
+  LOG_INFO("sizeof(dt_pin) = %d", sizeof(dt_pin_t));
+
   // Executing the test using random time bounds calculated from the clock
   // frequency to make sure the aon timer is generating the interrupt after the
   // chosen time and there's no error in the reference time measurement. This

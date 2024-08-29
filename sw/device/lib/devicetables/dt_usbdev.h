@@ -45,11 +45,10 @@ typedef enum {
 } dt_usbdev_clock_t;
 
 typedef enum {
-  kDtUsbdevPinctrlInputSense = 0,
-  kDtUsbdevPinctrlInoutUsbDp = 1,
-  kDtUsbdevPinctrlInoutUsbDn = 2,
-  kDtUsbdevPinctrlInputCount = 3,
-  kDtUsbdevPinctrlOutputCount = 3,
+  kDtUsbdevPinSense = 0,
+  kDtUsbdevPinUsbDp = 1,
+  kDtUsbdevPinUsbDn = 2,
+  kDtUsbdevPinCount = 3,
 } dt_usbdev_pinctrl_t;
 
 typedef struct dt_usbdev {
@@ -57,6 +56,7 @@ typedef struct dt_usbdev {
   uint32_t base_addrs[kDtUsbdevRegBlockCount];
   uint32_t irqs[kDtUsbdevIrqTypeCount];
   dt_clock_t clocks[kDtUsbdevClockCount];
+  dt_pin_t pins[kDtUsbdevPinCount];
 } dt_usbdev_t;
 
 /**

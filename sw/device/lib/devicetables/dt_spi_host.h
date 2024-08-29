@@ -28,14 +28,13 @@ typedef enum {
 } dt_spi_host_clock_t;
 
 typedef enum {
-  kDtSpiHostPinctrlInoutSd0 = 0,
-  kDtSpiHostPinctrlInoutSd1 = 1,
-  kDtSpiHostPinctrlInoutSd2 = 2,
-  kDtSpiHostPinctrlInoutSd3 = 3,
-  kDtSpiHostPinctrlOutputSck = 4,
-  kDtSpiHostPinctrlOutputCsb = 5,
-  kDtSpiHostPinctrlInputCount = 4,
-  kDtSpiHostPinctrlOutputCount = 6,
+  kDtSpiHostPinSck = 0,
+  kDtSpiHostPinCsb = 1,
+  kDtSpiHostPinSd0 = 2,
+  kDtSpiHostPinSd1 = 3,
+  kDtSpiHostPinSd2 = 4,
+  kDtSpiHostPinSd3 = 5,
+  kDtSpiHostPinCount = 6,
 } dt_spi_host_pinctrl_t;
 
 typedef struct dt_spi_host {
@@ -43,6 +42,7 @@ typedef struct dt_spi_host {
   uint32_t base_addrs[kDtSpiHostRegBlockCount];
   uint32_t irqs[kDtSpiHostIrqTypeCount];
   dt_clock_t clocks[kDtSpiHostClockCount];
+  dt_pin_t pins[kDtSpiHostPinCount];
 } dt_spi_host_t;
 
 /**

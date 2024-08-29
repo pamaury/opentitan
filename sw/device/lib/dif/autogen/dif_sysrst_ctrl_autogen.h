@@ -19,6 +19,7 @@
 
 #include "sw/device/lib/base/macros.h"
 #include "sw/device/lib/base/mmio.h"
+#include "sw/device/lib/devicetables/dt_sysrst_ctrl.h"
 #include "sw/device/lib/dif/dif_base.h"
 
 #ifdef __cplusplus
@@ -45,10 +46,26 @@ typedef struct dif_sysrst_ctrl {
  * @param base_addr The MMIO base address of the sysrst_ctrl peripheral.
  * @param[out] sysrst_ctrl Out param for the initialized handle.
  * @return The result of the operation.
+ *
+ * DEPRECATED This function exists solely for the transition to
+ * dt-based DIFs and will be removed in the future.
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_sysrst_ctrl_init(mmio_region_t base_addr,
                                   dif_sysrst_ctrl_t *sysrst_ctrl);
+
+/**
+ * Creates a new handle for a(n) sysrst_ctrl peripheral.
+ *
+ * This function does not actuate the hardware.
+ *
+ * @param dt The devicetable description of the device.
+ * @param[out] sysrst_ctrl Out param for the initialized handle.
+ * @return The result of the operation.
+ */
+OT_WARN_UNUSED_RESULT
+dif_result_t dif_sysrst_ctrl_init_dt(const dt_sysrst_ctrl_t *dt,
+                                     dif_sysrst_ctrl_t *sysrst_ctrl);
 
 /**
  * A sysrst_ctrl alert type.
@@ -75,13 +92,29 @@ dif_result_t dif_sysrst_ctrl_alert_force(const dif_sysrst_ctrl_t *sysrst_ctrl,
 
 /**
  * A sysrst_ctrl interrupt request type.
+ *
+ * DEPRECATED This enumeration exists solely for the transition to
+ * dt-based interrupt numbers and will be removed in the future.
  */
-typedef enum dif_sysrst_ctrl_irq {
+enum {
   /**
    * Common interrupt triggered by combo or keyboard events.
    */
-  kDifSysrstCtrlIrqEventDetected = 0,
-} dif_sysrst_ctrl_irq_t;
+  kDifSysrstCtrlIrqEventDetected = kDtSysrstCtrlIrqTypeEventDetected,
+};
+
+// These checks ensure that the dif-based interrupt numbering is compatible
+// with the dt-based numbering, to avoid any breakage.
+/**
+ * Common interrupt triggered by combo or keyboard events.
+ */
+static_assert(
+    kDifSysrstCtrlIrqEventDetected == 0,
+    "DIF-based interrupt numbering does not match DT-based numbering");
+
+// DEPRECATED This typedef exists solely for the transition to
+// dt-based interrupt numbers and will be removed in the future.
+typedef dt_sysrst_ctrl_irq_type_t dif_sysrst_ctrl_irq_t;
 
 /**
  * A snapshot of the state of the interrupts for this IP.
@@ -101,7 +134,7 @@ typedef uint32_t dif_sysrst_ctrl_irq_state_snapshot_t;
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_sysrst_ctrl_irq_get_type(const dif_sysrst_ctrl_t *sysrst_ctrl,
-                                          dif_sysrst_ctrl_irq_t irq,
+                                          dt_sysrst_ctrl_irq_type_t irq,
                                           dif_irq_type_t *type);
 
 /**
@@ -126,7 +159,7 @@ dif_result_t dif_sysrst_ctrl_irq_get_state(
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_sysrst_ctrl_irq_is_pending(
-    const dif_sysrst_ctrl_t *sysrst_ctrl, dif_sysrst_ctrl_irq_t irq,
+    const dif_sysrst_ctrl_t *sysrst_ctrl, dt_sysrst_ctrl_irq_type_t irq,
     bool *is_pending);
 
 /**
@@ -163,7 +196,7 @@ dif_result_t dif_sysrst_ctrl_irq_acknowledge_all(
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_sysrst_ctrl_irq_acknowledge(
-    const dif_sysrst_ctrl_t *sysrst_ctrl, dif_sysrst_ctrl_irq_t irq);
+    const dif_sysrst_ctrl_t *sysrst_ctrl, dt_sysrst_ctrl_irq_type_t irq);
 
 /**
  * Forces a particular interrupt, causing it to be serviced as if hardware had
@@ -176,7 +209,7 @@ dif_result_t dif_sysrst_ctrl_irq_acknowledge(
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_sysrst_ctrl_irq_force(const dif_sysrst_ctrl_t *sysrst_ctrl,
-                                       dif_sysrst_ctrl_irq_t irq,
+                                       dt_sysrst_ctrl_irq_type_t irq,
                                        const bool val);
 
 /**
@@ -198,7 +231,7 @@ typedef uint32_t dif_sysrst_ctrl_irq_enable_snapshot_t;
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_sysrst_ctrl_irq_get_enabled(
-    const dif_sysrst_ctrl_t *sysrst_ctrl, dif_sysrst_ctrl_irq_t irq,
+    const dif_sysrst_ctrl_t *sysrst_ctrl, dt_sysrst_ctrl_irq_type_t irq,
     dif_toggle_t *state);
 
 /**
@@ -211,7 +244,7 @@ dif_result_t dif_sysrst_ctrl_irq_get_enabled(
  */
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_sysrst_ctrl_irq_set_enabled(
-    const dif_sysrst_ctrl_t *sysrst_ctrl, dif_sysrst_ctrl_irq_t irq,
+    const dif_sysrst_ctrl_t *sysrst_ctrl, dt_sysrst_ctrl_irq_type_t irq,
     dif_toggle_t state);
 
 /**

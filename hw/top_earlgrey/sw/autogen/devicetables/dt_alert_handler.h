@@ -29,11 +29,6 @@ typedef enum {
   kDtAlertHandlerClockCount = 2,
 } dt_alert_handler_clock_t;
 
-typedef enum {
-  kDtAlertHandlerPinctrlInputCount = 0,
-  kDtAlertHandlerPinctrlOutputCount = 0,
-} dt_alert_handler_pinctrl_t;
-
 typedef struct dt_alert_handler {
   dt_device_id_t device_id;
   uint32_t base_addrs[kDtAlertHandlerRegBlockCount];

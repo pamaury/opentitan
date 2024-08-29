@@ -34,12 +34,11 @@ typedef enum {
 } dt_flash_ctrl_clock_t;
 
 typedef enum {
-  kDtFlashCtrlPinctrlInputTck = 0,
-  kDtFlashCtrlPinctrlInputTms = 1,
-  kDtFlashCtrlPinctrlInputTdi = 2,
-  kDtFlashCtrlPinctrlOutputTdo = 3,
-  kDtFlashCtrlPinctrlInputCount = 3,
-  kDtFlashCtrlPinctrlOutputCount = 4,
+  kDtFlashCtrlPinTck = 0,
+  kDtFlashCtrlPinTms = 1,
+  kDtFlashCtrlPinTdi = 2,
+  kDtFlashCtrlPinTdo = 3,
+  kDtFlashCtrlPinCount = 4,
 } dt_flash_ctrl_pinctrl_t;
 
 typedef struct dt_flash_ctrl {
@@ -47,6 +46,7 @@ typedef struct dt_flash_ctrl {
   uint32_t base_addrs[kDtFlashCtrlRegBlockCount];
   uint32_t irqs[kDtFlashCtrlIrqTypeCount];
   dt_clock_t clocks[kDtFlashCtrlClockCount];
+  dt_pin_t pins[kDtFlashCtrlPinCount];
 } dt_flash_ctrl_t;
 
 /**

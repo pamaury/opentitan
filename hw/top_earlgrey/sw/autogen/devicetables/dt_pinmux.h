@@ -21,11 +21,6 @@ typedef enum {
   kDtPinmuxClockCount = 2,
 } dt_pinmux_clock_t;
 
-typedef enum {
-  kDtPinmuxPinctrlInputCount = 0,
-  kDtPinmuxPinctrlOutputCount = 0,
-} dt_pinmux_pinctrl_t;
-
 typedef struct dt_pinmux {
   dt_device_id_t device_id;
   uint32_t base_addrs[kDtPinmuxRegBlockCount];

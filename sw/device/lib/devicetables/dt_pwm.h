@@ -23,20 +23,20 @@ typedef enum {
 } dt_pwm_clock_t;
 
 typedef enum {
-  kDtPwmPinctrlOutputPwm0 = 0,
-  kDtPwmPinctrlOutputPwm1 = 1,
-  kDtPwmPinctrlOutputPwm2 = 2,
-  kDtPwmPinctrlOutputPwm3 = 3,
-  kDtPwmPinctrlOutputPwm4 = 4,
-  kDtPwmPinctrlOutputPwm5 = 5,
-  kDtPwmPinctrlInputCount = 0,
-  kDtPwmPinctrlOutputCount = 6,
+  kDtPwmPinPwm0 = 0,
+  kDtPwmPinPwm1 = 1,
+  kDtPwmPinPwm2 = 2,
+  kDtPwmPinPwm3 = 3,
+  kDtPwmPinPwm4 = 4,
+  kDtPwmPinPwm5 = 5,
+  kDtPwmPinCount = 6,
 } dt_pwm_pinctrl_t;
 
 typedef struct dt_pwm {
   dt_device_id_t device_id;
   uint32_t base_addrs[kDtPwmRegBlockCount];
   dt_clock_t clocks[kDtPwmClockCount];
+  dt_pin_t pins[kDtPwmPinCount];
 } dt_pwm_t;
 
 #endif  // OPENTITAN_SW_DEVICE_LIB_DEVICETABLES_DT_PWM_H_

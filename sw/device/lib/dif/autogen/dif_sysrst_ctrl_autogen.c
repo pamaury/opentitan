@@ -25,6 +25,18 @@ dif_result_t dif_sysrst_ctrl_init(mmio_region_t base_addr,
   return kDifOk;
 }
 
+OT_WARN_UNUSED_RESULT
+dif_result_t dif_sysrst_ctrl_init_dt(const dt_sysrst_ctrl_t *dt,
+                                     dif_sysrst_ctrl_t *sysrst_ctrl) {
+  if (sysrst_ctrl == NULL || dt == NULL) {
+    return kDifBadArg;
+  }
+
+  sysrst_ctrl->base_addr = mmio_region_from_addr(dt->base_addrs[0]);
+
+  return kDifOk;
+}
+
 dif_result_t dif_sysrst_ctrl_alert_force(const dif_sysrst_ctrl_t *sysrst_ctrl,
                                          dif_sysrst_ctrl_alert_t alert) {
   if (sysrst_ctrl == NULL) {
@@ -51,10 +63,10 @@ dif_result_t dif_sysrst_ctrl_alert_force(const dif_sysrst_ctrl_t *sysrst_ctrl,
 /**
  * Get the corresponding interrupt register bit offset of the IRQ.
  */
-static bool sysrst_ctrl_get_irq_bit_index(dif_sysrst_ctrl_irq_t irq,
+static bool sysrst_ctrl_get_irq_bit_index(dt_sysrst_ctrl_irq_type_t irq,
                                           bitfield_bit32_index_t *index_out) {
   switch (irq) {
-    case kDifSysrstCtrlIrqEventDetected:
+    case kDtSysrstCtrlIrqTypeEventDetected:
       *index_out = SYSRST_CTRL_INTR_COMMON_EVENT_DETECTED_BIT;
       break;
     default:
@@ -70,10 +82,9 @@ static dif_irq_type_t irq_types[] = {
 
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_sysrst_ctrl_irq_get_type(const dif_sysrst_ctrl_t *sysrst_ctrl,
-                                          dif_sysrst_ctrl_irq_t irq,
+                                          dt_sysrst_ctrl_irq_type_t irq,
                                           dif_irq_type_t *type) {
-  if (sysrst_ctrl == NULL || type == NULL ||
-      irq == kDifSysrstCtrlIrqEventDetected + 1) {
+  if (sysrst_ctrl == NULL || type == NULL || irq == kDtSysrstCtrlIrqTypeCount) {
     return kDifBadArg;
   }
 
@@ -112,7 +123,7 @@ dif_result_t dif_sysrst_ctrl_irq_acknowledge_state(
 
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_sysrst_ctrl_irq_is_pending(
-    const dif_sysrst_ctrl_t *sysrst_ctrl, dif_sysrst_ctrl_irq_t irq,
+    const dif_sysrst_ctrl_t *sysrst_ctrl, dt_sysrst_ctrl_irq_type_t irq,
     bool *is_pending) {
   if (sysrst_ctrl == NULL || is_pending == NULL) {
     return kDifBadArg;
@@ -147,7 +158,7 @@ dif_result_t dif_sysrst_ctrl_irq_acknowledge_all(
 
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_sysrst_ctrl_irq_acknowledge(
-    const dif_sysrst_ctrl_t *sysrst_ctrl, dif_sysrst_ctrl_irq_t irq) {
+    const dif_sysrst_ctrl_t *sysrst_ctrl, dt_sysrst_ctrl_irq_type_t irq) {
   if (sysrst_ctrl == NULL) {
     return kDifBadArg;
   }
@@ -168,7 +179,7 @@ dif_result_t dif_sysrst_ctrl_irq_acknowledge(
 
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_sysrst_ctrl_irq_force(const dif_sysrst_ctrl_t *sysrst_ctrl,
-                                       dif_sysrst_ctrl_irq_t irq,
+                                       dt_sysrst_ctrl_irq_type_t irq,
                                        const bool val) {
   if (sysrst_ctrl == NULL) {
     return kDifBadArg;
@@ -189,7 +200,7 @@ dif_result_t dif_sysrst_ctrl_irq_force(const dif_sysrst_ctrl_t *sysrst_ctrl,
 
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_sysrst_ctrl_irq_get_enabled(
-    const dif_sysrst_ctrl_t *sysrst_ctrl, dif_sysrst_ctrl_irq_t irq,
+    const dif_sysrst_ctrl_t *sysrst_ctrl, dt_sysrst_ctrl_irq_type_t irq,
     dif_toggle_t *state) {
   if (sysrst_ctrl == NULL || state == NULL) {
     return kDifBadArg;
@@ -211,7 +222,7 @@ dif_result_t dif_sysrst_ctrl_irq_get_enabled(
 
 OT_WARN_UNUSED_RESULT
 dif_result_t dif_sysrst_ctrl_irq_set_enabled(
-    const dif_sysrst_ctrl_t *sysrst_ctrl, dif_sysrst_ctrl_irq_t irq,
+    const dif_sysrst_ctrl_t *sysrst_ctrl, dt_sysrst_ctrl_irq_type_t irq,
     dif_toggle_t state) {
   if (sysrst_ctrl == NULL) {
     return kDifBadArg;

@@ -28,12 +28,11 @@ typedef enum {
 } dt_pattgen_clock_t;
 
 typedef enum {
-  kDtPattgenPinctrlOutputPda0Tx = 0,
-  kDtPattgenPinctrlOutputPcl0Tx = 1,
-  kDtPattgenPinctrlOutputPda1Tx = 2,
-  kDtPattgenPinctrlOutputPcl1Tx = 3,
-  kDtPattgenPinctrlInputCount = 0,
-  kDtPattgenPinctrlOutputCount = 4,
+  kDtPattgenPinPda0Tx = 0,
+  kDtPattgenPinPcl0Tx = 1,
+  kDtPattgenPinPda1Tx = 2,
+  kDtPattgenPinPcl1Tx = 3,
+  kDtPattgenPinCount = 4,
 } dt_pattgen_pinctrl_t;
 
 typedef struct dt_pattgen {
@@ -41,6 +40,7 @@ typedef struct dt_pattgen {
   uint32_t base_addrs[kDtPattgenRegBlockCount];
   uint32_t irqs[kDtPattgenIrqTypeCount];
   dt_clock_t clocks[kDtPattgenClockCount];
+  dt_pin_t pins[kDtPattgenPinCount];
 } dt_pattgen_t;
 
 /**

@@ -27,11 +27,6 @@ typedef enum {
   kDtKeymgrClockCount = 2,
 } dt_keymgr_clock_t;
 
-typedef enum {
-  kDtKeymgrPinctrlInputCount = 0,
-  kDtKeymgrPinctrlOutputCount = 0,
-} dt_keymgr_pinctrl_t;
-
 typedef struct dt_keymgr {
   dt_device_id_t device_id;
   uint32_t base_addrs[kDtKeymgrRegBlockCount];

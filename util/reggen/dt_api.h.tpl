@@ -11,28 +11,13 @@
     device_name = block.name
 
     inouts, inputs, outputs = block.xputs
-    device_pins = {"in": [], "inout": [], "out": []}
-    for sig in inputs:
+    device_pins = []
+    for sig in inputs + outputs + inouts:
         if sig.bits.width() > 1:
             for bit in range(sig.bits.width()):
-                device_pins["in"].append(sig.name + str(bit))
+                device_pins.append(sig.name + str(bit))
         else:
-            device_pins["in"].append(sig.name)
-    for sig in inouts:
-        if sig.bits.width() > 1:
-            for bit in range(sig.bits.width()):
-                device_pins["inout"].append(sig.name + str(bit))
-        else:
-            device_pins["inout"].append(sig.name)
-    for sig in outputs:
-        if sig.bits.width() > 1:
-            for bit in range(sig.bits.width()):
-                device_pins["out"].append(sig.name + str(bit))
-        else:
-            device_pins["out"].append(sig.name)
-    input_count = len(device_pins["in"])
-    inout_count = len(device_pins["inout"])
-    output_count = len(device_pins["out"])
+            device_pins.append(sig.name)
 
     device_irqs = []
     for sig in block.interrupts:
@@ -95,20 +80,15 @@ typedef enum {
 
 % endif
 ## List of pins.
+% if len(device_pins) > 0:
 typedef enum {
-% for idx, pin in enumerate(device_pins["in"]):
-  ${snake_to_enum(f"dt_{device_name}_pinctrl_input_{pin}")} = ${str(idx)},
+% for idx, pin in enumerate(device_pins):
+  ${snake_to_enum(f"dt_{device_name}_pin_{pin}")} = ${str(idx)},
 % endfor
-% for idx, pin in enumerate(device_pins["inout"]):
-  ${snake_to_enum(f"dt_{device_name}_pinctrl_inout_{pin}")} = ${str(idx + input_count)},
-% endfor
-% for idx, pin in enumerate(device_pins["out"]):
-  ${snake_to_enum(f"dt_{device_name}_pinctrl_output_{pin}")} = ${str(idx + input_count + inout_count)},
-% endfor
-  ${snake_to_enum(f"dt_{device_name}_pinctrl_input_count")} = ${str(input_count + inout_count)},
-  ${snake_to_enum(f"dt_{device_name}_pinctrl_output_count")} = ${str(input_count + inout_count + output_count)},
+  ${snake_to_enum(f"dt_{device_name}_pin_count")} = ${str(len(device_pins))},
 } dt_${device_name}_pinctrl_t;
 
+% endif
 ## DT structure.
 typedef struct dt_${device_name} {
   dt_device_id_t device_id;
@@ -117,6 +97,9 @@ typedef struct dt_${device_name} {
   uint32_t irqs[${snake_to_enum(f"dt_{device_name}_irq_type_count")}];
 % endif
   dt_clock_t clocks[${snake_to_enum(f"dt_{device_name}_clock_count")}];
+% if len(device_pins) > 0:
+  dt_pin_t pins[${snake_to_enum(f"dt_{device_name}_pin_count")}];
+% endif
 } dt_${device_name}_t;
 
 % if len(device_irqs) > 0:

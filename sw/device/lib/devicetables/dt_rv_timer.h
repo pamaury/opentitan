@@ -26,11 +26,6 @@ typedef enum {
   kDtRvTimerClockCount = 1,
 } dt_rv_timer_clock_t;
 
-typedef enum {
-  kDtRvTimerPinctrlInputCount = 0,
-  kDtRvTimerPinctrlOutputCount = 0,
-} dt_rv_timer_pinctrl_t;
-
 typedef struct dt_rv_timer {
   dt_device_id_t device_id;
   uint32_t base_addrs[kDtRvTimerRegBlockCount];

@@ -28,17 +28,16 @@ typedef enum {
 } dt_sensor_ctrl_clock_t;
 
 typedef enum {
-  kDtSensorCtrlPinctrlOutputAstDebugOut0 = 0,
-  kDtSensorCtrlPinctrlOutputAstDebugOut1 = 1,
-  kDtSensorCtrlPinctrlOutputAstDebugOut2 = 2,
-  kDtSensorCtrlPinctrlOutputAstDebugOut3 = 3,
-  kDtSensorCtrlPinctrlOutputAstDebugOut4 = 4,
-  kDtSensorCtrlPinctrlOutputAstDebugOut5 = 5,
-  kDtSensorCtrlPinctrlOutputAstDebugOut6 = 6,
-  kDtSensorCtrlPinctrlOutputAstDebugOut7 = 7,
-  kDtSensorCtrlPinctrlOutputAstDebugOut8 = 8,
-  kDtSensorCtrlPinctrlInputCount = 0,
-  kDtSensorCtrlPinctrlOutputCount = 9,
+  kDtSensorCtrlPinAstDebugOut0 = 0,
+  kDtSensorCtrlPinAstDebugOut1 = 1,
+  kDtSensorCtrlPinAstDebugOut2 = 2,
+  kDtSensorCtrlPinAstDebugOut3 = 3,
+  kDtSensorCtrlPinAstDebugOut4 = 4,
+  kDtSensorCtrlPinAstDebugOut5 = 5,
+  kDtSensorCtrlPinAstDebugOut6 = 6,
+  kDtSensorCtrlPinAstDebugOut7 = 7,
+  kDtSensorCtrlPinAstDebugOut8 = 8,
+  kDtSensorCtrlPinCount = 9,
 } dt_sensor_ctrl_pinctrl_t;
 
 typedef struct dt_sensor_ctrl {
@@ -46,6 +45,7 @@ typedef struct dt_sensor_ctrl {
   uint32_t base_addrs[kDtSensorCtrlRegBlockCount];
   uint32_t irqs[kDtSensorCtrlIrqTypeCount];
   dt_clock_t clocks[kDtSensorCtrlClockCount];
+  dt_pin_t pins[kDtSensorCtrlPinCount];
 } dt_sensor_ctrl_t;
 
 /**

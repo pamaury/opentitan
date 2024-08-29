@@ -66,6 +66,13 @@ def snake_to_constant_name(s):
                            Name.from_snake_case(clock.clock_base_name))
         block_clocks[clock.clock] = block_clock
     clk_count = len(block_clocks.keys())
+
+    inouts, inputs, outputs = block.xputs
+    device_ports = []
+    for sig in inputs + outputs + inouts:
+        device_ports.append(sig.name)
+
+    pinmux_info = top["pinmux"]
 %>\
 %   if reg_count > 0:
 _Static_assert(${reg_count_enum} == ${str(reg_count)}, "Reg block count mismatch");
@@ -106,6 +113,43 @@ const dt_${module_name}_t ${snake_to_constant_name("dt_" + module_name)}[${snake
     .irqs = {
 %     for irq in irqs[m["name"]]:
       ${irq.as_c_enum()},
+%     endfor
+    },
+%   endif
+%   if len(device_ports) > 0:
+    .pins = {
+%     for port in device_ports:
+%       for conn in [c for c in pinmux_info["ios"] if c["name"] == m["name"] + "_" + port]:
+<%
+            pin_name = port
+            if conn["idx"] != -1:
+                pin_name += str(conn["idx"])
+            if conn["connection"] == "muxed":
+                pin_type = "Mio"
+                pin_periph_input_or_direct_pad = "kDtPinPeriphInputNone"
+                pin_outsel = "kDtPinOutselNone"
+                if conn["type"] in ["input", "inout"]:
+                    pin_periph_input_or_direct_pad = snake_to_constant_name("top_{}_pinmux_peripheral_in_{}_{}".format(top["name"], m["name"], pin_name))
+                if conn["type"] in ["output", "inout"]:
+                    pin_outsel = snake_to_constant_name("top_{}_pinmux_outsel_{}_{}".format(top["name"], m["name"], pin_name))
+            elif conn["connection"] == "direct":
+                pin_type = "Dio"
+                pin_periph_input_or_direct_pad = snake_to_constant_name("top_{}_direct_pads_{}_{}".format(top["name"], m["name"], pin_name))
+                pin_outsel = "0"
+            else:
+                assert conn["connection"] == "manual", "unexpected connection type '{}'".format(conn["connection"])
+                pin_periph_input_or_direct_pad = "0"
+                pin_outsel = "0"
+                pin_type = "Other"
+
+            print("{}, {} -> {}".format(m["name"], port, conn))
+%>
+      [${snake_to_constant_name(f"dt_{module_name}_pin_{pin_name}")}] = {
+        .__internal_type = kDtPinType${pin_type},
+        .__internal_periph_input_or_direct_pad = ${pin_periph_input_or_direct_pad},
+        .__internal_outsel = ${pin_outsel},
+      },
+%       endfor
 %     endfor
     },
 %   endif

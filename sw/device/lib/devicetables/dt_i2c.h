@@ -41,10 +41,9 @@ typedef enum {
 } dt_i2c_clock_t;
 
 typedef enum {
-  kDtI2cPinctrlInoutSda = 0,
-  kDtI2cPinctrlInoutScl = 1,
-  kDtI2cPinctrlInputCount = 2,
-  kDtI2cPinctrlOutputCount = 2,
+  kDtI2cPinSda = 0,
+  kDtI2cPinScl = 1,
+  kDtI2cPinCount = 2,
 } dt_i2c_pinctrl_t;
 
 typedef struct dt_i2c {
@@ -52,6 +51,7 @@ typedef struct dt_i2c {
   uint32_t base_addrs[kDtI2cRegBlockCount];
   uint32_t irqs[kDtI2cIrqTypeCount];
   dt_clock_t clocks[kDtI2cClockCount];
+  dt_pin_t pins[kDtI2cPinCount];
 } dt_i2c_t;
 
 /**

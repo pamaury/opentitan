@@ -28,11 +28,6 @@ typedef enum {
   kDtAonTimerClockCount = 2,
 } dt_aon_timer_clock_t;
 
-typedef enum {
-  kDtAonTimerPinctrlInputCount = 0,
-  kDtAonTimerPinctrlOutputCount = 0,
-} dt_aon_timer_pinctrl_t;
-
 typedef struct dt_aon_timer {
   dt_device_id_t device_id;
   uint32_t base_addrs[kDtAonTimerRegBlockCount];

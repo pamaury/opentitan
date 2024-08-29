@@ -30,16 +30,15 @@ typedef enum {
 } dt_otp_ctrl_clock_t;
 
 typedef enum {
-  kDtOtpCtrlPinctrlOutputTest0 = 0,
-  kDtOtpCtrlPinctrlOutputTest1 = 1,
-  kDtOtpCtrlPinctrlOutputTest2 = 2,
-  kDtOtpCtrlPinctrlOutputTest3 = 3,
-  kDtOtpCtrlPinctrlOutputTest4 = 4,
-  kDtOtpCtrlPinctrlOutputTest5 = 5,
-  kDtOtpCtrlPinctrlOutputTest6 = 6,
-  kDtOtpCtrlPinctrlOutputTest7 = 7,
-  kDtOtpCtrlPinctrlInputCount = 0,
-  kDtOtpCtrlPinctrlOutputCount = 8,
+  kDtOtpCtrlPinTest0 = 0,
+  kDtOtpCtrlPinTest1 = 1,
+  kDtOtpCtrlPinTest2 = 2,
+  kDtOtpCtrlPinTest3 = 3,
+  kDtOtpCtrlPinTest4 = 4,
+  kDtOtpCtrlPinTest5 = 5,
+  kDtOtpCtrlPinTest6 = 6,
+  kDtOtpCtrlPinTest7 = 7,
+  kDtOtpCtrlPinCount = 8,
 } dt_otp_ctrl_pinctrl_t;
 
 typedef struct dt_otp_ctrl {
@@ -47,6 +46,7 @@ typedef struct dt_otp_ctrl {
   uint32_t base_addrs[kDtOtpCtrlRegBlockCount];
   uint32_t irqs[kDtOtpCtrlIrqTypeCount];
   dt_clock_t clocks[kDtOtpCtrlClockCount];
+  dt_pin_t pins[kDtOtpCtrlPinCount];
 } dt_otp_ctrl_t;
 
 /**

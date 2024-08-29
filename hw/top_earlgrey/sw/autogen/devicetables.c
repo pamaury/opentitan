@@ -259,6 +259,32 @@ const dt_flash_ctrl_t kDtFlashCtrl[kDtFlashCtrlCount] = {
       kTopEarlgreyPlicIrqIdFlashCtrlOpDone,
       kTopEarlgreyPlicIrqIdFlashCtrlCorrErr,
     },
+    .pins = {
+
+      [kDtFlashCtrlPinTck] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInFlashCtrlTck,
+        .__internal_outsel = kDtPinOutselNone,
+      },
+
+      [kDtFlashCtrlPinTms] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInFlashCtrlTms,
+        .__internal_outsel = kDtPinOutselNone,
+      },
+
+      [kDtFlashCtrlPinTdi] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInFlashCtrlTdi,
+        .__internal_outsel = kDtPinOutselNone,
+      },
+
+      [kDtFlashCtrlPinTdo] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselFlashCtrlTdo,
+      },
+    },
   },
 };
 // Device tables for gpio
@@ -310,6 +336,200 @@ const dt_gpio_t kDtGpio[kDtGpioCount] = {
       kTopEarlgreyPlicIrqIdGpioGpio29,
       kTopEarlgreyPlicIrqIdGpioGpio30,
       kTopEarlgreyPlicIrqIdGpioGpio31,
+    },
+    .pins = {
+
+      [kDtGpioPinGpio0] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio0,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio0,
+      },
+
+      [kDtGpioPinGpio1] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio1,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio1,
+      },
+
+      [kDtGpioPinGpio2] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio2,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio2,
+      },
+
+      [kDtGpioPinGpio3] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio3,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio3,
+      },
+
+      [kDtGpioPinGpio4] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio4,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio4,
+      },
+
+      [kDtGpioPinGpio5] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio5,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio5,
+      },
+
+      [kDtGpioPinGpio6] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio6,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio6,
+      },
+
+      [kDtGpioPinGpio7] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio7,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio7,
+      },
+
+      [kDtGpioPinGpio8] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio8,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio8,
+      },
+
+      [kDtGpioPinGpio9] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio9,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio9,
+      },
+
+      [kDtGpioPinGpio10] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio10,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio10,
+      },
+
+      [kDtGpioPinGpio11] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio11,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio11,
+      },
+
+      [kDtGpioPinGpio12] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio12,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio12,
+      },
+
+      [kDtGpioPinGpio13] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio13,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio13,
+      },
+
+      [kDtGpioPinGpio14] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio14,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio14,
+      },
+
+      [kDtGpioPinGpio15] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio15,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio15,
+      },
+
+      [kDtGpioPinGpio16] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio16,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio16,
+      },
+
+      [kDtGpioPinGpio17] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio17,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio17,
+      },
+
+      [kDtGpioPinGpio18] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio18,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio18,
+      },
+
+      [kDtGpioPinGpio19] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio19,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio19,
+      },
+
+      [kDtGpioPinGpio20] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio20,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio20,
+      },
+
+      [kDtGpioPinGpio21] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio21,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio21,
+      },
+
+      [kDtGpioPinGpio22] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio22,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio22,
+      },
+
+      [kDtGpioPinGpio23] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio23,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio23,
+      },
+
+      [kDtGpioPinGpio24] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio24,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio24,
+      },
+
+      [kDtGpioPinGpio25] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio25,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio25,
+      },
+
+      [kDtGpioPinGpio26] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio26,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio26,
+      },
+
+      [kDtGpioPinGpio27] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio27,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio27,
+      },
+
+      [kDtGpioPinGpio28] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio28,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio28,
+      },
+
+      [kDtGpioPinGpio29] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio29,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio29,
+      },
+
+      [kDtGpioPinGpio30] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio30,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio30,
+      },
+
+      [kDtGpioPinGpio31] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInGpioGpio31,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselGpioGpio31,
+      },
     },
   },
 };
@@ -369,6 +589,20 @@ const dt_i2c_t kDtI2c[kDtI2cCount] = {
       kTopEarlgreyPlicIrqIdI2c0UnexpStop,
       kTopEarlgreyPlicIrqIdI2c0HostTimeout,
     },
+    .pins = {
+
+      [kDtI2cPinSda] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInI2c0Sda,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselI2c0Sda,
+      },
+
+      [kDtI2cPinScl] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInI2c0Scl,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselI2c0Scl,
+      },
+    },
   },
   // Properties for i2c1
   {
@@ -396,6 +630,20 @@ const dt_i2c_t kDtI2c[kDtI2cCount] = {
       kTopEarlgreyPlicIrqIdI2c1UnexpStop,
       kTopEarlgreyPlicIrqIdI2c1HostTimeout,
     },
+    .pins = {
+
+      [kDtI2cPinSda] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInI2c1Sda,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselI2c1Sda,
+      },
+
+      [kDtI2cPinScl] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInI2c1Scl,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselI2c1Scl,
+      },
+    },
   },
   // Properties for i2c2
   {
@@ -422,6 +670,20 @@ const dt_i2c_t kDtI2c[kDtI2cCount] = {
       kTopEarlgreyPlicIrqIdI2c2AcqStretch,
       kTopEarlgreyPlicIrqIdI2c2UnexpStop,
       kTopEarlgreyPlicIrqIdI2c2HostTimeout,
+    },
+    .pins = {
+
+      [kDtI2cPinSda] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInI2c2Sda,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselI2c2Sda,
+      },
+
+      [kDtI2cPinScl] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInI2c2Scl,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselI2c2Scl,
+      },
     },
   },
 };
@@ -534,6 +796,14 @@ const dt_otp_ctrl_t kDtOtpCtrl[kDtOtpCtrlCount] = {
       kTopEarlgreyPlicIrqIdOtpCtrlOtpOperationDone,
       kTopEarlgreyPlicIrqIdOtpCtrlOtpError,
     },
+    .pins = {
+
+      [kDtOtpCtrlPinTest0] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselOtpCtrlTest0,
+      },
+    },
   },
 };
 // Device tables for pattgen
@@ -555,6 +825,32 @@ const dt_pattgen_t kDtPattgen[kDtPattgenCount] = {
     .irqs = {
       kTopEarlgreyPlicIrqIdPattgenDoneCh0,
       kTopEarlgreyPlicIrqIdPattgenDoneCh1,
+    },
+    .pins = {
+
+      [kDtPattgenPinPda0Tx] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselPattgenPda0Tx,
+      },
+
+      [kDtPattgenPinPcl0Tx] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselPattgenPcl0Tx,
+      },
+
+      [kDtPattgenPinPda1Tx] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselPattgenPda1Tx,
+      },
+
+      [kDtPattgenPinPcl1Tx] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselPattgenPcl1Tx,
+      },
     },
   },
 };
@@ -591,6 +887,44 @@ const dt_pwm_t kDtPwm[kDtPwmCount] = {
     .clocks = {
       [kDtPwmClockClk] = kTopEarlgreyClockSrcIoDiv4,
       [kDtPwmClockCore] = kTopEarlgreyClockSrcAon,
+    },
+    .pins = {
+
+      [kDtPwmPinPwm0] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselPwmAonPwm0,
+      },
+
+      [kDtPwmPinPwm1] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselPwmAonPwm1,
+      },
+
+      [kDtPwmPinPwm2] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselPwmAonPwm2,
+      },
+
+      [kDtPwmPinPwm3] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselPwmAonPwm3,
+      },
+
+      [kDtPwmPinPwm4] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselPwmAonPwm4,
+      },
+
+      [kDtPwmPinPwm5] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselPwmAonPwm5,
+      },
     },
   },
 };
@@ -758,6 +1092,62 @@ const dt_sensor_ctrl_t kDtSensorCtrl[kDtSensorCtrlCount] = {
       kTopEarlgreyPlicIrqIdSensorCtrlAonIoStatusChange,
       kTopEarlgreyPlicIrqIdSensorCtrlAonInitStatusChange,
     },
+    .pins = {
+
+      [kDtSensorCtrlPinAstDebugOut0] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSensorCtrlAonAstDebugOut0,
+      },
+
+      [kDtSensorCtrlPinAstDebugOut1] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSensorCtrlAonAstDebugOut1,
+      },
+
+      [kDtSensorCtrlPinAstDebugOut2] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSensorCtrlAonAstDebugOut2,
+      },
+
+      [kDtSensorCtrlPinAstDebugOut3] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSensorCtrlAonAstDebugOut3,
+      },
+
+      [kDtSensorCtrlPinAstDebugOut4] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSensorCtrlAonAstDebugOut4,
+      },
+
+      [kDtSensorCtrlPinAstDebugOut5] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSensorCtrlAonAstDebugOut5,
+      },
+
+      [kDtSensorCtrlPinAstDebugOut6] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSensorCtrlAonAstDebugOut6,
+      },
+
+      [kDtSensorCtrlPinAstDebugOut7] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSensorCtrlAonAstDebugOut7,
+      },
+
+      [kDtSensorCtrlPinAstDebugOut8] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSensorCtrlAonAstDebugOut8,
+      },
+    },
   },
 };
 // Device tables for spi_device
@@ -786,6 +1176,50 @@ const dt_spi_device_t kDtSpiDevice[kDtSpiDeviceCount] = {
       kTopEarlgreyPlicIrqIdSpiDeviceTpmRdfifoCmdEnd,
       kTopEarlgreyPlicIrqIdSpiDeviceTpmRdfifoDrop,
     },
+    .pins = {
+
+      [kDtSpiDevicePinSck] = {
+        .__internal_type = kDtPinTypeDio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyDirectPadsSpiDeviceSck,
+        .__internal_outsel = 0,
+      },
+
+      [kDtSpiDevicePinCsb] = {
+        .__internal_type = kDtPinTypeDio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyDirectPadsSpiDeviceCsb,
+        .__internal_outsel = 0,
+      },
+
+      [kDtSpiDevicePinTpmCsb] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInSpiDeviceTpmCsb,
+        .__internal_outsel = kDtPinOutselNone,
+      },
+
+      [kDtSpiDevicePinSd0] = {
+        .__internal_type = kDtPinTypeDio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyDirectPadsSpiDeviceSd0,
+        .__internal_outsel = 0,
+      },
+
+      [kDtSpiDevicePinSd1] = {
+        .__internal_type = kDtPinTypeDio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyDirectPadsSpiDeviceSd1,
+        .__internal_outsel = 0,
+      },
+
+      [kDtSpiDevicePinSd2] = {
+        .__internal_type = kDtPinTypeDio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyDirectPadsSpiDeviceSd2,
+        .__internal_outsel = 0,
+      },
+
+      [kDtSpiDevicePinSd3] = {
+        .__internal_type = kDtPinTypeDio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyDirectPadsSpiDeviceSd3,
+        .__internal_outsel = 0,
+      },
+    },
   },
 };
 // Device tables for spi_host
@@ -808,6 +1242,44 @@ const dt_spi_host_t kDtSpiHost[kDtSpiHostCount] = {
       kTopEarlgreyPlicIrqIdSpiHost0Error,
       kTopEarlgreyPlicIrqIdSpiHost0SpiEvent,
     },
+    .pins = {
+
+      [kDtSpiHostPinSck] = {
+        .__internal_type = kDtPinTypeDio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyDirectPadsSpiHost0Sck,
+        .__internal_outsel = 0,
+      },
+
+      [kDtSpiHostPinCsb] = {
+        .__internal_type = kDtPinTypeDio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyDirectPadsSpiHost0Csb,
+        .__internal_outsel = 0,
+      },
+
+      [kDtSpiHostPinSd0] = {
+        .__internal_type = kDtPinTypeDio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyDirectPadsSpiHost0Sd0,
+        .__internal_outsel = 0,
+      },
+
+      [kDtSpiHostPinSd1] = {
+        .__internal_type = kDtPinTypeDio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyDirectPadsSpiHost0Sd1,
+        .__internal_outsel = 0,
+      },
+
+      [kDtSpiHostPinSd2] = {
+        .__internal_type = kDtPinTypeDio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyDirectPadsSpiHost0Sd2,
+        .__internal_outsel = 0,
+      },
+
+      [kDtSpiHostPinSd3] = {
+        .__internal_type = kDtPinTypeDio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyDirectPadsSpiHost0Sd3,
+        .__internal_outsel = 0,
+      },
+    },
   },
   // Properties for spi_host1
   {
@@ -821,6 +1293,44 @@ const dt_spi_host_t kDtSpiHost[kDtSpiHostCount] = {
     .irqs = {
       kTopEarlgreyPlicIrqIdSpiHost1Error,
       kTopEarlgreyPlicIrqIdSpiHost1SpiEvent,
+    },
+    .pins = {
+
+      [kDtSpiHostPinSck] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSpiHost1Sck,
+      },
+
+      [kDtSpiHostPinCsb] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSpiHost1Csb,
+      },
+
+      [kDtSpiHostPinSd0] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInSpiHost1Sd0,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSpiHost1Sd0,
+      },
+
+      [kDtSpiHostPinSd1] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInSpiHost1Sd1,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSpiHost1Sd1,
+      },
+
+      [kDtSpiHostPinSd2] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInSpiHost1Sd2,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSpiHost1Sd2,
+      },
+
+      [kDtSpiHostPinSd3] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInSpiHost1Sd3,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSpiHost1Sd3,
+      },
     },
   },
 };
@@ -875,6 +1385,92 @@ const dt_sysrst_ctrl_t kDtSysrstCtrl[kDtSysrstCtrlCount] = {
     .irqs = {
       kTopEarlgreyPlicIrqIdSysrstCtrlAonEventDetected,
     },
+    .pins = {
+
+      [kDtSysrstCtrlPinAcPresent] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInSysrstCtrlAonAcPresent,
+        .__internal_outsel = kDtPinOutselNone,
+      },
+
+      [kDtSysrstCtrlPinKey0In] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInSysrstCtrlAonKey0In,
+        .__internal_outsel = kDtPinOutselNone,
+      },
+
+      [kDtSysrstCtrlPinKey1In] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInSysrstCtrlAonKey1In,
+        .__internal_outsel = kDtPinOutselNone,
+      },
+
+      [kDtSysrstCtrlPinKey2In] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInSysrstCtrlAonKey2In,
+        .__internal_outsel = kDtPinOutselNone,
+      },
+
+      [kDtSysrstCtrlPinPwrbIn] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInSysrstCtrlAonPwrbIn,
+        .__internal_outsel = kDtPinOutselNone,
+      },
+
+      [kDtSysrstCtrlPinLidOpen] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInSysrstCtrlAonLidOpen,
+        .__internal_outsel = kDtPinOutselNone,
+      },
+
+      [kDtSysrstCtrlPinBatDisable] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSysrstCtrlAonBatDisable,
+      },
+
+      [kDtSysrstCtrlPinKey0Out] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSysrstCtrlAonKey0Out,
+      },
+
+      [kDtSysrstCtrlPinKey1Out] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSysrstCtrlAonKey1Out,
+      },
+
+      [kDtSysrstCtrlPinKey2Out] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSysrstCtrlAonKey2Out,
+      },
+
+      [kDtSysrstCtrlPinPwrbOut] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSysrstCtrlAonPwrbOut,
+      },
+
+      [kDtSysrstCtrlPinZ3Wakeup] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselSysrstCtrlAonZ3Wakeup,
+      },
+
+      [kDtSysrstCtrlPinEcRstL] = {
+        .__internal_type = kDtPinTypeDio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyDirectPadsSysrstCtrlAonEcRstL,
+        .__internal_outsel = 0,
+      },
+
+      [kDtSysrstCtrlPinFlashWpL] = {
+        .__internal_type = kDtPinTypeDio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyDirectPadsSysrstCtrlAonFlashWpL,
+        .__internal_outsel = 0,
+      },
+    },
   },
 };
 // Device tables for uart
@@ -904,6 +1500,20 @@ const dt_uart_t kDtUart[kDtUartCount] = {
       kTopEarlgreyPlicIrqIdUart0RxParityErr,
       kTopEarlgreyPlicIrqIdUart0TxEmpty,
     },
+    .pins = {
+
+      [kDtUartPinRx] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInUart0Rx,
+        .__internal_outsel = kDtPinOutselNone,
+      },
+
+      [kDtUartPinTx] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselUart0Tx,
+      },
+    },
   },
   // Properties for uart1
   {
@@ -924,6 +1534,20 @@ const dt_uart_t kDtUart[kDtUartCount] = {
       kTopEarlgreyPlicIrqIdUart1RxTimeout,
       kTopEarlgreyPlicIrqIdUart1RxParityErr,
       kTopEarlgreyPlicIrqIdUart1TxEmpty,
+    },
+    .pins = {
+
+      [kDtUartPinRx] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInUart1Rx,
+        .__internal_outsel = kDtPinOutselNone,
+      },
+
+      [kDtUartPinTx] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselUart1Tx,
+      },
     },
   },
   // Properties for uart2
@@ -946,6 +1570,20 @@ const dt_uart_t kDtUart[kDtUartCount] = {
       kTopEarlgreyPlicIrqIdUart2RxParityErr,
       kTopEarlgreyPlicIrqIdUart2TxEmpty,
     },
+    .pins = {
+
+      [kDtUartPinRx] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInUart2Rx,
+        .__internal_outsel = kDtPinOutselNone,
+      },
+
+      [kDtUartPinTx] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselUart2Tx,
+      },
+    },
   },
   // Properties for uart3
   {
@@ -966,6 +1604,20 @@ const dt_uart_t kDtUart[kDtUartCount] = {
       kTopEarlgreyPlicIrqIdUart3RxTimeout,
       kTopEarlgreyPlicIrqIdUart3RxParityErr,
       kTopEarlgreyPlicIrqIdUart3TxEmpty,
+    },
+    .pins = {
+
+      [kDtUartPinRx] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInUart3Rx,
+        .__internal_outsel = kDtPinOutselNone,
+      },
+
+      [kDtUartPinTx] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kDtPinPeriphInputNone,
+        .__internal_outsel = kTopEarlgreyPinmuxOutselUart3Tx,
+      },
     },
   },
 };
@@ -1005,6 +1657,26 @@ const dt_usbdev_t kDtUsbdev[kDtUsbdevCount] = {
       kTopEarlgreyPlicIrqIdUsbdevPowered,
       kTopEarlgreyPlicIrqIdUsbdevLinkOutErr,
       kTopEarlgreyPlicIrqIdUsbdevAvSetupEmpty,
+    },
+    .pins = {
+
+      [kDtUsbdevPinSense] = {
+        .__internal_type = kDtPinTypeMio,
+        .__internal_periph_input_or_direct_pad = kTopEarlgreyPinmuxPeripheralInUsbdevSense,
+        .__internal_outsel = kDtPinOutselNone,
+      },
+
+      [kDtUsbdevPinUsbDp] = {
+        .__internal_type = kDtPinTypeOther,
+        .__internal_periph_input_or_direct_pad = 0,
+        .__internal_outsel = 0,
+      },
+
+      [kDtUsbdevPinUsbDn] = {
+        .__internal_type = kDtPinTypeOther,
+        .__internal_periph_input_or_direct_pad = 0,
+        .__internal_outsel = 0,
+      },
     },
   },
 };
@@ -1204,7 +1876,7 @@ static const dt_device_id_t device_from_irq[kDtIrqIdCount] = {
 };
 
 dt_device_id_t dt_irq_to_device(dt_irq_t irq) {
-  if (irq < kDtIrqIdCount) {
+  if (irq < (dt_irq_t)kDtIrqIdCount) {
     return device_from_irq[irq];
   }
   return kDtDeviceIdUnknown;

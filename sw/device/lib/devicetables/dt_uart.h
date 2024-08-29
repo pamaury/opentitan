@@ -35,10 +35,9 @@ typedef enum {
 } dt_uart_clock_t;
 
 typedef enum {
-  kDtUartPinctrlInputRx = 0,
-  kDtUartPinctrlOutputTx = 1,
-  kDtUartPinctrlInputCount = 1,
-  kDtUartPinctrlOutputCount = 2,
+  kDtUartPinRx = 0,
+  kDtUartPinTx = 1,
+  kDtUartPinCount = 2,
 } dt_uart_pinctrl_t;
 
 typedef struct dt_uart {
@@ -46,6 +45,7 @@ typedef struct dt_uart {
   uint32_t base_addrs[kDtUartRegBlockCount];
   uint32_t irqs[kDtUartIrqTypeCount];
   dt_clock_t clocks[kDtUartClockCount];
+  dt_pin_t pins[kDtUartPinCount];
 } dt_uart_t;
 
 /**

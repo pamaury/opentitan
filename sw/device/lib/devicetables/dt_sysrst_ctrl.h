@@ -28,22 +28,21 @@ typedef enum {
 } dt_sysrst_ctrl_clock_t;
 
 typedef enum {
-  kDtSysrstCtrlPinctrlInputAcPresent = 0,
-  kDtSysrstCtrlPinctrlInputKey0In = 1,
-  kDtSysrstCtrlPinctrlInputKey1In = 2,
-  kDtSysrstCtrlPinctrlInputKey2In = 3,
-  kDtSysrstCtrlPinctrlInputPwrbIn = 4,
-  kDtSysrstCtrlPinctrlInputLidOpen = 5,
-  kDtSysrstCtrlPinctrlInoutEcRstL = 6,
-  kDtSysrstCtrlPinctrlInoutFlashWpL = 7,
-  kDtSysrstCtrlPinctrlOutputBatDisable = 8,
-  kDtSysrstCtrlPinctrlOutputKey0Out = 9,
-  kDtSysrstCtrlPinctrlOutputKey1Out = 10,
-  kDtSysrstCtrlPinctrlOutputKey2Out = 11,
-  kDtSysrstCtrlPinctrlOutputPwrbOut = 12,
-  kDtSysrstCtrlPinctrlOutputZ3Wakeup = 13,
-  kDtSysrstCtrlPinctrlInputCount = 8,
-  kDtSysrstCtrlPinctrlOutputCount = 14,
+  kDtSysrstCtrlPinAcPresent = 0,
+  kDtSysrstCtrlPinKey0In = 1,
+  kDtSysrstCtrlPinKey1In = 2,
+  kDtSysrstCtrlPinKey2In = 3,
+  kDtSysrstCtrlPinPwrbIn = 4,
+  kDtSysrstCtrlPinLidOpen = 5,
+  kDtSysrstCtrlPinBatDisable = 6,
+  kDtSysrstCtrlPinKey0Out = 7,
+  kDtSysrstCtrlPinKey1Out = 8,
+  kDtSysrstCtrlPinKey2Out = 9,
+  kDtSysrstCtrlPinPwrbOut = 10,
+  kDtSysrstCtrlPinZ3Wakeup = 11,
+  kDtSysrstCtrlPinEcRstL = 12,
+  kDtSysrstCtrlPinFlashWpL = 13,
+  kDtSysrstCtrlPinCount = 14,
 } dt_sysrst_ctrl_pinctrl_t;
 
 typedef struct dt_sysrst_ctrl {
@@ -51,6 +50,7 @@ typedef struct dt_sysrst_ctrl {
   uint32_t base_addrs[kDtSysrstCtrlRegBlockCount];
   uint32_t irqs[kDtSysrstCtrlIrqTypeCount];
   dt_clock_t clocks[kDtSysrstCtrlClockCount];
+  dt_pin_t pins[kDtSysrstCtrlPinCount];
 } dt_sysrst_ctrl_t;
 
 /**
