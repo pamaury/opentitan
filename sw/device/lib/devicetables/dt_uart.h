@@ -38,34 +38,83 @@ typedef enum {
   kDtUartPinRx = 0,
   kDtUartPinTx = 1,
   kDtUartPinCount = 2,
-} dt_uart_pinctrl_t;
+} dt_uart_pin_t;
 
 typedef struct dt_uart {
-  dt_device_id_t device_id;
-  uint32_t base_addrs[kDtUartRegBlockCount];
-  uint32_t irqs[kDtUartIrqTypeCount];
-  dt_clock_t clocks[kDtUartClockCount];
-  dt_pin_t pins[kDtUartPinCount];
+  struct {
+    dt_device_id_t device_id;
+    uint32_t base_addrs[kDtUartRegBlockCount];
+    dt_irq_t irqs[kDtUartIrqTypeCount];
+    dt_clock_t clocks[kDtUartClockCount];
+    dt_pin_t pins[kDtUartPinCount];
+  } __internal;
 } dt_uart_t;
+
+/**
+ * Get the device ID of an instance.
+ *
+ * @param dt Pointer to an instance of uart.
+ * @return The device ID of that instance.
+ */
+static inline dt_device_id_t dt_uart_device_id(const dt_uart_t *dt) {
+  return dt->__internal.device_id;
+}
+
+/**
+ * Get the register base address of an instance.
+ *
+ * @param dt Pointer to an instance of uart.
+ * @param reg_block The register block requested.
+ * @return The register base address of the requested block.
+ */
+static inline uint32_t dt_uart_reg_block(const dt_uart_t *dt,
+                                         dt_uart_reg_block_t reg_block) {
+  return dt->__internal.base_addrs[reg_block];
+}
+
+/**
+ * Get the global IRQ ID of a local uart IRQ type for a given instance.
+ *
+ * @param dt Pointer to an instance of uart.
+ * @param irq_type A local uart IRQ type.
+ * @return A global IRQ ID that corresponds to the local IRQ type of this
+ * instance.
+ */
+static inline dt_irq_t dt_uart_irq_id(const dt_uart_t *dt,
+                                      dt_uart_irq_type_t irq_type) {
+  return dt->__internal.irqs[irq_type];
+}
 
 /**
  * Convert a global IRQ ID to a local uart IRQ type.
  *
  * @param dt Pointer to an instance of uart.
- * @param irq A global IRQ ID.
- * @return The local uart IRQ type of this irq.
+ * @param irq A global IRQ ID that belongs to this instance.
+ * @return The local uart IRQ type, or `kDtUartIrqTypeCount`.
  *
- * IMPORTANT This function assumes that the global IRQ belongs to the instance
+ * NOTE This function assumes that the global IRQ belongs to the instance
  * of uart passed in parameter. In other words, it must be the case that
- * `dt->device_id == dt_irq_to_device(irq)`
- *
- * FIXME How should we handle errors (when the invariant above is violated)?
+ * `dt->device_id == dt_irq_to_device(irq)`. Otherwise, this function will
+ * return `kDtUartIrqTypeCount`.
  */
 static inline dt_uart_irq_type_t dt_uart_irq_type(const dt_uart_t *dt,
                                                   dt_irq_t irq) {
-  // FIXME Should check that irq >= dt->irqs[0] and irq < dt->irqs[0] +
-  // kDtUartIrqTypeCount
-  return irq - dt->irqs[0];
+  dt_uart_irq_type_t count = kDtUartIrqTypeCount;
+  if (irq < dt->__internal.irqs[0] ||
+      irq >= dt->__internal.irqs[0] + (dt_irq_t)count) {
+    return count;
+  }
+  return irq - dt->__internal.irqs[0];
 }
 
+/**
+ * Get the pin description of an instance.
+ *
+ * @param dt Pointer to an instance of uart.
+ * @param pin Requested pin.
+ * @return Description of the requested pin for this instance.
+ */
+static inline dt_pin_t dt_uart_pin(const dt_uart_t *dt, dt_uart_pin_t pin) {
+  return dt->__internal.pins[pin];
+}
 #endif  // OPENTITAN_SW_DEVICE_LIB_DEVICETABLES_DT_UART_H_

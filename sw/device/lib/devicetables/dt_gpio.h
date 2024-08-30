@@ -91,34 +91,83 @@ typedef enum {
   kDtGpioPinGpio30 = 30,
   kDtGpioPinGpio31 = 31,
   kDtGpioPinCount = 32,
-} dt_gpio_pinctrl_t;
+} dt_gpio_pin_t;
 
 typedef struct dt_gpio {
-  dt_device_id_t device_id;
-  uint32_t base_addrs[kDtGpioRegBlockCount];
-  uint32_t irqs[kDtGpioIrqTypeCount];
-  dt_clock_t clocks[kDtGpioClockCount];
-  dt_pin_t pins[kDtGpioPinCount];
+  struct {
+    dt_device_id_t device_id;
+    uint32_t base_addrs[kDtGpioRegBlockCount];
+    dt_irq_t irqs[kDtGpioIrqTypeCount];
+    dt_clock_t clocks[kDtGpioClockCount];
+    dt_pin_t pins[kDtGpioPinCount];
+  } __internal;
 } dt_gpio_t;
+
+/**
+ * Get the device ID of an instance.
+ *
+ * @param dt Pointer to an instance of gpio.
+ * @return The device ID of that instance.
+ */
+static inline dt_device_id_t dt_gpio_device_id(const dt_gpio_t *dt) {
+  return dt->__internal.device_id;
+}
+
+/**
+ * Get the register base address of an instance.
+ *
+ * @param dt Pointer to an instance of gpio.
+ * @param reg_block The register block requested.
+ * @return The register base address of the requested block.
+ */
+static inline uint32_t dt_gpio_reg_block(const dt_gpio_t *dt,
+                                         dt_gpio_reg_block_t reg_block) {
+  return dt->__internal.base_addrs[reg_block];
+}
+
+/**
+ * Get the global IRQ ID of a local gpio IRQ type for a given instance.
+ *
+ * @param dt Pointer to an instance of gpio.
+ * @param irq_type A local gpio IRQ type.
+ * @return A global IRQ ID that corresponds to the local IRQ type of this
+ * instance.
+ */
+static inline dt_irq_t dt_gpio_irq_id(const dt_gpio_t *dt,
+                                      dt_gpio_irq_type_t irq_type) {
+  return dt->__internal.irqs[irq_type];
+}
 
 /**
  * Convert a global IRQ ID to a local gpio IRQ type.
  *
  * @param dt Pointer to an instance of gpio.
- * @param irq A global IRQ ID.
- * @return The local gpio IRQ type of this irq.
+ * @param irq A global IRQ ID that belongs to this instance.
+ * @return The local gpio IRQ type, or `kDtGpioIrqTypeCount`.
  *
- * IMPORTANT This function assumes that the global IRQ belongs to the instance
+ * NOTE This function assumes that the global IRQ belongs to the instance
  * of gpio passed in parameter. In other words, it must be the case that
- * `dt->device_id == dt_irq_to_device(irq)`
- *
- * FIXME How should we handle errors (when the invariant above is violated)?
+ * `dt->device_id == dt_irq_to_device(irq)`. Otherwise, this function will
+ * return `kDtGpioIrqTypeCount`.
  */
 static inline dt_gpio_irq_type_t dt_gpio_irq_type(const dt_gpio_t *dt,
                                                   dt_irq_t irq) {
-  // FIXME Should check that irq >= dt->irqs[0] and irq < dt->irqs[0] +
-  // kDtGpioIrqTypeCount
-  return irq - dt->irqs[0];
+  dt_gpio_irq_type_t count = kDtGpioIrqTypeCount;
+  if (irq < dt->__internal.irqs[0] ||
+      irq >= dt->__internal.irqs[0] + (dt_irq_t)count) {
+    return count;
+  }
+  return irq - dt->__internal.irqs[0];
 }
 
+/**
+ * Get the pin description of an instance.
+ *
+ * @param dt Pointer to an instance of gpio.
+ * @param pin Requested pin.
+ * @return Description of the requested pin for this instance.
+ */
+static inline dt_pin_t dt_gpio_pin(const dt_gpio_t *dt, dt_gpio_pin_t pin) {
+  return dt->__internal.pins[pin];
+}
 #endif  // OPENTITAN_SW_DEVICE_LIB_DEVICETABLES_DT_GPIO_H_

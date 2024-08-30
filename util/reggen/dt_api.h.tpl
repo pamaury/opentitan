@@ -86,42 +86,97 @@ typedef enum {
   ${snake_to_enum(f"dt_{device_name}_pin_{pin}")} = ${str(idx)},
 % endfor
   ${snake_to_enum(f"dt_{device_name}_pin_count")} = ${str(len(device_pins))},
-} dt_${device_name}_pinctrl_t;
+} dt_${device_name}_pin_t;
 
 % endif
 ## DT structure.
 typedef struct dt_${device_name} {
-  dt_device_id_t device_id;
-  uint32_t base_addrs[${snake_to_enum(f"dt_{device_name}_reg_block_count")}];
+  struct {
+    dt_device_id_t device_id;
+    uint32_t base_addrs[${snake_to_enum(f"dt_{device_name}_reg_block_count")}];
 % if len(device_irqs) > 0:
-  uint32_t irqs[${snake_to_enum(f"dt_{device_name}_irq_type_count")}];
+    dt_irq_t irqs[${snake_to_enum(f"dt_{device_name}_irq_type_count")}];
 % endif
-  dt_clock_t clocks[${snake_to_enum(f"dt_{device_name}_clock_count")}];
+    dt_clock_t clocks[${snake_to_enum(f"dt_{device_name}_clock_count")}];
 % if len(device_pins) > 0:
-  dt_pin_t pins[${snake_to_enum(f"dt_{device_name}_pin_count")}];
+    dt_pin_t pins[${snake_to_enum(f"dt_{device_name}_pin_count")}];
 % endif
+  } __internal;
 } dt_${device_name}_t;
 
+/**
+ * Get the device ID of an instance.
+ *
+ * @param dt Pointer to an instance of ${device_name}.
+ * @return The device ID of that instance.
+ */
+static inline dt_device_id_t dt_${device_name}_device_id(
+    const dt_${device_name}_t *dt) {
+  return dt->__internal.device_id;
+}
+
+/**
+ * Get the register base address of an instance.
+ *
+ * @param dt Pointer to an instance of ${device_name}.
+ * @param reg_block The register block requested.
+ * @return The register base address of the requested block.
+ */
+static inline uint32_t dt_${device_name}_reg_block(
+    const dt_${device_name}_t *dt,
+    dt_${device_name}_reg_block_t reg_block) {
+  return dt->__internal.base_addrs[reg_block];
+}
+
 % if len(device_irqs) > 0:
+/**
+ * Get the global IRQ ID of a local ${device_name} IRQ type for a given instance.
+ *
+ * @param dt Pointer to an instance of ${device_name}.
+ * @param irq_type A local ${device_name} IRQ type.
+ * @return A global IRQ ID that corresponds to the local IRQ type of this instance.
+ */
+static inline dt_irq_t dt_${device_name}_irq_id(
+    const dt_${device_name}_t *dt,
+    dt_${device_name}_irq_type_t irq_type) {
+  return dt->__internal.irqs[irq_type];
+}
+
 /**
  * Convert a global IRQ ID to a local ${device_name} IRQ type.
  *
  * @param dt Pointer to an instance of ${device_name}.
- * @param irq A global IRQ ID.
- * @return The local ${device_name} IRQ type of this irq.
+ * @param irq A global IRQ ID that belongs to this instance.
+ * @return The local ${device_name} IRQ type, or `${snake_to_enum(f"dt_{device_name}_irq_type_count")}`.
  *
- * IMPORTANT This function assumes that the global IRQ belongs to the instance
+ * NOTE This function assumes that the global IRQ belongs to the instance
  * of ${device_name} passed in parameter. In other words, it must be the case that
- * `dt->device_id == dt_irq_to_device(irq)`
- *
- * FIXME How should we handle errors (when the invariant above is violated)?
+ * `dt->device_id == dt_irq_to_device(irq)`. Otherwise, this function will return
+ * `${snake_to_enum(f"dt_{device_name}_irq_type_count")}`.
  */
 static inline dt_${device_name}_irq_type_t dt_${device_name}_irq_type(
     const dt_${device_name}_t *dt,
     dt_irq_t irq) {
-  // FIXME Should check that irq >= dt->irqs[0] and irq < dt->irqs[0] + ${snake_to_enum(f"dt_{device_name}_irq_type_count")}
-  return irq - dt->irqs[0];
+  dt_${device_name}_irq_type_t count = ${snake_to_enum(f"dt_{device_name}_irq_type_count")};
+  if (irq < dt->__internal.irqs[0] || irq >= dt->__internal.irqs[0] + (dt_irq_t)count) {
+    return count;
+  }
+  return irq - dt->__internal.irqs[0];
 }
 
 %endif
+% if len(device_pins) > 0:
+/**
+ * Get the pin description of an instance.
+ *
+ * @param dt Pointer to an instance of ${device_name}.
+ * @param pin Requested pin.
+ * @return Description of the requested pin for this instance.
+ */
+static inline dt_pin_t dt_${device_name}_pin(
+    const dt_${device_name}_t *dt,
+    dt_${device_name}_pin_t pin) {
+  return dt->__internal.pins[pin];
+}
+% endif
 #endif  // ${include_guard}

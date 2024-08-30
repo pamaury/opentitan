@@ -25,9 +25,34 @@ typedef enum {
 } dt_rv_core_ibex_clock_t;
 
 typedef struct dt_rv_core_ibex {
-  dt_device_id_t device_id;
-  uint32_t base_addrs[kDtRvCoreIbexRegBlockCount];
-  dt_clock_t clocks[kDtRvCoreIbexClockCount];
+  struct {
+    dt_device_id_t device_id;
+    uint32_t base_addrs[kDtRvCoreIbexRegBlockCount];
+    dt_clock_t clocks[kDtRvCoreIbexClockCount];
+  } __internal;
 } dt_rv_core_ibex_t;
+
+/**
+ * Get the device ID of an instance.
+ *
+ * @param dt Pointer to an instance of rv_core_ibex.
+ * @return The device ID of that instance.
+ */
+static inline dt_device_id_t dt_rv_core_ibex_device_id(
+    const dt_rv_core_ibex_t *dt) {
+  return dt->__internal.device_id;
+}
+
+/**
+ * Get the register base address of an instance.
+ *
+ * @param dt Pointer to an instance of rv_core_ibex.
+ * @param reg_block The register block requested.
+ * @return The register base address of the requested block.
+ */
+static inline uint32_t dt_rv_core_ibex_reg_block(
+    const dt_rv_core_ibex_t *dt, dt_rv_core_ibex_reg_block_t reg_block) {
+  return dt->__internal.base_addrs[reg_block];
+}
 
 #endif  // OPENTITAN_SW_DEVICE_LIB_DEVICETABLES_DT_RV_CORE_IBEX_H_

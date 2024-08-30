@@ -48,7 +48,7 @@ enum {
   kOutputNumPads = 0x8,
 };
 
-static const dt_sysrst_ctrl_pinctrl_t kPeripheralInputs[] = {
+static const dt_sysrst_ctrl_pin_t kPeripheralInputs[] = {
     kDtSysrstCtrlPinKey0In,
     kDtSysrstCtrlPinKey1In,
     kDtSysrstCtrlPinKey2In,
@@ -69,7 +69,7 @@ static const dif_pinmux_index_t kInputPadsReal[] = {
     kTopEarlgreyPinmuxInselIor5,
 };
 
-static const dt_sysrst_ctrl_pinctrl_t kPeripheralOutputs[] = {
+static const dt_sysrst_ctrl_pin_t kPeripheralOutputs[] = {
     kDtSysrstCtrlPinKey0Out,    kDtSysrstCtrlPinKey1Out,
     kDtSysrstCtrlPinKey2Out,    kDtSysrstCtrlPinPwrbOut,
     kDtSysrstCtrlPinBatDisable, kDtSysrstCtrlPinZ3Wakeup,
@@ -115,7 +115,7 @@ static void pinmux_setup(void) {
   const dif_pinmux_index_t *kInputPads =
       kDeviceType == kDeviceSimDV ? kInputPadsDV : kInputPadsReal;
   for (int i = 0; i < kNumMioInputs; ++i) {
-    dt_pin_t pin = sysrst_ctrl_dt->pins[kPeripheralInputs[i]];
+    dt_pin_t pin = dt_sysrst_ctrl_pin(sysrst_ctrl_dt, kPeripheralInputs[i]);
     // TODO The following will be replaced by better code when we have the
     // "board side" configuration done.
     CHECK(dt_pin_type(pin) == kDtPinTypeMio);
@@ -125,7 +125,7 @@ static void pinmux_setup(void) {
   const dif_pinmux_index_t *kOutputPads =
       kDeviceType == kDeviceSimDV ? kOutputPadsDV : kOutputPadsReal;
   for (int i = 0; i < kNumMioOutputs; ++i) {
-    dt_pin_t pin = sysrst_ctrl_dt->pins[kPeripheralOutputs[i]];
+    dt_pin_t pin = dt_sysrst_ctrl_pin(sysrst_ctrl_dt, kPeripheralOutputs[i]);
     // TODO The following will be replaced by better code when we have the
     // "board side" configuration done.
     CHECK(dt_pin_type(pin) == kDtPinTypeMio);

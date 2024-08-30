@@ -39,34 +39,84 @@ typedef enum {
   kDtOtpCtrlPinTest6 = 6,
   kDtOtpCtrlPinTest7 = 7,
   kDtOtpCtrlPinCount = 8,
-} dt_otp_ctrl_pinctrl_t;
+} dt_otp_ctrl_pin_t;
 
 typedef struct dt_otp_ctrl {
-  dt_device_id_t device_id;
-  uint32_t base_addrs[kDtOtpCtrlRegBlockCount];
-  uint32_t irqs[kDtOtpCtrlIrqTypeCount];
-  dt_clock_t clocks[kDtOtpCtrlClockCount];
-  dt_pin_t pins[kDtOtpCtrlPinCount];
+  struct {
+    dt_device_id_t device_id;
+    uint32_t base_addrs[kDtOtpCtrlRegBlockCount];
+    dt_irq_t irqs[kDtOtpCtrlIrqTypeCount];
+    dt_clock_t clocks[kDtOtpCtrlClockCount];
+    dt_pin_t pins[kDtOtpCtrlPinCount];
+  } __internal;
 } dt_otp_ctrl_t;
+
+/**
+ * Get the device ID of an instance.
+ *
+ * @param dt Pointer to an instance of otp_ctrl.
+ * @return The device ID of that instance.
+ */
+static inline dt_device_id_t dt_otp_ctrl_device_id(const dt_otp_ctrl_t *dt) {
+  return dt->__internal.device_id;
+}
+
+/**
+ * Get the register base address of an instance.
+ *
+ * @param dt Pointer to an instance of otp_ctrl.
+ * @param reg_block The register block requested.
+ * @return The register base address of the requested block.
+ */
+static inline uint32_t dt_otp_ctrl_reg_block(
+    const dt_otp_ctrl_t *dt, dt_otp_ctrl_reg_block_t reg_block) {
+  return dt->__internal.base_addrs[reg_block];
+}
+
+/**
+ * Get the global IRQ ID of a local otp_ctrl IRQ type for a given instance.
+ *
+ * @param dt Pointer to an instance of otp_ctrl.
+ * @param irq_type A local otp_ctrl IRQ type.
+ * @return A global IRQ ID that corresponds to the local IRQ type of this
+ * instance.
+ */
+static inline dt_irq_t dt_otp_ctrl_irq_id(const dt_otp_ctrl_t *dt,
+                                          dt_otp_ctrl_irq_type_t irq_type) {
+  return dt->__internal.irqs[irq_type];
+}
 
 /**
  * Convert a global IRQ ID to a local otp_ctrl IRQ type.
  *
  * @param dt Pointer to an instance of otp_ctrl.
- * @param irq A global IRQ ID.
- * @return The local otp_ctrl IRQ type of this irq.
+ * @param irq A global IRQ ID that belongs to this instance.
+ * @return The local otp_ctrl IRQ type, or `kDtOtpCtrlIrqTypeCount`.
  *
- * IMPORTANT This function assumes that the global IRQ belongs to the instance
+ * NOTE This function assumes that the global IRQ belongs to the instance
  * of otp_ctrl passed in parameter. In other words, it must be the case that
- * `dt->device_id == dt_irq_to_device(irq)`
- *
- * FIXME How should we handle errors (when the invariant above is violated)?
+ * `dt->device_id == dt_irq_to_device(irq)`. Otherwise, this function will
+ * return `kDtOtpCtrlIrqTypeCount`.
  */
 static inline dt_otp_ctrl_irq_type_t dt_otp_ctrl_irq_type(
     const dt_otp_ctrl_t *dt, dt_irq_t irq) {
-  // FIXME Should check that irq >= dt->irqs[0] and irq < dt->irqs[0] +
-  // kDtOtpCtrlIrqTypeCount
-  return irq - dt->irqs[0];
+  dt_otp_ctrl_irq_type_t count = kDtOtpCtrlIrqTypeCount;
+  if (irq < dt->__internal.irqs[0] ||
+      irq >= dt->__internal.irqs[0] + (dt_irq_t)count) {
+    return count;
+  }
+  return irq - dt->__internal.irqs[0];
 }
 
+/**
+ * Get the pin description of an instance.
+ *
+ * @param dt Pointer to an instance of otp_ctrl.
+ * @param pin Requested pin.
+ * @return Description of the requested pin for this instance.
+ */
+static inline dt_pin_t dt_otp_ctrl_pin(const dt_otp_ctrl_t *dt,
+                                       dt_otp_ctrl_pin_t pin) {
+  return dt->__internal.pins[pin];
+}
 #endif  // OPENTITAN_SW_DEVICE_LIB_DEVICETABLES_DT_OTP_CTRL_H_

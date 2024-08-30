@@ -31,7 +31,7 @@ dif_result_t dif_rv_plic_init_dt(const dt_rv_plic_t *dt,
     return kDifBadArg;
   }
 
-  rv_plic->base_addr = mmio_region_from_addr(dt->base_addrs[0]);
+  rv_plic->base_addr = mmio_region_from_addr(dt_rv_plic_reg_block(dt, 0));
 
   return kDifOk;
 }

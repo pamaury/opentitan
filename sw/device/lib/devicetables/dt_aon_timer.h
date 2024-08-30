@@ -29,30 +29,69 @@ typedef enum {
 } dt_aon_timer_clock_t;
 
 typedef struct dt_aon_timer {
-  dt_device_id_t device_id;
-  uint32_t base_addrs[kDtAonTimerRegBlockCount];
-  uint32_t irqs[kDtAonTimerIrqTypeCount];
-  dt_clock_t clocks[kDtAonTimerClockCount];
+  struct {
+    dt_device_id_t device_id;
+    uint32_t base_addrs[kDtAonTimerRegBlockCount];
+    dt_irq_t irqs[kDtAonTimerIrqTypeCount];
+    dt_clock_t clocks[kDtAonTimerClockCount];
+  } __internal;
 } dt_aon_timer_t;
+
+/**
+ * Get the device ID of an instance.
+ *
+ * @param dt Pointer to an instance of aon_timer.
+ * @return The device ID of that instance.
+ */
+static inline dt_device_id_t dt_aon_timer_device_id(const dt_aon_timer_t *dt) {
+  return dt->__internal.device_id;
+}
+
+/**
+ * Get the register base address of an instance.
+ *
+ * @param dt Pointer to an instance of aon_timer.
+ * @param reg_block The register block requested.
+ * @return The register base address of the requested block.
+ */
+static inline uint32_t dt_aon_timer_reg_block(
+    const dt_aon_timer_t *dt, dt_aon_timer_reg_block_t reg_block) {
+  return dt->__internal.base_addrs[reg_block];
+}
+
+/**
+ * Get the global IRQ ID of a local aon_timer IRQ type for a given instance.
+ *
+ * @param dt Pointer to an instance of aon_timer.
+ * @param irq_type A local aon_timer IRQ type.
+ * @return A global IRQ ID that corresponds to the local IRQ type of this
+ * instance.
+ */
+static inline dt_irq_t dt_aon_timer_irq_id(const dt_aon_timer_t *dt,
+                                           dt_aon_timer_irq_type_t irq_type) {
+  return dt->__internal.irqs[irq_type];
+}
 
 /**
  * Convert a global IRQ ID to a local aon_timer IRQ type.
  *
  * @param dt Pointer to an instance of aon_timer.
- * @param irq A global IRQ ID.
- * @return The local aon_timer IRQ type of this irq.
+ * @param irq A global IRQ ID that belongs to this instance.
+ * @return The local aon_timer IRQ type, or `kDtAonTimerIrqTypeCount`.
  *
- * IMPORTANT This function assumes that the global IRQ belongs to the instance
+ * NOTE This function assumes that the global IRQ belongs to the instance
  * of aon_timer passed in parameter. In other words, it must be the case that
- * `dt->device_id == dt_irq_to_device(irq)`
- *
- * FIXME How should we handle errors (when the invariant above is violated)?
+ * `dt->device_id == dt_irq_to_device(irq)`. Otherwise, this function will
+ * return `kDtAonTimerIrqTypeCount`.
  */
 static inline dt_aon_timer_irq_type_t dt_aon_timer_irq_type(
     const dt_aon_timer_t *dt, dt_irq_t irq) {
-  // FIXME Should check that irq >= dt->irqs[0] and irq < dt->irqs[0] +
-  // kDtAonTimerIrqTypeCount
-  return irq - dt->irqs[0];
+  dt_aon_timer_irq_type_t count = kDtAonTimerIrqTypeCount;
+  if (irq < dt->__internal.irqs[0] ||
+      irq >= dt->__internal.irqs[0] + (dt_irq_t)count) {
+    return count;
+  }
+  return irq - dt->__internal.irqs[0];
 }
 
 #endif  // OPENTITAN_SW_DEVICE_LIB_DEVICETABLES_DT_AON_TIMER_H_

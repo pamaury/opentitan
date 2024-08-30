@@ -30,30 +30,69 @@ typedef enum {
 } dt_kmac_clock_t;
 
 typedef struct dt_kmac {
-  dt_device_id_t device_id;
-  uint32_t base_addrs[kDtKmacRegBlockCount];
-  uint32_t irqs[kDtKmacIrqTypeCount];
-  dt_clock_t clocks[kDtKmacClockCount];
+  struct {
+    dt_device_id_t device_id;
+    uint32_t base_addrs[kDtKmacRegBlockCount];
+    dt_irq_t irqs[kDtKmacIrqTypeCount];
+    dt_clock_t clocks[kDtKmacClockCount];
+  } __internal;
 } dt_kmac_t;
+
+/**
+ * Get the device ID of an instance.
+ *
+ * @param dt Pointer to an instance of kmac.
+ * @return The device ID of that instance.
+ */
+static inline dt_device_id_t dt_kmac_device_id(const dt_kmac_t *dt) {
+  return dt->__internal.device_id;
+}
+
+/**
+ * Get the register base address of an instance.
+ *
+ * @param dt Pointer to an instance of kmac.
+ * @param reg_block The register block requested.
+ * @return The register base address of the requested block.
+ */
+static inline uint32_t dt_kmac_reg_block(const dt_kmac_t *dt,
+                                         dt_kmac_reg_block_t reg_block) {
+  return dt->__internal.base_addrs[reg_block];
+}
+
+/**
+ * Get the global IRQ ID of a local kmac IRQ type for a given instance.
+ *
+ * @param dt Pointer to an instance of kmac.
+ * @param irq_type A local kmac IRQ type.
+ * @return A global IRQ ID that corresponds to the local IRQ type of this
+ * instance.
+ */
+static inline dt_irq_t dt_kmac_irq_id(const dt_kmac_t *dt,
+                                      dt_kmac_irq_type_t irq_type) {
+  return dt->__internal.irqs[irq_type];
+}
 
 /**
  * Convert a global IRQ ID to a local kmac IRQ type.
  *
  * @param dt Pointer to an instance of kmac.
- * @param irq A global IRQ ID.
- * @return The local kmac IRQ type of this irq.
+ * @param irq A global IRQ ID that belongs to this instance.
+ * @return The local kmac IRQ type, or `kDtKmacIrqTypeCount`.
  *
- * IMPORTANT This function assumes that the global IRQ belongs to the instance
+ * NOTE This function assumes that the global IRQ belongs to the instance
  * of kmac passed in parameter. In other words, it must be the case that
- * `dt->device_id == dt_irq_to_device(irq)`
- *
- * FIXME How should we handle errors (when the invariant above is violated)?
+ * `dt->device_id == dt_irq_to_device(irq)`. Otherwise, this function will
+ * return `kDtKmacIrqTypeCount`.
  */
 static inline dt_kmac_irq_type_t dt_kmac_irq_type(const dt_kmac_t *dt,
                                                   dt_irq_t irq) {
-  // FIXME Should check that irq >= dt->irqs[0] and irq < dt->irqs[0] +
-  // kDtKmacIrqTypeCount
-  return irq - dt->irqs[0];
+  dt_kmac_irq_type_t count = kDtKmacIrqTypeCount;
+  if (irq < dt->__internal.irqs[0] ||
+      irq >= dt->__internal.irqs[0] + (dt_irq_t)count) {
+    return count;
+  }
+  return irq - dt->__internal.irqs[0];
 }
 
 #endif  // OPENTITAN_SW_DEVICE_LIB_DEVICETABLES_DT_KMAC_H_

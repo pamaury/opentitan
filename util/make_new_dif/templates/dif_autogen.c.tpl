@@ -80,7 +80,7 @@ dif_result_t dif_${ip.name_snake}_init_dt(
   }
 
 ## Assume that the first block is always for registers.
-  ${ip.name_snake}->base_addr = mmio_region_from_addr(dt->base_addrs[0]);
+  ${ip.name_snake}->base_addr = mmio_region_from_addr(dt_${ip.name_snake}_reg_block(dt, 0));
 
   return kDifOk;
 }

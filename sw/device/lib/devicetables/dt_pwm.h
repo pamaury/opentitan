@@ -30,13 +30,47 @@ typedef enum {
   kDtPwmPinPwm4 = 4,
   kDtPwmPinPwm5 = 5,
   kDtPwmPinCount = 6,
-} dt_pwm_pinctrl_t;
+} dt_pwm_pin_t;
 
 typedef struct dt_pwm {
-  dt_device_id_t device_id;
-  uint32_t base_addrs[kDtPwmRegBlockCount];
-  dt_clock_t clocks[kDtPwmClockCount];
-  dt_pin_t pins[kDtPwmPinCount];
+  struct {
+    dt_device_id_t device_id;
+    uint32_t base_addrs[kDtPwmRegBlockCount];
+    dt_clock_t clocks[kDtPwmClockCount];
+    dt_pin_t pins[kDtPwmPinCount];
+  } __internal;
 } dt_pwm_t;
 
+/**
+ * Get the device ID of an instance.
+ *
+ * @param dt Pointer to an instance of pwm.
+ * @return The device ID of that instance.
+ */
+static inline dt_device_id_t dt_pwm_device_id(const dt_pwm_t *dt) {
+  return dt->__internal.device_id;
+}
+
+/**
+ * Get the register base address of an instance.
+ *
+ * @param dt Pointer to an instance of pwm.
+ * @param reg_block The register block requested.
+ * @return The register base address of the requested block.
+ */
+static inline uint32_t dt_pwm_reg_block(const dt_pwm_t *dt,
+                                        dt_pwm_reg_block_t reg_block) {
+  return dt->__internal.base_addrs[reg_block];
+}
+
+/**
+ * Get the pin description of an instance.
+ *
+ * @param dt Pointer to an instance of pwm.
+ * @param pin Requested pin.
+ * @return Description of the requested pin for this instance.
+ */
+static inline dt_pin_t dt_pwm_pin(const dt_pwm_t *dt, dt_pwm_pin_t pin) {
+  return dt->__internal.pins[pin];
+}
 #endif  // OPENTITAN_SW_DEVICE_LIB_DEVICETABLES_DT_PWM_H_

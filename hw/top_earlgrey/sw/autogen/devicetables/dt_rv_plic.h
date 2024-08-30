@@ -21,9 +21,35 @@ typedef enum {
 } dt_rv_plic_clock_t;
 
 typedef struct dt_rv_plic {
-  dt_device_id_t device_id;
-  uint32_t base_addrs[kDtRvPlicRegBlockCount];
-  dt_clock_t clocks[kDtRvPlicClockCount];
+  struct {
+    dt_device_id_t device_id;
+    uint32_t base_addrs[kDtRvPlicRegBlockCount];
+    dt_clock_t clocks[kDtRvPlicClockCount];
+  } __internal;
 } dt_rv_plic_t;
+
+/**
+ * Get the device ID of an instance.
+ *
+ * @param dt Pointer to an instance of rv_plic.
+ * @return The device ID of that instance.
+ */
+static inline dt_device_id_t dt_rv_plic_device_id(
+    const dt_rv_plic_t *dt) {
+  return dt->__internal.device_id;
+}
+
+/**
+ * Get the register base address of an instance.
+ *
+ * @param dt Pointer to an instance of rv_plic.
+ * @param reg_block The register block requested.
+ * @return The register base address of the requested block.
+ */
+static inline uint32_t dt_rv_plic_reg_block(
+    const dt_rv_plic_t *dt,
+    dt_rv_plic_reg_block_t reg_block) {
+  return dt->__internal.base_addrs[reg_block];
+}
 
 #endif  // OPENTITAN_HW_TOP_EARLGREY_SW_AUTOGEN_DEVICETABLES_DT_RV_PLIC_H_

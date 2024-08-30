@@ -29,30 +29,69 @@ typedef enum {
 } dt_otbn_clock_t;
 
 typedef struct dt_otbn {
-  dt_device_id_t device_id;
-  uint32_t base_addrs[kDtOtbnRegBlockCount];
-  uint32_t irqs[kDtOtbnIrqTypeCount];
-  dt_clock_t clocks[kDtOtbnClockCount];
+  struct {
+    dt_device_id_t device_id;
+    uint32_t base_addrs[kDtOtbnRegBlockCount];
+    dt_irq_t irqs[kDtOtbnIrqTypeCount];
+    dt_clock_t clocks[kDtOtbnClockCount];
+  } __internal;
 } dt_otbn_t;
+
+/**
+ * Get the device ID of an instance.
+ *
+ * @param dt Pointer to an instance of otbn.
+ * @return The device ID of that instance.
+ */
+static inline dt_device_id_t dt_otbn_device_id(const dt_otbn_t *dt) {
+  return dt->__internal.device_id;
+}
+
+/**
+ * Get the register base address of an instance.
+ *
+ * @param dt Pointer to an instance of otbn.
+ * @param reg_block The register block requested.
+ * @return The register base address of the requested block.
+ */
+static inline uint32_t dt_otbn_reg_block(const dt_otbn_t *dt,
+                                         dt_otbn_reg_block_t reg_block) {
+  return dt->__internal.base_addrs[reg_block];
+}
+
+/**
+ * Get the global IRQ ID of a local otbn IRQ type for a given instance.
+ *
+ * @param dt Pointer to an instance of otbn.
+ * @param irq_type A local otbn IRQ type.
+ * @return A global IRQ ID that corresponds to the local IRQ type of this
+ * instance.
+ */
+static inline dt_irq_t dt_otbn_irq_id(const dt_otbn_t *dt,
+                                      dt_otbn_irq_type_t irq_type) {
+  return dt->__internal.irqs[irq_type];
+}
 
 /**
  * Convert a global IRQ ID to a local otbn IRQ type.
  *
  * @param dt Pointer to an instance of otbn.
- * @param irq A global IRQ ID.
- * @return The local otbn IRQ type of this irq.
+ * @param irq A global IRQ ID that belongs to this instance.
+ * @return The local otbn IRQ type, or `kDtOtbnIrqTypeCount`.
  *
- * IMPORTANT This function assumes that the global IRQ belongs to the instance
+ * NOTE This function assumes that the global IRQ belongs to the instance
  * of otbn passed in parameter. In other words, it must be the case that
- * `dt->device_id == dt_irq_to_device(irq)`
- *
- * FIXME How should we handle errors (when the invariant above is violated)?
+ * `dt->device_id == dt_irq_to_device(irq)`. Otherwise, this function will
+ * return `kDtOtbnIrqTypeCount`.
  */
 static inline dt_otbn_irq_type_t dt_otbn_irq_type(const dt_otbn_t *dt,
                                                   dt_irq_t irq) {
-  // FIXME Should check that irq >= dt->irqs[0] and irq < dt->irqs[0] +
-  // kDtOtbnIrqTypeCount
-  return irq - dt->irqs[0];
+  dt_otbn_irq_type_t count = kDtOtbnIrqTypeCount;
+  if (irq < dt->__internal.irqs[0] ||
+      irq >= dt->__internal.irqs[0] + (dt_irq_t)count) {
+    return count;
+  }
+  return irq - dt->__internal.irqs[0];
 }
 
 #endif  // OPENTITAN_SW_DEVICE_LIB_DEVICETABLES_DT_OTBN_H_

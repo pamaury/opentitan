@@ -131,7 +131,7 @@ static void execute_test(dif_aon_timer_t *aon_timer, uint64_t irq_time_us,
   // Capture the current tick to measure the time the IRQ will take.
   uint32_t start_tick = (uint32_t)tick_count_get();
 
-  ATOMIC_WAIT_FOR_INTERRUPT(peripheral == aon_timer_dt->device_id);
+  ATOMIC_WAIT_FOR_INTERRUPT(peripheral == dt_aon_timer_device_id(aon_timer_dt));
 
   uint32_t time_elapsed = (uint32_t)irq_tick - start_tick;
   CHECK(time_elapsed < sleep_range_h && time_elapsed > sleep_range_l,
@@ -139,9 +139,9 @@ static void execute_test(dif_aon_timer_t *aon_timer, uint64_t irq_time_us,
         (uint32_t)time_elapsed, (uint32_t)sleep_range_l,
         (uint32_t)sleep_range_h);
 
-  CHECK(peripheral == aon_timer_dt->device_id,
+  CHECK(peripheral == dt_aon_timer_device_id(aon_timer_dt),
         "Interrupt from incorrect peripheral: exp = %d, obs = %d",
-        aon_timer_dt->device_id, peripheral);
+        dt_aon_timer_device_id(aon_timer_dt), peripheral);
 
   CHECK(irq == expected_irq, "Interrupt type incorrect: exp = %d, obs = %d",
         kDtAonTimerIrqTypeWkupTimerExpired, irq);
@@ -161,12 +161,12 @@ void ottf_external_isr(uint32_t *exc_info) {
 
   peripheral = dt_irq_to_device(irq_id);
 
-  if (peripheral == aon_timer_dt->device_id) {
+  if (peripheral == dt_aon_timer_device_id(aon_timer_dt)) {
     irq = dt_aon_timer_irq_type(aon_timer_dt, irq_id);
 
-    if (irq_id == kDtAonTimerIrqTypeWkupTimerExpired) {
+    if (irq == kDtAonTimerIrqTypeWkupTimerExpired) {
       CHECK_DIF_OK(dif_aon_timer_wakeup_stop(&aon_timer));
-    } else if (irq_id == kDtAonTimerIrqTypeWdogTimerBark) {
+    } else if (irq == kDtAonTimerIrqTypeWdogTimerBark) {
       CHECK_DIF_OK(dif_aon_timer_watchdog_stop(&aon_timer));
     }
 
@@ -218,10 +218,8 @@ bool test_main(void) {
 
   // Enable all the AON interrupts used in this test.
   rv_plic_testutils_irq_range_enable(
-      &plic, kPlicTarget, aon_timer_dt->irqs[kDtAonTimerIrqTypeWkupTimerExpired],
-      aon_timer_dt->irqs[kDtAonTimerIrqTypeWdogTimerBark]);
-
-  LOG_INFO("sizeof(dt_pin) = %d", sizeof(dt_pin_t));
+      &plic, kPlicTarget, dt_aon_timer_irq_id(aon_timer_dt, kDtAonTimerIrqTypeWkupTimerExpired),
+      dt_aon_timer_irq_id(aon_timer_dt, kDtAonTimerIrqTypeWdogTimerBark));
 
   // Executing the test using random time bounds calculated from the clock
   // frequency to make sure the aon timer is generating the interrupt after the

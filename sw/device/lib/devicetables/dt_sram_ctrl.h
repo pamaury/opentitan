@@ -24,9 +24,33 @@ typedef enum {
 } dt_sram_ctrl_clock_t;
 
 typedef struct dt_sram_ctrl {
-  dt_device_id_t device_id;
-  uint32_t base_addrs[kDtSramCtrlRegBlockCount];
-  dt_clock_t clocks[kDtSramCtrlClockCount];
+  struct {
+    dt_device_id_t device_id;
+    uint32_t base_addrs[kDtSramCtrlRegBlockCount];
+    dt_clock_t clocks[kDtSramCtrlClockCount];
+  } __internal;
 } dt_sram_ctrl_t;
+
+/**
+ * Get the device ID of an instance.
+ *
+ * @param dt Pointer to an instance of sram_ctrl.
+ * @return The device ID of that instance.
+ */
+static inline dt_device_id_t dt_sram_ctrl_device_id(const dt_sram_ctrl_t *dt) {
+  return dt->__internal.device_id;
+}
+
+/**
+ * Get the register base address of an instance.
+ *
+ * @param dt Pointer to an instance of sram_ctrl.
+ * @param reg_block The register block requested.
+ * @return The register base address of the requested block.
+ */
+static inline uint32_t dt_sram_ctrl_reg_block(
+    const dt_sram_ctrl_t *dt, dt_sram_ctrl_reg_block_t reg_block) {
+  return dt->__internal.base_addrs[reg_block];
+}
 
 #endif  // OPENTITAN_SW_DEVICE_LIB_DEVICETABLES_DT_SRAM_CTRL_H_

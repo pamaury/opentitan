@@ -22,9 +22,35 @@ typedef enum {
 } dt_pinmux_clock_t;
 
 typedef struct dt_pinmux {
-  dt_device_id_t device_id;
-  uint32_t base_addrs[kDtPinmuxRegBlockCount];
-  dt_clock_t clocks[kDtPinmuxClockCount];
+  struct {
+    dt_device_id_t device_id;
+    uint32_t base_addrs[kDtPinmuxRegBlockCount];
+    dt_clock_t clocks[kDtPinmuxClockCount];
+  } __internal;
 } dt_pinmux_t;
+
+/**
+ * Get the device ID of an instance.
+ *
+ * @param dt Pointer to an instance of pinmux.
+ * @return The device ID of that instance.
+ */
+static inline dt_device_id_t dt_pinmux_device_id(
+    const dt_pinmux_t *dt) {
+  return dt->__internal.device_id;
+}
+
+/**
+ * Get the register base address of an instance.
+ *
+ * @param dt Pointer to an instance of pinmux.
+ * @param reg_block The register block requested.
+ * @return The register base address of the requested block.
+ */
+static inline uint32_t dt_pinmux_reg_block(
+    const dt_pinmux_t *dt,
+    dt_pinmux_reg_block_t reg_block) {
+  return dt->__internal.base_addrs[reg_block];
+}
 
 #endif  // OPENTITAN_HW_TOP_EARLGREY_SW_AUTOGEN_DEVICETABLES_DT_PINMUX_H_

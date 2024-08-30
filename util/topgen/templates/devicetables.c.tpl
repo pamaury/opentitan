@@ -89,13 +89,14 @@ const dt_${module_name}_t ${snake_to_constant_name("dt_" + module_name)}[${snake
 %   for (dev_index, m) in enumerate(modules):
   // Properties for ${m["name"]}
   {
-    .device_id = ${snake_to_constant_name("dt_device_id_" + m["name"])},
-    .base_addrs = {
+    .__internal = {
+      .device_id = ${snake_to_constant_name("dt_device_id_" + m["name"])},
+      .base_addrs = {
 %     for addr in m["base_addrs"].values():
-      ${addr},
+        ${addr},
 %     endfor
     },
-    .clocks = {
+      .clocks = {
 %     for port, clock in m["clock_srcs"].items():
 %       if port in block_clocks:
 <%
@@ -105,19 +106,19 @@ const dt_${module_name}_t ${snake_to_constant_name("dt_" + module_name)}[${snake
             clock_id = top_clock_prefix + Name.from_snake_case(clock["clock"])
         block_clock_enum = block_clocks[port].as_c_enum()
 %>\
-      [${block_clock_enum}] = ${clock_id.as_c_enum()},
+        [${block_clock_enum}] = ${clock_id.as_c_enum()},
 %       endif
 %     endfor
-    },
+      },
 %   if len(block.interrupts) > 0:
-    .irqs = {
+      .irqs = {
 %     for irq in irqs[m["name"]]:
-      ${irq.as_c_enum()},
+        ${irq.as_c_enum()},
 %     endfor
-    },
+      },
 %   endif
 %   if len(device_ports) > 0:
-    .pins = {
+      .pins = {
 %     for port in device_ports:
 %       for conn in [c for c in pinmux_info["ios"] if c["name"] == m["name"] + "_" + port]:
 <%
@@ -141,18 +142,19 @@ const dt_${module_name}_t ${snake_to_constant_name("dt_" + module_name)}[${snake
                 pin_periph_input_or_direct_pad = "0"
                 pin_outsel = "0"
                 pin_type = "Other"
-
-            print("{}, {} -> {}".format(m["name"], port, conn))
-%>
-      [${snake_to_constant_name(f"dt_{module_name}_pin_{pin_name}")}] = {
-        .__internal_type = kDtPinType${pin_type},
-        .__internal_periph_input_or_direct_pad = ${pin_periph_input_or_direct_pad},
-        .__internal_outsel = ${pin_outsel},
-      },
+%>\
+        [${snake_to_constant_name(f"dt_{module_name}_pin_{pin_name}")}] = {
+          .__internal = {
+            .type = kDtPinType${pin_type},
+            .periph_input_or_direct_pad = ${pin_periph_input_or_direct_pad},
+            .outsel = ${pin_outsel},
+          }
+        },
 %       endfor
 %     endfor
-    },
+      },
 %   endif
+    },
   },
 %   endfor
 };

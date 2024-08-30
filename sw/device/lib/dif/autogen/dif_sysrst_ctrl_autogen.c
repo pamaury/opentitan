@@ -32,7 +32,8 @@ dif_result_t dif_sysrst_ctrl_init_dt(const dt_sysrst_ctrl_t *dt,
     return kDifBadArg;
   }
 
-  sysrst_ctrl->base_addr = mmio_region_from_addr(dt->base_addrs[0]);
+  sysrst_ctrl->base_addr =
+      mmio_region_from_addr(dt_sysrst_ctrl_reg_block(dt, 0));
 
   return kDifOk;
 }
