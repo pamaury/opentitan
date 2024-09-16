@@ -38,6 +38,8 @@
 #include "sw/device/silicon_creator/lib/drivers/rnd.h"
 #include "sw/device/silicon_creator/lib/drivers/rstmgr.h"
 #include "sw/device/silicon_creator/lib/drivers/uart.h"
+#include "sw/device/silicon_creator/lib/drivers/usbdev.h"
+#include "sw/device/silicon_creator/lib/drivers/usb_core.h"
 #include "sw/device/silicon_creator/lib/epmp_state.h"
 #include "sw/device/silicon_creator/lib/manifest.h"
 #include "sw/device/silicon_creator/lib/manifest_def.h"
@@ -123,6 +125,9 @@ static dice_cert_key_id_pair_t cdi_1_key_ids = {
 static attestation_public_key_t curr_attestation_pubkey = {.x = {0}, .y = {0}};
 static uint8_t cdi_0_cert[kCdi0MaxCertSizeBytes] = {0};
 static uint8_t cdi_1_cert[kCdi1MaxCertSizeBytes] = {0};
+
+static usbdev_context_t usb_dev;
+static usb_core_context_t usb_core;
 
 OT_WARN_UNUSED_RESULT
 static rom_error_t rom_ext_irq_error(void) {
@@ -858,6 +863,26 @@ static rom_error_t rom_ext_start(boot_data_t *boot_data, boot_log_t *boot_log) {
     // config from the owner_config.
     error = rescue_protocol(boot_data, owner_config.rescue);
   } else {
+    pinmux_enable_usb_vbus_sensing();
+    if (usbdev_is_vbus_present()) {
+      // Initialize USB device.
+      usbdev_init(&usb_dev);
+      // Initialize USB core.
+      usb_core_init(&usb_core, &usb_dev);
+      // Wait for the host to contact and configure the device. If we
+      // haven't reached the configured state after a specified timeout,
+      // continue with boot.
+      if (usb_core_wait_until_configured(&usb_core, kRescueUsbConfiguredTime)) {
+        dbg_printf("rescue: USB host detected\r\n");
+        // usb_serial_init(&usb_ctx);
+        while (true) {
+          usbdev_handle_request(&usb_dev, 1000);
+        }
+      }
+      // Fallthrough: no host detected, continue with boot.
+      usbdev_finalize(&usb_dev);
+      usb_core_finalize(&usb_core);
+    }
     error = rom_ext_try_next_stage(boot_data, boot_log);
   }
   return error;

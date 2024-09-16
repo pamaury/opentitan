@@ -35,6 +35,8 @@ void uart_enable_receiver(void);
  */
 void uart_putchar(uint8_t byte);
 
+bool uart_try_putchar(uint8_t byte);
+
 /**
  * Read a single byte from the UART.
  *

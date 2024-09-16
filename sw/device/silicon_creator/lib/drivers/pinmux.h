@@ -42,6 +42,11 @@ void pinmux_init(void);
  */
 uint32_t pinmux_read_straps(void);
 
+/**
+ * Configure the required pin to enable USB VBUS sensing.
+ */
+void pinmux_enable_usb_vbus_sensing(void);
+
 #ifdef __cplusplus
 }
 #endif

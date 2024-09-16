@@ -17,6 +17,9 @@ enum {
   // 4 byte periods.  At 115200 bps, one byte period is about 87us; four is
   // about 348us.  We'll wait for 350.
   kRescueDetectTime = 350,
+  // USB rescue is signalled by the host putting the device in the configured
+  // state. This timeout only applies if VUBS is present.
+  kRescueUsbConfiguredTime = 1000 * 1000 * 1000,
 };
 
 typedef enum {

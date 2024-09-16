@@ -60,6 +60,15 @@ static const pinmux_output_t kOutputUart0 = {
 };
 
 /**
+ * USB VBUS sense pin.
+ */
+static const pinmux_input_t kInputUsbVbusSense = {
+    .periph = kTopEarlgreyPinmuxPeripheralInUsbdevSense,
+    .insel = kTopEarlgreyPinmuxInselIoc7,
+    .pad = kTopEarlgreyMuxedPadsIoc7,
+};
+
+/**
  * SW strap pins.
  */
 #define PINMUX_ASSERT_EQ_(a, b) \
@@ -197,4 +206,8 @@ uint32_t pinmux_read_straps(void) {
   value |= read_strap_pin(kInputSwStrap1) << 2;
   value |= read_strap_pin(kInputSwStrap2) << 4;
   return value;
+}
+
+void pinmux_enable_usb_vbus_sensing(void) {
+  configure_input(kInputUsbVbusSense);
 }

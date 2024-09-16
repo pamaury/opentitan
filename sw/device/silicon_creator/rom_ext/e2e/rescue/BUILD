@@ -136,3 +136,27 @@ opentitan_test(
         """,
     ),
 )
+
+opentitan_test(
+    name = "enter_usb",
+    exec_env = {
+        "//hw/top_earlgrey:fpga_hyper310_rom_ext": None,
+    },
+    fpga = fpga_params(
+        assemble = "{rom_ext}@0 {slot_a:signed_bin}@0x10000 {slot_b:signed_bin}@0x90000",
+        binaries = {
+            ":boot_test_slot_a": "slot_a",
+            ":boot_test_slot_b": "slot_b",
+        },
+        test_cmd = """
+            --exec="transport init"
+            --exec="fpga load-bitstream {bitstream}"
+            --exec="bootstrap --clear-uart=true {firmware}"
+            --exec="gpio apply RESET"
+            --exec="gpio remove RESET"
+            # Check for firmware execution in slot A
+            --exec="console --non-interactive --exit-failure='{exit_failure}'"
+            no-op
+        """,
+    ),
+)

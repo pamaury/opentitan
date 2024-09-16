@@ -749,6 +749,23 @@ opentitan_test(
 )
 
 cc_library(
+    name = "usb",
+    srcs = ["usbdev.c", "usb_core.c"],
+    hdrs = ["usbdev.h", "usb_core.h", "usb_def.h"],
+    deps = [
+        ":ibex",
+        "//hw/ip/usbdev/data:usbdev_regs",
+        "//hw/top_earlgrey/sw/autogen:top_earlgrey",
+        "//sw/device/lib/arch:device",
+        "//sw/device/lib/base:abs_mmio",
+        "//sw/device/lib/base:bitfield",
+        "//sw/device/lib/base:hardened",
+        "//sw/device/silicon_creator/lib:dbg_print",
+        "//sw/device/silicon_creator/lib:error",
+    ],
+)
+
+cc_library(
     name = "watchdog",
     srcs = ["watchdog.c"],
     hdrs = ["watchdog.h"],

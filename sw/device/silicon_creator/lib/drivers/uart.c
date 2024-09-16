@@ -91,6 +91,14 @@ void uart_putchar(uint8_t byte) {
   }
 }
 
+bool uart_try_putchar(uint8_t byte) {
+  if (uart_tx_full())
+    return false;
+  uint32_t reg = bitfield_field32_write(0, UART_WDATA_WDATA_FIELD, byte);
+  abs_mmio_write32(TOP_EARLGREY_UART0_BASE_ADDR + UART_WDATA_REG_OFFSET, reg);
+  return true;
+}
+
 int uart_getchar(uint32_t timeout_ms) {
   uint8_t ch;
   size_t n = uart_read(&ch, 1, timeout_ms);
