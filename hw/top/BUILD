@@ -22,6 +22,7 @@ IPS = [
     "aon_timer",
     "csrng",
     "edn",
+    "entropy_src",
 ]
 
 [
