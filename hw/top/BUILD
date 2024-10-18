@@ -23,6 +23,7 @@ IPS = [
     "csrng",
     "edn",
     "entropy_src",
+    "gpio",
 ]
 
 [
