@@ -40,6 +40,7 @@ IPS = [
     "spi_host",
     "sram_ctrl",
     "sysrst_ctrl",
+    "uart",
 ]
 
 [
