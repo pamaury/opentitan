@@ -38,6 +38,7 @@ IPS = [
     "rv_timer",
     "spi_device",
     "spi_host",
+    "sram_ctrl",
 ]
 
 [
