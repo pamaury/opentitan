@@ -27,6 +27,7 @@ IPS = [
     "hmac",
     "i2c",
     "keymgr",
+    "kmac",
 ]
 
 [
