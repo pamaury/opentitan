@@ -41,6 +41,7 @@ IPS = [
     "sram_ctrl",
     "sysrst_ctrl",
     "uart",
+    "usbdev",
 ]
 
 [
