@@ -43,6 +43,7 @@ IPS = [
     "uart",
     "usbdev",
     "ast",
+    "sensor_ctrl",
 ]
 
 [
