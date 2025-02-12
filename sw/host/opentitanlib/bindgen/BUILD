@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 load("//rules/opentitan:util.bzl", "flatten")
-load("//hw/top:defs.bzl", "opentitan_if_ip")
+load("//hw/top:defs.bzl", "opentitan_if_ip", "ALL_TOP_NAMES", "opentitan_select_top")
 load("@rules_rust//rust:defs.bzl", "rust_library", "rust_test")
 load("@rules_rust_bindgen//:defs.bzl", "rust_bindgen", "rust_bindgen_library")
 
@@ -123,31 +123,38 @@ rust_bindgen_library(
     ],
 )
 
-rust_bindgen_library(
-    name = "earlgrey",
-    bindgen_flags = [
-        "--allowlist-type=top_earlgrey_alert_peripheral",
-        "--allowlist-type=top_earlgrey_alert_id",
-        "--allowlist-type=top_earlgrey_pinmux_peripheral_in",
-        "--allowlist-type=top_earlgrey_pinmux_insel",
-        "--allowlist-type=top_earlgrey_pinmux_mio_out",
-        "--allowlist-type=top_earlgrey_pinmux_outsel",
-        "--allowlist-type=top_earlgrey_direct_pads",
-        "--allowlist-type=top_earlgrey_muxed_pads",
-        "--allowlist-type=top_earlgrey_power_manager_wake_ups",
-        "--allowlist-type=top_earlgrey_reset_manager_sw_resets",
-        "--allowlist-type=top_earlgrey_power_manager_reset_requests",
-        "--allowlist-type=top_earlgrey_gateable_clocks",
-        "--allowlist-type=top_earlgrey_hintable_clocks",
-    ],
-    cc_lib = "//hw/top_earlgrey/sw/autogen:top_earlgrey",
-    header = "//hw/top_earlgrey/sw/autogen:top_earlgrey.h",
-    rustc_flags = [
-        "--allow=non_snake_case",
-        "--allow=non_upper_case_globals",
-        "--allow=non_camel_case_types",
-    ],
-)
+# Bindgen libraries for each different top
+[
+    rust_bindgen_library(
+        name = top,
+        bindgen_flags = [
+            flag.format(top)
+            for flag in [
+                "--allowlist-type=top_{}_alert_peripheral",
+                "--allowlist-type=top_{}_alert_id",
+                "--allowlist-type=top_{}_pinmux_peripheral_in",
+                "--allowlist-type=top_{}_pinmux_insel",
+                "--allowlist-type=top_{}_pinmux_mio_out",
+                "--allowlist-type=top_{}_pinmux_outsel",
+                "--allowlist-type=top_{}_direct_pads",
+                "--allowlist-type=top_{}_muxed_pads",
+                "--allowlist-type=top_{}_power_manager_wake_ups",
+                "--allowlist-type=top_{}_reset_manager_sw_resets",
+                "--allowlist-type=top_{}_power_manager_reset_requests",
+                "--allowlist-type=top_{}_gateable_clocks",
+                "--allowlist-type=top_{}_hintable_clocks",
+            ]
+        ],
+        cc_lib = "//hw/top_{0}/sw/autogen:top_{0}".format(top),
+        header = "//hw/top_{0}/sw/autogen:top_{0}.h".format(top),
+        rustc_flags = [
+            "--allow=non_snake_case",
+            "--allow=non_upper_case_globals",
+            "--allow=non_camel_case_types",
+        ],
+    )
+    for top in ALL_TOP_NAMES
+]
 
 rust_bindgen_library(
     name = "hardened",
@@ -282,11 +289,16 @@ rust_library(
     deps = [
         ":alert",
         ":dif",
-        ":earlgrey",
         ":hardened",
         ":multibits",
         ":sram_program",
         ":status",
         ":test_status",
-    ],
+    ] + opentitan_select_top(
+        {
+            top: [":{}".format(top)]
+            for top in ALL_TOP_NAMES
+        },
+        ["@platforms//:incompatible"],
+    ),
 )
