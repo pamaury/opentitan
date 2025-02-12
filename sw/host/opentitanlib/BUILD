@@ -4,6 +4,11 @@
 
 load("@rules_rust//rust:defs.bzl", "rust_doc", "rust_library", "rust_test")
 load("//rules:ujson.bzl", "ujson_rust")
+load(
+    "@lowrisc_opentitan//hw/top:defs.bzl",
+    "ALL_TOP_NAMES",
+    "opentitan_select_top",
+)
 
 package(default_visibility = ["//visibility:public"])
 
@@ -270,10 +275,13 @@ rust_library(
     ],
     crate_features = [
         "include_hyperdebug_firmware",
-    ] + select({
-        "//sw/device:is_english_breakfast": ["english_breakfast"],
-        "//conditions:default": [],
-    }),
+    ] + opentitan_select_top(
+        {
+            top: [top]
+            for top in ALL_TOP_NAMES
+        },
+        ["@platforms//:incompatible"],
+    ),
     proc_macro_deps = [
         "//sw/host/opentitanlib/opentitantool_derive",
     ],
@@ -292,7 +300,6 @@ rust_library(
         "openocd_cmsis_dap_adapter_cfg": "$(location //third_party/openocd:jtag_cmsis_dap_adapter_cfg)",
     },
     deps = [
-        "//hw/top_earlgrey/sw/autogen/chip:top_earlgrey",
         "//sw/host/opentitanlib/bindgen",
         "//sw/host/sphincsplus",
         "@crate_index//:anyhow",
@@ -342,7 +349,13 @@ rust_library(
         "@crate_index//:typetag",
         "@crate_index//:zerocopy",
         "@lowrisc_serde_annotate//serde_annotate",
-    ],
+    ] + opentitan_select_top(
+        {
+            top: ["//hw/top_{0}/sw/autogen/chip:top_{0}".format(top)]
+            for top in ALL_TOP_NAMES
+        },
+        ["@platforms//:incompatible"],
+    ),
 )
 
 rust_test(

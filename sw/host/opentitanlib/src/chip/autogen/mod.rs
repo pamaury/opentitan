@@ -4,5 +4,5 @@
 
 // The "english breakfast" variant of the chip doesn't have the same
 // set of IO and pinmux constants as the "earlgrey" chip.
-#[cfg(not(feature = "english_breakfast"))]
+#[cfg(not(feature = "englishbreakfast"))]
 pub mod earlgrey;
