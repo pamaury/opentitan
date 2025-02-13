@@ -158,6 +158,7 @@ static bool sw_read_lock_reg_offset(dif_otp_ctrl_partition_t partition,
                                     ptrdiff_t *reg_offset,
                                     bitfield_bit32_index_t *index) {
   switch (partition) {
+#ifdef OPENTITAN_IS_EARLGREY
     case kDifOtpCtrlPartitionVendorTest:
       *reg_offset = OTP_CTRL_VENDOR_TEST_READ_LOCK_REG_OFFSET;
       *index = OTP_CTRL_VENDOR_TEST_READ_LOCK_VENDOR_TEST_READ_LOCK_BIT;
@@ -180,6 +181,7 @@ static bool sw_read_lock_reg_offset(dif_otp_ctrl_partition_t partition,
       *index =
           OTP_CTRL_ROT_CREATOR_AUTH_STATE_READ_LOCK_ROT_CREATOR_AUTH_STATE_READ_LOCK_BIT;
       break;
+#endif
     default:
       return false;
   }
@@ -229,6 +231,7 @@ dif_result_t dif_otp_ctrl_get_status(const dif_otp_ctrl_t *otp,
   }
 
   static const bitfield_bit32_index_t kIndices[] = {
+#ifdef OPENTITAN_IS_EARLGREY
       [kDifOtpCtrlStatusCodeVendorTestError] =
           OTP_CTRL_STATUS_VENDOR_TEST_ERROR_BIT,
       [kDifOtpCtrlStatusCodeCreatorSwCfgError] =
@@ -239,6 +242,7 @@ dif_result_t dif_otp_ctrl_get_status(const dif_otp_ctrl_t *otp,
           OTP_CTRL_STATUS_ROT_CREATOR_AUTH_CODESIGN_ERROR_BIT,
       [kDifOtpCtrlStatusCodeRotCreatorAuthStateError] =
           OTP_CTRL_STATUS_ROT_CREATOR_AUTH_STATE_ERROR_BIT,
+#endif
       [kDifOtpCtrlStatusCodeHwCfg0Error] = OTP_CTRL_STATUS_HW_CFG0_ERROR_BIT,
       [kDifOtpCtrlStatusCodeHwCfg1Error] = OTP_CTRL_STATUS_HW_CFG1_ERROR_BIT,
       [kDifOtpCtrlStatusCodeSecret0Error] = OTP_CTRL_STATUS_SECRET0_ERROR_BIT,
@@ -384,6 +388,7 @@ static const partition_info_t kPartitions[] = {
         .is_software = true,
         .has_digest = true,
         .is_lifecycle = false},
+#ifdef OPENTITAN_IS_EARLGREY
     [kDifOtpCtrlPartitionRotCreatorAuthCodesign] = {
         .start_addr = OTP_CTRL_PARAM_ROT_CREATOR_AUTH_CODESIGN_OFFSET,
         .len = OTP_CTRL_PARAM_ROT_CREATOR_AUTH_CODESIGN_SIZE,
@@ -398,6 +403,7 @@ static const partition_info_t kPartitions[] = {
         .is_software = true,
         .has_digest = true,
         .is_lifecycle = false},
+#endif
     [kDifOtpCtrlPartitionHwCfg0] = {
         .start_addr = OTP_CTRL_PARAM_HW_CFG0_OFFSET,
         .len = OTP_CTRL_PARAM_HW_CFG0_SIZE,
@@ -666,6 +672,7 @@ static bool get_digest_regs(dif_otp_ctrl_partition_t partition, ptrdiff_t *reg0,
       *reg0 = OTP_CTRL_OWNER_SW_CFG_DIGEST_0_REG_OFFSET;
       *reg1 = OTP_CTRL_OWNER_SW_CFG_DIGEST_1_REG_OFFSET;
       break;
+#ifdef OPENTITAN_IS_EARLGREY
     case kDifOtpCtrlPartitionRotCreatorAuthCodesign:
       *reg0 = OTP_CTRL_ROT_CREATOR_AUTH_CODESIGN_DIGEST_0_REG_OFFSET;
       *reg1 = OTP_CTRL_ROT_CREATOR_AUTH_CODESIGN_DIGEST_1_REG_OFFSET;
@@ -674,6 +681,7 @@ static bool get_digest_regs(dif_otp_ctrl_partition_t partition, ptrdiff_t *reg0,
       *reg0 = OTP_CTRL_ROT_CREATOR_AUTH_STATE_DIGEST_0_REG_OFFSET;
       *reg1 = OTP_CTRL_ROT_CREATOR_AUTH_STATE_DIGEST_1_REG_OFFSET;
       break;
+#endif
     case kDifOtpCtrlPartitionHwCfg0:
       *reg0 = OTP_CTRL_HW_CFG0_DIGEST_0_REG_OFFSET;
       *reg1 = OTP_CTRL_HW_CFG0_DIGEST_1_REG_OFFSET;
