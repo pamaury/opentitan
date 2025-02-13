@@ -2,6 +2,9 @@
 # Licensed under the Apache License, Version 2.0, see LICENSE for details.
 # SPDX-License-Identifier: Apache-2.0
 
+load("//rules/opentitan:util.bzl", "flatten")
+load("//hw/top:defs.bzl", "ALL_IP_NAMES", "opentitan_if_ip")
+
 package(default_visibility = ["//visibility:public"])
 
 cc_library(
@@ -94,6 +97,18 @@ DIFS = {
     )
     for (ip, cfg) in DIFS.items()
 ]
+
+cc_library(
+    name = "all_difs",
+    deps = flatten([
+        opentitan_if_ip(
+            ip,
+            [":{}".format(ip)],
+            [],
+        )
+        for ip in DIFS
+    ])
+)
 
 [
     cc_test(
