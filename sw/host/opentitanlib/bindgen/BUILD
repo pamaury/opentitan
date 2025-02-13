@@ -6,6 +6,7 @@ load("//rules/opentitan:util.bzl", "flatten")
 load("//hw/top:defs.bzl", "opentitan_if_ip", "ALL_TOP_NAMES", "opentitan_select_top")
 load("@rules_rust//rust:defs.bzl", "rust_library", "rust_test")
 load("@rules_rust_bindgen//:defs.bzl", "rust_bindgen", "rust_bindgen_library")
+load("//sw/host/opentitanlib/bindgen:defs.bzl", "generate_dif_header")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -43,15 +44,28 @@ ALL_IPS = [
     "usbdev",
 ]
 
+generate_dif_header(
+    name = "dif_header",
+    ips = flatten([
+        opentitan_if_ip(
+            ip,
+            [ip],
+            [],
+        )
+        for ip in ALL_IPS
+    ])
+)
+
 cc_library(
     name = "difs",
+    hdrs = ["dif_header"],
     deps = flatten([
         opentitan_if_ip(
             ip,
-            [":{}".format(ip)],
+            ["//sw/device/lib/dif:{}".format(ip)],
             [],
         )
-        for ip in ALL_DIFS
+        for ip in ALL_IPS
     ])
 )
 
@@ -115,7 +129,7 @@ rust_bindgen_library(
         "--allowlist-var=USBDEV_.*_REG_OFFSET",
     ],
     cc_lib = ":difs",
-    header = "difs.h",
+    header = ":dif_header",
     rustc_flags = [
         "--allow=non_snake_case",
         "--allow=non_upper_case_globals",
