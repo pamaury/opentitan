@@ -2,62 +2,57 @@
 # Licensed under the Apache License, Version 2.0, see LICENSE for details.
 # SPDX-License-Identifier: Apache-2.0
 
+load("//rules/opentitan:util.bzl", "flatten")
+load("//hw/top:defs.bzl", "opentitan_if_ip")
 load("@rules_rust//rust:defs.bzl", "rust_library", "rust_test")
 load("@rules_rust_bindgen//:defs.bzl", "rust_bindgen", "rust_bindgen_library")
 
 package(default_visibility = ["//visibility:public"])
 
-# NOTE: This variable is modified during English breakfast SW build from prepare_sw.py.
-_TOPLEVEL = "earlgrey"
-
-_ENGLISH_BREAKFAST_DEPS = [
-    "//sw/device/lib/dif:aon_timer",
-    "//sw/device/lib/dif:clkmgr",
-    "//sw/device/lib/dif:lc_ctrl",
-    "//sw/device/lib/dif:otp_ctrl",
-    "//sw/device/lib/dif:rstmgr",
-    "//sw/device/lib/dif:uart",
+# Include DIFs for all possible tops.
+ALL_IPS = [
+    "adc_ctrl",
+    "aes",
+    "alert_handler",
+    "aon_timer",
+    "clkmgr",
+    "csrng",
+    "edn",
+    "entropy_src",
+    "flash_ctrl",
+    "gpio",
+    "hmac",
+    "i2c",
+    "keymgr",
+    "kmac",
+    "lc_ctrl",
+    "otbn",
+    "otp_ctrl",
+    "pattgen",
+    "pinmux",
+    "pwm",
+    "pwrmgr",
+    "rstmgr",
+    "rv_timer",
+    "sensor_ctrl",
+    "spi_device",
+    "spi_host",
+    "sram_ctrl",
+    "sysrst_ctrl",
+    "uart",
+    "usbdev",
 ]
-
-_EARLGREY_DEPS = [
-    "//sw/device/lib/dif:adc_ctrl",
-    "//sw/device/lib/dif:aes",
-    "//sw/device/lib/dif:alert_handler",
-    "//sw/device/lib/dif:aon_timer",
-    "//sw/device/lib/dif:clkmgr",
-    "//sw/device/lib/dif:csrng",
-    "//sw/device/lib/dif:edn",
-    "//sw/device/lib/dif:entropy_src",
-    "//sw/device/lib/dif:flash_ctrl",
-    "//sw/device/lib/dif:gpio",
-    "//sw/device/lib/dif:hmac",
-    "//sw/device/lib/dif:i2c",
-    "//sw/device/lib/dif:keymgr",
-    "//sw/device/lib/dif:kmac",
-    "//sw/device/lib/dif:lc_ctrl",
-    "//sw/device/lib/dif:otbn",
-    "//sw/device/lib/dif:otp_ctrl",
-    "//sw/device/lib/dif:pattgen",
-    "//sw/device/lib/dif:pinmux",
-    "//sw/device/lib/dif:pwm",
-    "//sw/device/lib/dif:pwrmgr",
-    "//sw/device/lib/dif:rstmgr",
-    "//sw/device/lib/dif:rv_timer",
-    "//sw/device/lib/dif:sensor_ctrl",
-    "//sw/device/lib/dif:spi_device",
-    "//sw/device/lib/dif:spi_host",
-    "//sw/device/lib/dif:sram_ctrl",
-    "//sw/device/lib/dif:sysrst_ctrl",
-    "//sw/device/lib/dif:uart",
-    "//sw/device/lib/dif:usbdev",
-]
-
-_DEPS = _ENGLISH_BREAKFAST_DEPS if _TOPLEVEL == "englishbreakfast" else _EARLGREY_DEPS
 
 cc_library(
     name = "difs",
-    hdrs = ["difs.h"],
-    deps = _DEPS,
+    deps = flatten([
+        opentitan_if_ip(
+            ip,
+            [":{}".format(ip)],
+            [],
+        )
+        for ip in ALL_DIFS
+    ])
 )
 
 rust_bindgen_library(
@@ -120,10 +115,6 @@ rust_bindgen_library(
         "--allowlist-var=USBDEV_.*_REG_OFFSET",
     ],
     cc_lib = ":difs",
-    clang_flags = [
-        "-DOT_IS_ENGLISH_BREAKFAST_REDUCED_SUPPORT_FOR_INTERNAL_USE_ONLY_",
-    ] if _TOPLEVEL == "englishbreakfast" else [
-    ],
     header = "difs.h",
     rustc_flags = [
         "--allow=non_snake_case",
