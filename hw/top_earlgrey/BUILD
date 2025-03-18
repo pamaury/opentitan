@@ -19,8 +19,42 @@ load(
     "sim_verilator",
 )
 load("//rules/opentitan:qemu.bzl", "qemu_cfg", "qemu_flash", "qemu_otp")
+load("//rules/opentitan:pipeline.bzl",
+    "pl_cc_binary",
+    "pl_sign_binary",
+)
 
 package(default_visibility = ["//visibility:public"])
+
+##############
+## PIPELINE ##
+##############
+
+pl_cc_binary(
+    name = "pl_raw_binary",
+    # Here hardwired for CW310 but can be anything with a label_flag
+    deps = [
+        "//sw/device/lib/arch:boot_stage_rom_ext",
+        "//sw/device/lib/arch:fpga_cw310",
+        "//hw/top_earlgrey/sw/dt:fpga_cw310",
+    ],
+    linker_script = "//sw/device/lib/testing/test_framework:ottf_ld_silicon_creator_slot_a",
+)
+
+pl_sign_binary(
+    name = "pl_signed_binary",
+    binary = ":pl_raw_binary",
+    # Here hardwired for the fake rom but can be anything with a label_flag.
+    ecdsa_key = {"//sw/device/silicon_creator/rom/keys/fake/ecdsa:test_key_0_ecdsa_p256": "test_key_0"},
+    manifest = "//sw/device/silicon_creator/rom_ext:manifest",
+)
+
+alias(
+    name = "pipeline",
+    actual = "pl_signed_binary",
+)
+
+######
 
 filegroup(
     name = "rtl_files",

@@ -34,6 +34,9 @@ load(
 )
 load("//rules/opentitan:keyutils.bzl", "ECDSA_ONLY_KEY_STRUCTS")
 load("//hw/top:defs.bzl", "opentitan_if_ip", "opentitan_select_top")
+load("//rules/opentitan:pipeline.bzl",
+    "opentitan_new_binary",
+)
 
 package(default_visibility = ["//visibility:public"])
 
@@ -4371,6 +4374,20 @@ opentitan_test(
         "//sw/device/lib/runtime:log",
         "//sw/device/lib/testing/test_framework:ottf_main",
         "//sw/device/silicon_creator/lib/drivers:retention_sram",
+    ],
+)
+
+opentitan_new_binary(
+    name = "uart_smoketest_new",
+    pipeline = "//hw/top_earlgrey:pipeline",
+    srcs = ["uart_smoketest.c"],
+    deps = [
+        "//hw/top:dt",
+        "//sw/device/lib/arch:device",
+        "//sw/device/lib/base:mmio",
+        "//sw/device/lib/dif:uart",
+        "//sw/device/lib/runtime:hart",
+        "//sw/device/lib/testing/test_framework:ottf_main",
     ],
 )
 
