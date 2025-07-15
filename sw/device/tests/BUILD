@@ -872,6 +872,35 @@ opentitan_test(
 )
 
 opentitan_test(
+    name = "clkmgr_jitter_measurement_test",
+    srcs = ["clkmgr_jitter_measurement_test.c"],
+    exec_env = dicts.add(
+        EARLGREY_TEST_ENVS,
+        EARLGREY_SILICON_OWNER_ROM_EXT_ENVS,
+        {
+            "//hw/top_earlgrey:fpga_cw310_sival": None,
+            "//hw/top_earlgrey:silicon_creator": None,
+        },
+    ),
+    # Broken on Verilator. See #24182.
+    verilator = verilator_params(tags = ["broken"]),
+    deps = [
+        "//hw/top_earlgrey/sw/autogen:top_earlgrey",
+        "//sw/device/lib/arch:device",
+        "//sw/device/lib/base:memory",
+        "//sw/device/lib/dif:base",
+        "//sw/device/lib/dif:clkmgr",
+        "//sw/device/lib/dif:pwrmgr",
+        "//sw/device/lib/dif:sensor_ctrl",
+        "//sw/device/lib/testing:aon_timer_testutils",
+        "//sw/device/lib/testing:clkmgr_testutils",
+        "//sw/device/lib/testing:pwrmgr_testutils",
+        "//sw/device/lib/testing:sensor_ctrl_testutils",
+        "//sw/device/lib/testing/test_framework:ottf_main",
+    ],
+)
+
+opentitan_test(
     name = "clkmgr_jitter_test",
     srcs = ["clkmgr_jitter_test.c"],
     exec_env = dicts.add(
