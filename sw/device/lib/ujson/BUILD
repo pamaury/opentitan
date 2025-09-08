@@ -4,7 +4,7 @@
 
 package(default_visibility = ["//visibility:public"])
 
-load("//rules:ujson.bzl", "ujson_rust")
+load("//rules:ujson.bzl", "ujson_cc")
 load("//rules:cross_platform.bzl", "dual_cc_device_library_of")
 
 cc_library(
@@ -61,6 +61,11 @@ cc_library(
     srcs = ["example.c"],
     hdrs = ["example.h"],
     deps = [":ujson"],
+)
+
+ujson_cc(
+    name = "example2",
+    srcs = ["example.hjson"],
 )
 
 cc_test(

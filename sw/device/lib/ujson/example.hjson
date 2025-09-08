@@ -1,0 +1,63 @@
+[
+    {
+        name: foo
+        type: struct
+        fields: [
+            { name: foo, type: int32_t },
+            { name: bar, type: uint32_t },
+            { name: message, type: string, length: 20 }
+        ]
+    },
+    {
+        name: coord
+        type: struct
+        fields: [
+            { name: x, type: int32_t },
+            { name: y, type: int32_t },
+        ]
+    },
+    {
+        name: coord
+        type: struct
+        fields: [
+            {name: top_left, type: coord},
+            {name: bottom_right, type: coord}
+        ]
+    },
+    {
+        name: matrix,
+        type: struct,
+        fields: [
+            {name: k, type: int32_t, dims: [3, 5]}
+        ]
+    },
+    {
+        name: direction,
+        type: enum,
+        values: [
+            { name: North },
+            { name: East },
+            { name: South },
+            { name: West },
+        ]
+    },
+    {
+        name: fuzzy_bool,
+        type: enum,
+        values: [
+            { name: False, value: 0 },
+            { name: True, value: 100 },
+        ],
+        options: {
+            rust: {with_unknown: True},
+        }
+    },
+    {
+        name: misc_t,
+        type: struct,
+        fields: [
+            {name: value, type: bool},
+            {name: status, type: status_t},
+        ]
+    },
+]

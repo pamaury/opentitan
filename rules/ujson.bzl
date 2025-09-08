@@ -78,3 +78,25 @@ ujson_rust = rule(
     },
     toolchains = ["@rules_cc//cc:toolchain_type"],
 )
+
+def _ujson_cc(ctx):
+
+ujson_cc = rule(
+    implementation = _ujson_cc,
+    attrs = {
+        "srcs": attr.label_list(
+            doc = "List of Hjson descriptions to generate the C source code for"
+        ),
+        "ujson_lib": attr.label(
+            default = "//sw/device/lib/ujson",
+            doc = "Location of the ujson library which is added by default as a dependency",
+            providers = [CcInfo],
+        ),
+        "_ujson_gen": attr.label(
+            default = "//rules/scripts:ujson_gen",
+            executable = True,
+            cfg = "exec",
+        )
+    },
+    doc = "TODO",
+)
