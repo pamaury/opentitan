@@ -429,3 +429,42 @@ status_t ujson_serialize_status_t(ujson_t *uj, const status_t *value) {
   base_fprintf(out, "%!r", *value);
   return OK_STATUS();
 }
+
+static status_t ujson_serialize_field(ujson_t *uj, const ujson_struct_field_t *field, size_t cur_dim, const void **obj) {
+  if (cur_dim == field->nr_dims) {
+    status_t res = field->serialize_fn(uj, *obj);
+    *obj += field->stride;
+    return res;
+  }
+  TRY(ujson_putbuf(uj, "[", 1));
+  for (size_t i = 0; i < field->array_dims[cur_dim]; i++) {
+    if (i > 0) {
+      TRY(ujson_putbuf(uj, ",", 1));
+    }
+    TRY(ujson_serialize_field(uj, field, cur_dim + 1, obj));
+  }
+  TRY(ujson_putbuf(uj, "]", 1)); \
+  return OK_STATUS();
+}
+
+// #include <stdio.h>
+
+status_t ujson_serialize_struct(ujson_t *uj, const ujson_struct_field_t *fields, size_t nr_fields, const void *obj) {
+  TRY(ujson_putbuf(uj, "{", 1));
+  while (nr_fields > 0) {
+    // fprintf(stderr, "field: name=%s, offset=%lu, stride=%lu, dims=[", fields->name, fields->offset, fields->stride);
+    // for (size_t i = 0; i < fields->nr_dims; i++)
+    //   fprintf(stderr, "%lu,", fields->array_dims[i]);
+    // fprintf(stderr, "]\n");
+    const void *subobj = obj + fields->offset;
+    TRY(ujson_serialize_string(uj, fields->name));
+      TRY(ujson_putbuf(uj, ":", 1));
+    TRY(ujson_serialize_field(uj, fields, 0, &subobj));
+    fields++;
+    if(--nr_fields > 0) {
+      TRY(ujson_putbuf(uj, ",", 1));
+    }
+  }
+  TRY(ujson_putbuf(uj, "}", 1));
+  return OK_STATUS();
+}

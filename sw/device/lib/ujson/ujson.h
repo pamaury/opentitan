@@ -246,6 +246,36 @@ status_t ujson_serialize_bool(ujson_t *uj, const bool *value);
  */
 status_t ujson_serialize_status_t(ujson_t *uj, const status_t *value);
 
+/** Serializing function prototype (type is erased). */
+typedef status_t (*ujson_serialize_fn_t)(ujson_t *uj, const void *object);
+
+/** Maximum number of nested dimensions in ujson structures. */
+#define UJSON_STRUCT_FIELDS_MAX_ARRAY_DIMS  3
+
+/** Information of a field in a ujson structure. */
+typedef struct ujson_struct_field {
+  /** Name of the field. */
+  const char *name;
+  /** Offset of this field in the structure. */
+  size_t offset;
+  /** Stride for arrays. */
+  size_t stride;
+  /** Serializing function for the base type. */
+  ujson_serialize_fn_t serialize_fn;
+  /** Number of dimensions, e.g. int[3][4] has 2 dimensions. */
+  size_t nr_dims;
+  /** Dimensions of the array, e.g. int[3][4] is {3, 4}. */
+  size_t array_dims[UJSON_STRUCT_FIELDS_MAX_ARRAY_DIMS];
+} ujson_struct_field_t;
+
+/**
+ * Generic serialization routine.
+ *
+ * TODO
+ */
+status_t ujson_serialize_struct(ujson_t *uj, const ujson_struct_field_t *fields, size_t nr_fields, const void *obj);
+
+
 #ifdef __cplusplus
 }
 #endif

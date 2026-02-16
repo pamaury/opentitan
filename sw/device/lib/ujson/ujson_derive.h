@@ -57,6 +57,11 @@
         decl_(ujson_struct_field, ujson_struct_string) \
     } name_
 
+#define UJSON_DECLARE_ENUM(formal_name_, name_, decl_, ...) \
+    typedef enum formal_name_ { \
+        decl_(formal_name_, ujson_enum_value) \
+    } name_
+
 #define ujson_enum_value(formal_name_, name_, ...) \
     OT_IIF(OT_NOT(OT_VA_ARGS_COUNT(dummy, ##__VA_ARGS__))) \
     ( /*then*/ \
@@ -65,14 +70,47 @@
         k ##formal_name_ ## name_ = __VA_ARGS__ \
     ) /*endif*/ ,
 
-#define UJSON_DECLARE_ENUM(formal_name_, name_, decl_, ...) \
-    typedef enum formal_name_ { \
-        decl_(formal_name_, ujson_enum_value) \
-    } name_
+//////////////////////////////////////////////////////////////////////
+// Fields Description
+//////////////////////////////////////////////////////////////////////
 
+#define ujson_struct_fields_field(name_, type_, ...) \
+    { \
+        .name = #name_, \
+        .offset = offsetof(__the_struct_type, name_), \
+        .stride = sizeof(type_), \
+        .serialize_fn = (ujson_serialize_fn_t)ujson_serialize_##type_, \
+        .nr_dims = OT_VA_ARGS_COUNT(dummy, ##__VA_ARGS__), \
+        .array_dims = {__VA_ARGS__} \
+    },
 
-// Helper to count number of fields.
-#define ujson_count(name_, type_, ...) +1
+#define ujson_struct_fields_string(name_, size_, ...) \
+    { \
+        .name = #name_, \
+        .offset = offsetof(__the_struct_type, name_), \
+        .stride = sizeof(char) * size_, \
+        .serialize_fn = (ujson_serialize_fn_t)ujson_serialize_string, \
+        .nr_dims = OT_VA_ARGS_COUNT(dummy, ##__VA_ARGS__), \
+        .array_dims = {__VA_ARGS__} \
+    },
+
+#define ujson_struct_field_forward_decl_field(name_, type_, ...) \
+    extern status_t ujson_serialize_##type_(ujson_t *uj, const type_ *self);
+
+#define ujson_struct_field_forward_decl_string(name_, size_, ...) \
+    /* nothing to do */
+
+#define UJSON_IMPL_DECLARE_STRUCT_LAYOUT(name_, decl_) \
+    const ujson_struct_field_t *ujson_##name_##_layout(size_t *nr_fields) { \
+        typedef name_ __the_struct_type; \
+        decl_(ujson_struct_field_forward_decl_field, ujson_struct_field_forward_decl_string) \
+        static ujson_struct_field_t kFields[] = { \
+            decl_(ujson_struct_fields_field, ujson_struct_fields_string) \
+        }; \
+        *nr_fields = ARRAYSIZE(kFields); \
+        return kFields; \
+    } \
+    extern const int __never_referenced___here_to_eat_a_semicolon[]
 
 //////////////////////////////////////////////////////////////////////
 // Serialize Implementation
@@ -119,6 +157,9 @@
         if (--nfield) TRY(ujson_putbuf(uj, ",", 1)); \
     }
 
+// Helper to count number of fields.
+#define ujson_count(name_, type_, ...) +1
+
 #define UJSON_IMPL_SERIALIZE_STRUCT(name_, decl_) \
     status_t ujson_serialize_##name_(ujson_t *uj, const name_ *self) { \
         size_t nfield = decl_(ujson_count, ujson_count); \
@@ -126,6 +167,14 @@
         decl_(ujson_ser_field, ujson_ser_string) \
         TRY(ujson_putbuf(uj, "}", 1)); \
         return OK_STATUS(); \
+    } \
+    extern const int __never_referenced___here_to_eat_a_semicolon[]
+
+#define UJSON_IMPL_SERIALIZE_STRUCT_ALT(name_, decl_) \
+    status_t ujson_serialize_##name_(ujson_t *uj, const name_ *self) { \
+        size_t nr_fields = 0; \
+        const ujson_struct_field_t *fields = ujson_##name_##_layout(&nr_fields); \
+        return ujson_serialize_struct(uj, fields, nr_fields, (const void *)self); \
     } \
     extern const int __never_referenced___here_to_eat_a_semicolon[]
 
@@ -256,10 +305,18 @@
 #define UJSON_SERDE_IMPL 0
 #endif
 
+
+#define UJSON_DECLARE_STRUCT_LAYOUT(name_, decl_) \
+    OT_IIF(UJSON_SERDE_IMPL) \
+    ( /*then*/ \
+        UJSON_IMPL_DECLARE_STRUCT_LAYOUT(name_, decl_) \
+    , /*else*/ \
+    ) /*endif*/
+
 #define UJSON_SERIALIZE_STRUCT(name_, decl_) \
     OT_IIF(UJSON_SERDE_IMPL) \
     ( /*then*/ \
-        UJSON_IMPL_SERIALIZE_STRUCT(name_, decl_) \
+        UJSON_IMPL_SERIALIZE_STRUCT_ALT(name_, decl_) \
     , /*else*/ \
         status_t ujson_serialize_##name_(ujson_t *uj, const name_ *self) \
     ) /*endif*/
@@ -294,7 +351,8 @@
 //////////////////////////////////////////////////////////////////////
 #define UJSON_SERDE_STRUCT(formal_name_, name_, decl_, ...)        \
   UJSON_DECLARE_STRUCT(formal_name_, name_, decl_, ##__VA_ARGS__); \
-  UJSON_SERIALIZE_STRUCT(name_, decl_);                            \
+  UJSON_DECLARE_STRUCT_LAYOUT(name_, decl_);                        \
+  UJSON_SERIALIZE_STRUCT(name_, decl_);                         \
   UJSON_DESERIALIZE_STRUCT(name_, decl_)
 
 #define UJSON_SERDE_ENUM(formal_name_, name_, decl_, ...)          \

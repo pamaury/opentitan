@@ -19,6 +19,7 @@ TEST(Derive, FooSerialize) {
   SourceSink ss;
   ujson_t uj = ss.UJson();
   EXPECT_TRUE(status_ok(ujson_serialize_foo(&uj, &foo)));
+  std::cerr << ss.Sink() << "\n";
   EXPECT_EQ(ss.Sink(),
             R"json({"foo":-5,"bar":150000,"message":"Kilroy was here"})json");
   EXPECT_EQ(ujson_crc32_finish(&uj), 0x1e31c20e);

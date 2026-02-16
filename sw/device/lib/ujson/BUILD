@@ -61,6 +61,7 @@ cc_library(
     srcs = ["example.c"],
     hdrs = ["example.h"],
     deps = [":ujson"],
+    # copts = ["-E"]
 )
 
 cc_test(
