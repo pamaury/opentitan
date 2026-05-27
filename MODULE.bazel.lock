@@ -225,12 +225,11 @@
     "//rules:extensions.bzl%hooks": {
       "general": {
         "bzlTransitiveDigest": "xoT+tFeFQBTE5N9oR76jK2m1sra33bj1gRgyqt+7rgg=",
-        "usagesDigest": "re8Bj0kHsnfdZAHRu7WGzlihqBGkbIfbVidayifDqoc=",
+        "usagesDigest": "haDPPN1PqioNuYfXavr6DgR+wjaFu3Lh630NKBv8hUw=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {
           "MANUFACTURER_HOOKS_DIR": null,
-          "PROV_EXTS_DIR": null,
           "ROM_HOOKS_DIR": null,
           "SECURE_MANUFACTURER_HOOKS_DIR": null
         },
@@ -245,12 +244,6 @@
             "repoRuleId": "@@//rules:extensions.bzl%symlink_from_label",
             "attributes": {
               "src": "@@//:sw/device/tests/closed_source"
-            }
-          },
-          "provisioning_exts": {
-            "repoRuleId": "@@//rules:extensions.bzl%symlink_from_label",
-            "attributes": {
-              "src": "@@//:sw/device/silicon_creator/manuf/extensions"
             }
           },
           "rom_hooks": {

@@ -374,11 +374,11 @@ hooks.repo(
     dummy = "@lowrisc_opentitan//:sw/device/tests/closed_source",
     env = "SECURE_MANUFACTURER_HOOKS_DIR",
 )
-hooks.repo(
-    name = "provisioning_exts",
-    dummy = "@lowrisc_opentitan//:sw/device/silicon_creator/manuf/extensions",
-    env = "PROV_EXTS_DIR",
-)
+# hooks.repo(
+#     name = "provisioning_exts",
+#     dummy = "@lowrisc_opentitan//:sw/device/silicon_creator/manuf/extensions",
+#     env = "PROV_EXTS_DIR",
+# )
 hooks.repo(
     name = "rom_hooks",
     dummy = "@lowrisc_opentitan//:sw/device/silicon_creator/rom/hooks",
@@ -387,10 +387,17 @@ hooks.repo(
 use_repo(
     hooks,
     "manufacturer_test_hooks",
-    "provisioning_exts",
+    # "provisioning_exts",
     "rom_hooks",
     "secure_manufacturer_test_hooks",
 )
+bazel_dep(name = "ot_provisioning_exts")
+local_path_override(
+    module_name = "ot_provisioning_exts",
+    path = "sw/device/silicon_creator/manuf/extensions",
+)
+provisioning_exts_hook = use_repo_rule("@ot_provisioning_exts//:hook.bzl", "hook")
+provisioning_exts_hook(name = "provisioning_exts")
 
 # Local toolchains
 
