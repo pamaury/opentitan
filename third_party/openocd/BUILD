@@ -68,6 +68,7 @@ configure_make(
         "-Wno-strict-prototypes",
         "-Wno-unused-but-set-parameter",
         "-Wno-fuse-ld-path",
+        "-Wno-error=discarded-qualifiers",
     ],
     env = {"CCACHE": "none"},
     lib_source = "@openocd//:all_srcs",

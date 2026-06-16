@@ -101,7 +101,7 @@ sh_test(
         ],
         env = {
             "PYTHON": "$(location @python3//:python3)",
-            "SKU_CONFIG_PATH": "$(location {})".format(cfg["orchestrator_cfg"]),
+            "SKU_CONFIG_PATH": "$(rlocationpath {})".format(cfg["orchestrator_cfg"]),
             "FPGA": "{}".format(fpga),
         },
         tags = [
@@ -154,7 +154,7 @@ sh_test(
         ],
         env = {
             "PYTHON": "$(location @python3//:python3)",
-            "SKU_CONFIG_PATH": "$(location {})".format(cfg["orchestrator_cfg"]),
+            "SKU_CONFIG_PATH": "$(rlocationpath {})".format(cfg["orchestrator_cfg"]),
             "COLLECT_CC_COVERAGE": "$(location //util/coverage/collect_cc_coverage)",
             "CC_CODE_COVERAGE_SCRIPT": "",  # Disable built-in cc coverage
             "FPGA": "{}".format(fpga),

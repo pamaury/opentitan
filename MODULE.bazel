@@ -158,8 +158,8 @@ crate.annotation(
 )
 crate.annotation(
     build_script_env = {
-        "PKG_CONFIG_PATH": "$(OPENSSL_PKG_CONFIG_PATH)",
-        "OPENSSL_STATIC": "1",
+        # "PKG_CONFIG_PATH": "$(OPENSSL_PKG_CONFIG_PATH)",
+        # "OPENSSL_STATIC": "1",
     },
     build_script_toolchains = ["@lowrisc_opentitan//third_party/rust:openssl_pkg_config_path"],
     crate = "openssl-sys",

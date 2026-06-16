@@ -18,11 +18,11 @@ from sku_config import SkuConfig
 from util import confirm, format_hex, resolve_runfile, run
 
 # FPGA bitstream.
-_FPGA_UNIVERSAL_SPLICE_BITSTREAM = "hw/bitstream/universal/splice.bit"
+_FPGA_UNIVERSAL_SPLICE_BITSTREAM = "_main/hw/bitstream/universal/splice.bit"
 
 # CP and FT shared flags.
-_OPENOCD_BIN = "third_party/openocd/build_openocd/bin/openocd"
-_OPENOCD_ADAPTER_CONFIG = "external/openocd/tcl/interface/cmsis-dap.cfg"
+_OPENOCD_BIN = "_main/third_party/openocd/build_openocd/bin/openocd"
+_OPENOCD_ADAPTER_CONFIG = "+openocd+openocd/tcl/interface/cmsis-dap.cfg"
 _BASE_PROVISIONING_FLAGS = """
     --interface={target} \
     --openocd={openocd_bin} \

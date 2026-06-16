@@ -14,6 +14,15 @@ SkuCertInfo = provider(
     },
 )
 
+# See https://github.com/bazel-contrib/rules_go/pull/4390
+# See https://github.com/bazelbuild/bazel/issues/14307
+# See https://registry.bazel.build/docs/bazel_lib#function-to_rlocation_path
+def _to_rlocation_path(ctx, file):
+    if file.short_path.startswith("../"):
+        return file.short_path[3:]
+    else:
+        return ctx.workspace_name + "/" + file.short_path
+
 def _sku_cert_impl(ctx):
     key_value = None
     key_is_file = ctx.attr.key_file != None
@@ -24,7 +33,7 @@ def _sku_cert_impl(ctx):
     elif ctx.attr.key:
         key_value = ctx.attr.key
     elif ctx.attr.key_file:
-        key_value = ctx.file.key_file.short_path
+        key_value = _to_rlocation_path(ctx, ctx.file.key_file)
         runfiles_files.append(ctx.file.key_file)
     else:
         fail("One of 'key' or 'key_file' must be set")
@@ -74,7 +83,7 @@ def _sku_cfg_impl(ctx):
             return None
         info = cert_dep[SkuCertInfo]
         ca_config = {
-            "certificate": info.certificate.short_path,
+            "certificate": _to_rlocation_path(ctx, info.certificate),
             "key_type": info.key_type,
             "key_id": info.key_id,
             "key": info.key,
@@ -91,21 +100,21 @@ def _sku_cfg_impl(ctx):
 
     if ctx.attr.token_encrypt_key:
         token_key_file = ctx.file.token_encrypt_key
-        config["token_encrypt_key"] = token_key_file.short_path
+        config["token_encrypt_key"] = _to_rlocation_path(ctx, token_key_file)
         runfiles_files.append(token_key_file)
 
     if ctx.files.perso_bins:
         perso_files = ctx.files.perso_bins
 
         def get_dir(file):
-            parts = file.short_path.split("/")
+            parts = _to_rlocation_path(ctx, file).split("/")
             return "/".join(parts[:-1])
 
         first_dir = get_dir(perso_files[0])
         for f in perso_files[1:]:
             d = get_dir(f)
             if d != first_dir:
-                fail("All files in perso_bins must be in the same directory. Expected: {}, got {} for {}".format(first_dir, d, f.short_path))
+                fail("All files in perso_bins must be in the same directory. Expected: {}, got {} for {}".format(first_dir, d, f))
 
         if first_dir:
             perso_bin_path = first_dir + "/" + ctx.attr.perso_bin_suffix
